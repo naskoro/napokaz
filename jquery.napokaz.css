@@ -1,10 +1,20 @@
-.napokaz-thumb {
+.napokaz {
+    line-height: 0;
+}
+.napokaz-item {
     display: inline-block;
+}
+.napokaz-thumb {
+    display: block;
     text-decoration: none;
+    padding: 2px;
     background-color: #666;
     border: 1px solid #fff;
 }
-.napokaz-thumb-inner {
-    display: inline-block;
-    background: transparent center center no-repeat;
+.napokaz-thumb img {
+    display: block;
+    margin: 0;
+}
+.napokaz-item .napokaz-info {
+    display: none;
 }
