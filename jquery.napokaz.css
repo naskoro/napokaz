@@ -1,0 +1,10 @@
+.napokaz-thumb {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #666;
+    border: 1px solid #fff;
+}
+.napokaz-thumb-inner {
+    display: inline-block;
+    background: transparent center center no-repeat;
+}

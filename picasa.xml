@@ -1,0 +1,371 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns='http://www.w3.org/2005/Atom' xmlns:exif='http://schemas.google.com/photos/exif/2007' xmlns:gphoto='http://schemas.google.com/photos/2007' xmlns:media='http://search.yahoo.com/mrss/' xmlns:openSearch='http://a9.com/-/spec/opensearchrss/1.0/'>
+    <id>https://picasaweb.google.com/data/feed/api/user/naspeh/album/Naspeh</id>
+    <updated>2011-08-13T08:17:29.984Z</updated>
+    <category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/photos/2007#album'/>
+    <title type='text'>naspeh</title>
+    <subtitle type='text'/>
+    <rights type='text'>public</rights>
+    <icon>https://lh6.googleusercontent.com/-7C7zLrO2zIg/SHNEaQMW45E/AAAAAAAACt8/XjIULFxPuzU/s160-c/Naspeh.jpg</icon>
+    <link rel='http://schemas.google.com/g/2005#feed' type='application/atom+xml' href='https://picasaweb.google.com/data/feed/api/user/naspeh/albumid/5220591610866623377'/>
+    <link rel='http://schemas.google.com/g/2005#post' type='application/atom+xml' href='https://picasaweb.google.com/data/feed/api/user/naspeh/albumid/5220591610866623377?tok=QUI1UGxRYjR4SURweVE0b3p4UmZzR3J3ZXhKN21pZDVQZzoxMzE2MDk0NDk4NjUz'/>
+    <link rel='http://schemas.google.com/g/2005#resumable-create-media' type='application/atom+xml' href='https://picasaweb.google.com/data/upload/resumable/media/create-session/feed/api/user/naspeh/albumid/5220591610866623377?tok=QUI1UGxRWmE1SlcyRjZMS3J3YnZIc0lJazZNa3YyNXVxUToxMzE2MDk0NDk4NjUz'/>
+    <link rel='alternate' type='text/html' href='https://picasaweb.google.com/115954385615646692819/Naspeh'/>
+    <link rel='http://schemas.google.com/photos/2007#slideshow' type='application/x-shockwave-flash' href='https://picasaweb.google.com/s/c/bin/slideshow.swf?host=picasaweb.google.com&amp;RGB=0x000000&amp;feed=https%3A%2F%2Fpicasaweb.google.com%2Fdata%2Ffeed%2Fapi%2Fuser%2Fnaspeh%2Falbumid%2F5220591610866623377%3Falt%3Drss'/>
+    <link rel='http://schemas.google.com/photos/2007#report' type='text/html' href='https://picasaweb.google.com/lh/reportAbuse?uname=naspeh&amp;aid=5220591610866623377'/>
+    <link rel='http://schemas.google.com/acl/2007#accessControlList' type='application/atom+xml' href='https://picasaweb.google.com/data/feed/api/user/naspeh/albumid/5220591610866623377/acl'/>
+    <link rel='self' type='application/atom+xml' href='https://picasaweb.google.com/data/feed/api/user/naspeh/albumid/5220591610866623377?start-index=1&amp;max-results=1000&amp;kind=photo&amp;thumbsize=200c'/>
+    <author>
+        <name>Гриша К.</name>
+        <uri>https://picasaweb.google.com/115954385615646692819</uri>
+    </author>
+    <generator version='1.00' uri='http://picasaweb.google.com/'>Picasaweb</generator>
+    <openSearch:totalResults>7</openSearch:totalResults>
+    <openSearch:startIndex>1</openSearch:startIndex>
+    <openSearch:itemsPerPage>1000</openSearch:itemsPerPage>
+    <gphoto:id>5220591610866623377</gphoto:id>
+    <gphoto:name>Naspeh</gphoto:name>
+    <gphoto:location/>
+    <gphoto:access>public</gphoto:access>
+    <gphoto:timestamp>1215500400000</gphoto:timestamp>
+    <gphoto:numphotos>7</gphoto:numphotos>
+    <gphoto:numphotosremaining>993</gphoto:numphotosremaining>
+    <gphoto:bytesUsed>4134486</gphoto:bytesUsed>
+    <gphoto:user>naspeh</gphoto:user>
+    <gphoto:nickname>Гриша К.</gphoto:nickname>
+    <gphoto:commentingEnabled>true</gphoto:commentingEnabled>
+    <gphoto:commentCount>0</gphoto:commentCount>
+    <gphoto:allowPrints>true</gphoto:allowPrints>
+    <gphoto:allowDownloads>true</gphoto:allowDownloads>
+    <entry>
+        <id>https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5640250955968550674</id>
+        <published>2011-08-13T08:14:20.000Z</published>
+        <updated>2011-08-13T08:14:20.814Z</updated>
+        <category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/photos/2007#photo'/>
+        <title type='text'>2006_10_07_IMG_0763.JPG</title>
+        <summary type='text'/>
+        <content type='image/jpeg' src='https://lh3.googleusercontent.com/-UFAIVulRaVg/TkYyXHKQFxI/AAAAAAAACt8/jT-TeGiuDSs/2006_10_07_IMG_0763.JPG'/>
+        <link rel='http://schemas.google.com/g/2005#feed' type='application/atom+xml' href='https://picasaweb.google.com/data/feed/api/user/naspeh/albumid/5220591610866623377/photoid/5640250955968550674'/>
+        <link rel='alternate' type='text/html' href='https://picasaweb.google.com/115954385615646692819/Naspeh#5640250955968550674'/>
+        <link rel='http://schemas.google.com/photos/2007#canonical' type='text/html' href='https://picasaweb.google.com/lh/photo/UL3jyzw7_hHNa2SnjDQV0g'/>
+        <link rel='self' type='application/atom+xml' href='https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5640250955968550674'/>
+        <link rel='edit' type='application/atom+xml' href='https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5640250955968550674/1?tok=QUI1UGxRYlAzM0g3eWZXQ0FqYThxUTVCMElYMURvTXg3UToxMzE2MDk0NDk4NjUz'/>
+        <link rel='edit-media' type='image/jpeg' href='https://picasaweb.google.com/data/media/api/user/naspeh/albumid/5220591610866623377/photoid/5640250955968550674/1?tok=QUI1UGxRYmM2VlVnQ1ZqWmk0Wk91N3A4RG1Ta1luSzZKZzoxMzE2MDk0NDk4NjUz'/>
+        <link rel='media-edit' type='image/jpeg' href='https://picasaweb.google.com/data/media/api/user/naspeh/albumid/5220591610866623377/photoid/5640250955968550674/1?tok=QUI1UGxRYmM2VlVnQ1ZqWmk0Wk91N3A4RG1Ta1luSzZKZzoxMzE2MDk0NDk4NjUz'/>
+        <link rel='http://schemas.google.com/photos/2007#report' type='text/html' href='https://picasaweb.google.com/lh/reportAbuse?uname=naspeh&amp;aid=5220591610866623377&amp;iid=5640250955968550674'/>
+        <gphoto:id>5640250955968550674</gphoto:id>
+        <gphoto:version>1</gphoto:version>
+        <gphoto:position>0.0</gphoto:position>
+        <gphoto:albumid>5220591610866623377</gphoto:albumid>
+        <gphoto:access>public</gphoto:access>
+        <gphoto:width>3072</gphoto:width>
+        <gphoto:height>2048</gphoto:height>
+        <gphoto:size>2280682</gphoto:size>
+        <gphoto:client>pwa</gphoto:client>
+        <gphoto:checksum/>
+        <gphoto:timestamp>1160252079000</gphoto:timestamp>
+        <gphoto:imageVersion>2783</gphoto:imageVersion>
+        <gphoto:commentingEnabled>true</gphoto:commentingEnabled>
+        <gphoto:commentCount>0</gphoto:commentCount>
+        <gphoto:license id='0' name='Все права защищены' url=''>ALL_RIGHTS_RESERVED</gphoto:license>
+        <exif:tags>
+            <exif:fstop>5.6</exif:fstop>
+            <exif:make>Canon</exif:make>
+            <exif:model>Canon EOS 300D DIGITAL</exif:model>
+            <exif:exposure>0.0015625</exif:exposure>
+            <exif:flash>false</exif:flash>
+            <exif:focallength>44.0</exif:focallength>
+            <exif:iso>100</exif:iso>
+            <exif:time>1160252079000</exif:time>
+            <exif:imageUniqueID>7ca89d6728e463a116848831e67f8761</exif:imageUniqueID>
+        </exif:tags>
+        <media:group>
+            <media:content url='https://lh3.googleusercontent.com/-UFAIVulRaVg/TkYyXHKQFxI/AAAAAAAACt8/jT-TeGiuDSs/2006_10_07_IMG_0763.JPG' height='1067' width='1600' type='image/jpeg' medium='image'/>
+            <media:credit>Гриша К.</media:credit>
+            <media:description type='plain'/>
+            <media:keywords/>
+            <media:thumbnail url='https://lh3.googleusercontent.com/-UFAIVulRaVg/TkYyXHKQFxI/AAAAAAAACt8/jT-TeGiuDSs/s200-c/2006_10_07_IMG_0763.JPG' height='200' width='200'/>
+            <media:title type='plain'>2006_10_07_IMG_0763.JPG</media:title>
+        </media:group>
+    </entry>
+    <entry>
+        <id>https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5237383882215132386</id>
+        <published>2008-08-22T16:44:20.000Z</published>
+        <updated>2009-06-24T07:25:17.338Z</updated>
+        <category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/photos/2007#photo'/>
+        <title type='text'>irokez.jpg</title>
+        <summary type='text'/>
+        <content type='image/jpeg' src='https://lh5.googleusercontent.com/-Qs5hG1VCdt0/SK7s5FvKDOI/AAAAAAAAAJw/ZMIdNIGp4I0/irokez.jpg'/>
+        <link rel='http://schemas.google.com/g/2005#feed' type='application/atom+xml' href='https://picasaweb.google.com/data/feed/api/user/naspeh/albumid/5220591610866623377/photoid/5237383882215132386'/>
+        <link rel='alternate' type='text/html' href='https://picasaweb.google.com/115954385615646692819/Naspeh#5237383882215132386'/>
+        <link rel='http://schemas.google.com/photos/2007#canonical' type='text/html' href='https://picasaweb.google.com/lh/photo/T_Ud8xWCRoGzad5aQl_xqQ'/>
+        <link rel='self' type='application/atom+xml' href='https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5237383882215132386'/>
+        <link rel='edit' type='application/atom+xml' href='https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5237383882215132386/2?tok=QUI1UGxRYjExdnJhY0pidmZ6eFNlcUxuclI4ZzNrQzFKUToxMzE2MDk0NDk4NjUz'/>
+        <link rel='edit-media' type='image/jpeg' href='https://picasaweb.google.com/data/media/api/user/naspeh/albumid/5220591610866623377/photoid/5237383882215132386/2?tok=QUI1UGxRYnBVME5JYUNXbDJhNGpkclpGeUREX1IzQjBtZzoxMzE2MDk0NDk4NjUz'/>
+        <link rel='media-edit' type='image/jpeg' href='https://picasaweb.google.com/data/media/api/user/naspeh/albumid/5220591610866623377/photoid/5237383882215132386/2?tok=QUI1UGxRYnBVME5JYUNXbDJhNGpkclpGeUREX1IzQjBtZzoxMzE2MDk0NDk4NjUz'/>
+        <link rel='http://schemas.google.com/photos/2007#report' type='text/html' href='https://picasaweb.google.com/lh/reportAbuse?uname=naspeh&amp;aid=5220591610866623377&amp;iid=5237383882215132386'/>
+        <gphoto:id>5237383882215132386</gphoto:id>
+        <gphoto:version>2</gphoto:version>
+        <gphoto:position>1.0</gphoto:position>
+        <gphoto:albumid>5220591610866623377</gphoto:albumid>
+        <gphoto:access>public</gphoto:access>
+        <gphoto:width>200</gphoto:width>
+        <gphoto:height>200</gphoto:height>
+        <gphoto:size>8753</gphoto:size>
+        <gphoto:client/>
+        <gphoto:checksum/>
+        <gphoto:timestamp>1219423460000</gphoto:timestamp>
+        <gphoto:imageVersion>156</gphoto:imageVersion>
+        <gphoto:commentingEnabled>true</gphoto:commentingEnabled>
+        <gphoto:commentCount>0</gphoto:commentCount>
+        <gphoto:license id='0' name='Все права защищены' url=''>ALL_RIGHTS_RESERVED</gphoto:license>
+        <exif:tags>
+            <exif:imageUniqueID>6f259d0c71b7dafd4a468c8ea0a4b55a</exif:imageUniqueID>
+        </exif:tags>
+        <media:group>
+            <media:content url='https://lh5.googleusercontent.com/-Qs5hG1VCdt0/SK7s5FvKDOI/AAAAAAAAAJw/ZMIdNIGp4I0/irokez.jpg' height='200' width='200' type='image/jpeg' medium='image'/>
+            <media:credit>Гриша К.</media:credit>
+            <media:description type='plain'/>
+            <media:keywords/>
+            <media:thumbnail url='https://lh5.googleusercontent.com/-Qs5hG1VCdt0/SK7s5FvKDOI/AAAAAAAAAJw/ZMIdNIGp4I0/s200-c/irokez.jpg' height='200' width='200'/>
+            <media:title type='plain'>irokez.jpg</media:title>
+        </media:group>
+    </entry>
+    <entry>
+        <id>https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5220591708776201218</id>
+        <published>2008-07-08T10:42:07.000Z</published>
+        <updated>2009-06-23T06:35:01.856Z</updated>
+        <category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/photos/2007#photo'/>
+        <title type='text'>kate_and_grisha.jpg</title>
+        <summary type='text'/>
+        <content type='image/jpeg' src='https://lh3.googleusercontent.com/-biNgBsCqffg/SHNEf870fAI/AAAAAAAAADM/9DV90_qn9IE/kate_and_grisha.jpg'/>
+        <link rel='http://schemas.google.com/g/2005#feed' type='application/atom+xml' href='https://picasaweb.google.com/data/feed/api/user/naspeh/albumid/5220591610866623377/photoid/5220591708776201218'/>
+        <link rel='alternate' type='text/html' href='https://picasaweb.google.com/115954385615646692819/Naspeh#5220591708776201218'/>
+        <link rel='http://schemas.google.com/photos/2007#canonical' type='text/html' href='https://picasaweb.google.com/lh/photo/JYr7PhhY2kU1b-oC4O727A'/>
+        <link rel='self' type='application/atom+xml' href='https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5220591708776201218'/>
+        <link rel='edit' type='application/atom+xml' href='https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5220591708776201218/2?tok=QUI1UGxRYjZUYUpTdy1XbllNOHdUa280MmQ4aWtVRGplQToxMzE2MDk0NDk4NjUz'/>
+        <link rel='edit-media' type='image/jpeg' href='https://picasaweb.google.com/data/media/api/user/naspeh/albumid/5220591610866623377/photoid/5220591708776201218/2?tok=QUI1UGxRWnluQl9Db1RKdE1FZkVGUFQxcE9mbHZLSkRYdzoxMzE2MDk0NDk4NjUz'/>
+        <link rel='media-edit' type='image/jpeg' href='https://picasaweb.google.com/data/media/api/user/naspeh/albumid/5220591610866623377/photoid/5220591708776201218/2?tok=QUI1UGxRWnluQl9Db1RKdE1FZkVGUFQxcE9mbHZLSkRYdzoxMzE2MDk0NDk4NjUz'/>
+        <link rel='http://schemas.google.com/photos/2007#report' type='text/html' href='https://picasaweb.google.com/lh/reportAbuse?uname=naspeh&amp;aid=5220591610866623377&amp;iid=5220591708776201218'/>
+        <gphoto:id>5220591708776201218</gphoto:id>
+        <gphoto:version>2</gphoto:version>
+        <gphoto:position>2.0</gphoto:position>
+        <gphoto:albumid>5220591610866623377</gphoto:albumid>
+        <gphoto:access>public</gphoto:access>
+        <gphoto:width>400</gphoto:width>
+        <gphoto:height>234</gphoto:height>
+        <gphoto:size>51611</gphoto:size>
+        <gphoto:client/>
+        <gphoto:checksum/>
+        <gphoto:timestamp>1136046566000</gphoto:timestamp>
+        <gphoto:imageVersion>51</gphoto:imageVersion>
+        <gphoto:commentingEnabled>true</gphoto:commentingEnabled>
+        <gphoto:commentCount>0</gphoto:commentCount>
+        <gphoto:license id='0' name='Все права защищены' url=''>ALL_RIGHTS_RESERVED</gphoto:license>
+        <exif:tags>
+            <exif:fstop>4.1</exif:fstop>
+            <exif:make>Canon</exif:make>
+            <exif:model>Canon PowerShot A610</exif:model>
+            <exif:exposure>1.0</exif:exposure>
+            <exif:flash>false</exif:flash>
+            <exif:focallength>29.2</exif:focallength>
+            <exif:time>1136046566000</exif:time>
+            <exif:imageUniqueID>f3efe3bccb95470dd93ef79780ad207a</exif:imageUniqueID>
+        </exif:tags>
+        <media:group>
+            <media:content url='https://lh3.googleusercontent.com/-biNgBsCqffg/SHNEf870fAI/AAAAAAAAADM/9DV90_qn9IE/kate_and_grisha.jpg' height='234' width='400' type='image/jpeg' medium='image'/>
+            <media:credit>Гриша К.</media:credit>
+            <media:description type='plain'/>
+            <media:keywords/>
+            <media:thumbnail url='https://lh3.googleusercontent.com/-biNgBsCqffg/SHNEf870fAI/AAAAAAAAADM/9DV90_qn9IE/s200-c/kate_and_grisha.jpg' height='200' width='200'/>
+            <media:title type='plain'>kate_and_grisha.jpg</media:title>
+        </media:group>
+    </entry>
+    <entry>
+        <id>https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5436737798938199906</id>
+        <published>2010-02-10T21:59:21.000Z</published>
+        <updated>2010-02-12T05:03:11.829Z</updated>
+        <category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/photos/2007#photo'/>
+        <title type='text'>2006_07_18_IMG_2085.jpg</title>
+        <summary type='text'/>
+        <content type='image/jpeg' src='https://lh3.googleusercontent.com/-KjTDlLi3j8g/S3MsORqmh2I/AAAAAAAABFU/zRooev8_r_E/2006_07_18_IMG_2085.jpg'/>
+        <link rel='http://schemas.google.com/g/2005#feed' type='application/atom+xml' href='https://picasaweb.google.com/data/feed/api/user/naspeh/albumid/5220591610866623377/photoid/5436737798938199906'/>
+        <link rel='alternate' type='text/html' href='https://picasaweb.google.com/115954385615646692819/Naspeh#5436737798938199906'/>
+        <link rel='http://schemas.google.com/photos/2007#canonical' type='text/html' href='https://picasaweb.google.com/lh/photo/FnIfiV5QfM9U6bbabx9nJw'/>
+        <link rel='self' type='application/atom+xml' href='https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5436737798938199906'/>
+        <link rel='edit' type='application/atom+xml' href='https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5436737798938199906/2?tok=QUI1UGxRYnd5c1Rqbm5HeUozeGExSjVONHhZSGdrZEQ1dzoxMzE2MDk0NDk4NjUz'/>
+        <link rel='edit-media' type='image/jpeg' href='https://picasaweb.google.com/data/media/api/user/naspeh/albumid/5220591610866623377/photoid/5436737798938199906/2?tok=QUI1UGxRYndDWG9kS2pWYVNCd2tWRjgxN3UwcHk3QXlzdzoxMzE2MDk0NDk4NjUz'/>
+        <link rel='media-edit' type='image/jpeg' href='https://picasaweb.google.com/data/media/api/user/naspeh/albumid/5220591610866623377/photoid/5436737798938199906/2?tok=QUI1UGxRYndDWG9kS2pWYVNCd2tWRjgxN3UwcHk3QXlzdzoxMzE2MDk0NDk4NjUz'/>
+        <link rel='http://schemas.google.com/photos/2007#report' type='text/html' href='https://picasaweb.google.com/lh/reportAbuse?uname=naspeh&amp;aid=5220591610866623377&amp;iid=5436737798938199906'/>
+        <gphoto:id>5436737798938199906</gphoto:id>
+        <gphoto:version>2</gphoto:version>
+        <gphoto:position>3.0</gphoto:position>
+        <gphoto:albumid>5220591610866623377</gphoto:albumid>
+        <gphoto:access>public</gphoto:access>
+        <gphoto:width>1600</gphoto:width>
+        <gphoto:height>1200</gphoto:height>
+        <gphoto:size>597429</gphoto:size>
+        <gphoto:client>picasa</gphoto:client>
+        <gphoto:checksum>95e0600d</gphoto:checksum>
+        <gphoto:timestamp>1153231516000</gphoto:timestamp>
+        <gphoto:imageVersion>1109</gphoto:imageVersion>
+        <gphoto:commentingEnabled>true</gphoto:commentingEnabled>
+        <gphoto:commentCount>0</gphoto:commentCount>
+        <gphoto:license id='0' name='Все права защищены' url=''>ALL_RIGHTS_RESERVED</gphoto:license>
+        <exif:tags>
+            <exif:fstop>4.0</exif:fstop>
+            <exif:make>Canon</exif:make>
+            <exif:model>Canon PowerShot A610</exif:model>
+            <exif:exposure>0.004</exif:exposure>
+            <exif:flash>false</exif:flash>
+            <exif:focallength>7.3</exif:focallength>
+            <exif:time>1153231516000</exif:time>
+            <exif:imageUniqueID>9e67ac98ba7881722bfde0c28ab7c851</exif:imageUniqueID>
+        </exif:tags>
+        <media:group>
+            <media:content url='https://lh3.googleusercontent.com/-KjTDlLi3j8g/S3MsORqmh2I/AAAAAAAABFU/zRooev8_r_E/2006_07_18_IMG_2085.jpg' height='1200' width='1600' type='image/jpeg' medium='image'/>
+            <media:credit>Гриша К.</media:credit>
+            <media:description type='plain'/>
+            <media:keywords/>
+            <media:thumbnail url='https://lh3.googleusercontent.com/-KjTDlLi3j8g/S3MsORqmh2I/AAAAAAAABFU/zRooev8_r_E/s200-c/2006_07_18_IMG_2085.jpg' height='200' width='200'/>
+            <media:title type='plain'>2006_07_18_IMG_2085.jpg</media:title>
+        </media:group>
+    </entry>
+    <entry>
+        <id>https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5436737912216100018</id>
+        <published>2010-02-10T21:59:47.000Z</published>
+        <updated>2010-02-12T05:03:12.295Z</updated>
+        <category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/photos/2007#photo'/>
+        <title type='text'>2006_07_21_IMG_2203.jpg</title>
+        <summary type='text'/>
+        <content type='image/jpeg' src='https://lh5.googleusercontent.com/-FsWLi9ALdC0/S3MsU3qKHLI/AAAAAAAABFY/i4rO2-yMbt4/2006_07_21_IMG_2203.jpg'/>
+        <link rel='http://schemas.google.com/g/2005#feed' type='application/atom+xml' href='https://picasaweb.google.com/data/feed/api/user/naspeh/albumid/5220591610866623377/photoid/5436737912216100018'/>
+        <link rel='alternate' type='text/html' href='https://picasaweb.google.com/115954385615646692819/Naspeh#5436737912216100018'/>
+        <link rel='http://schemas.google.com/photos/2007#canonical' type='text/html' href='https://picasaweb.google.com/lh/photo/Zg9TkY8o0NWWzPKD5avHgA'/>
+        <link rel='self' type='application/atom+xml' href='https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5436737912216100018'/>
+        <link rel='edit' type='application/atom+xml' href='https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5436737912216100018/2?tok=QUI1UGxRYl91ZkNqaC1pSURwNlctMEpxYk9fVm94U1Z2UToxMzE2MDk0NDk4NjUz'/>
+        <link rel='edit-media' type='image/jpeg' href='https://picasaweb.google.com/data/media/api/user/naspeh/albumid/5220591610866623377/photoid/5436737912216100018/2?tok=QUI1UGxRYWNjQVJUNTJMMG01ZFRXOUlRN2pETXF0VW9DZzoxMzE2MDk0NDk4NjUz'/>
+        <link rel='media-edit' type='image/jpeg' href='https://picasaweb.google.com/data/media/api/user/naspeh/albumid/5220591610866623377/photoid/5436737912216100018/2?tok=QUI1UGxRYWNjQVJUNTJMMG01ZFRXOUlRN2pETXF0VW9DZzoxMzE2MDk0NDk4NjUz'/>
+        <link rel='http://schemas.google.com/photos/2007#report' type='text/html' href='https://picasaweb.google.com/lh/reportAbuse?uname=naspeh&amp;aid=5220591610866623377&amp;iid=5436737912216100018'/>
+        <gphoto:id>5436737912216100018</gphoto:id>
+        <gphoto:version>2</gphoto:version>
+        <gphoto:position>4.0</gphoto:position>
+        <gphoto:albumid>5220591610866623377</gphoto:albumid>
+        <gphoto:access>public</gphoto:access>
+        <gphoto:width>1600</gphoto:width>
+        <gphoto:height>1200</gphoto:height>
+        <gphoto:size>309310</gphoto:size>
+        <gphoto:client>picasa</gphoto:client>
+        <gphoto:checksum>95e1200d</gphoto:checksum>
+        <gphoto:timestamp>1153480408000</gphoto:timestamp>
+        <gphoto:imageVersion>1110</gphoto:imageVersion>
+        <gphoto:commentingEnabled>true</gphoto:commentingEnabled>
+        <gphoto:commentCount>0</gphoto:commentCount>
+        <gphoto:license id='0' name='Все права защищены' url=''>ALL_RIGHTS_RESERVED</gphoto:license>
+        <exif:tags>
+            <exif:fstop>4.0</exif:fstop>
+            <exif:make>Canon</exif:make>
+            <exif:model>Canon PowerShot A610</exif:model>
+            <exif:exposure>0.0025</exif:exposure>
+            <exif:flash>false</exif:flash>
+            <exif:focallength>7.3</exif:focallength>
+            <exif:time>1153480408000</exif:time>
+            <exif:imageUniqueID>cb48a6c60ebcb5ff26af4355fa6fe133</exif:imageUniqueID>
+        </exif:tags>
+        <media:group>
+            <media:content url='https://lh5.googleusercontent.com/-FsWLi9ALdC0/S3MsU3qKHLI/AAAAAAAABFY/i4rO2-yMbt4/2006_07_21_IMG_2203.jpg' height='1200' width='1600' type='image/jpeg' medium='image'/>
+            <media:credit>Гриша К.</media:credit>
+            <media:description type='plain'/>
+            <media:keywords/>
+            <media:thumbnail url='https://lh5.googleusercontent.com/-FsWLi9ALdC0/S3MsU3qKHLI/AAAAAAAABFY/i4rO2-yMbt4/s200-c/2006_07_21_IMG_2203.jpg' height='200' width='200'/>
+            <media:title type='plain'>2006_07_21_IMG_2203.jpg</media:title>
+        </media:group>
+    </entry>
+    <entry>
+        <id>https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5518964768768168594</id>
+        <published>2010-09-20T12:01:59.000Z</published>
+        <updated>2010-09-20T12:01:59.598Z</updated>
+        <category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/photos/2007#photo'/>
+        <title type='text'>ava_for_pusto2.jpg</title>
+        <summary type='text'/>
+        <content type='image/jpeg' src='https://lh5.googleusercontent.com/-fBSTQmH1Qg8/TJdNN2pSkpI/AAAAAAAACG0/Rx2ntGp67tU/ava_for_pusto2.jpg'/>
+        <link rel='http://schemas.google.com/g/2005#feed' type='application/atom+xml' href='https://picasaweb.google.com/data/feed/api/user/naspeh/albumid/5220591610866623377/photoid/5518964768768168594'/>
+        <link rel='alternate' type='text/html' href='https://picasaweb.google.com/115954385615646692819/Naspeh#5518964768768168594'/>
+        <link rel='http://schemas.google.com/photos/2007#canonical' type='text/html' href='https://picasaweb.google.com/lh/photo/Z8X4T4ipBeB_O3-J727crQ'/>
+        <link rel='self' type='application/atom+xml' href='https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5518964768768168594'/>
+        <link rel='edit' type='application/atom+xml' href='https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5518964768768168594/1?tok=QUI1UGxRWUU0bHlENEVrV21ZMUlqNzNlM0pTZllUbXd1UToxMzE2MDk0NDk4NjUz'/>
+        <link rel='edit-media' type='image/jpeg' href='https://picasaweb.google.com/data/media/api/user/naspeh/albumid/5220591610866623377/photoid/5518964768768168594/1?tok=QUI1UGxRYVpESDRHdm05YzNldWRiTXFzcmRqUURpOVdndzoxMzE2MDk0NDk4NjUz'/>
+        <link rel='media-edit' type='image/jpeg' href='https://picasaweb.google.com/data/media/api/user/naspeh/albumid/5220591610866623377/photoid/5518964768768168594/1?tok=QUI1UGxRYVpESDRHdm05YzNldWRiTXFzcmRqUURpOVdndzoxMzE2MDk0NDk4NjUz'/>
+        <link rel='http://schemas.google.com/photos/2007#report' type='text/html' href='https://picasaweb.google.com/lh/reportAbuse?uname=naspeh&amp;aid=5220591610866623377&amp;iid=5518964768768168594'/>
+        <gphoto:id>5518964768768168594</gphoto:id>
+        <gphoto:version>1</gphoto:version>
+        <gphoto:position>5.0</gphoto:position>
+        <gphoto:albumid>5220591610866623377</gphoto:albumid>
+        <gphoto:access>public</gphoto:access>
+        <gphoto:width>1168</gphoto:width>
+        <gphoto:height>1168</gphoto:height>
+        <gphoto:size>446477</gphoto:size>
+        <gphoto:client/>
+        <gphoto:checksum/>
+        <gphoto:timestamp>1284984119000</gphoto:timestamp>
+        <gphoto:imageVersion>2157</gphoto:imageVersion>
+        <gphoto:commentingEnabled>true</gphoto:commentingEnabled>
+        <gphoto:commentCount>0</gphoto:commentCount>
+        <gphoto:license id='0' name='Все права защищены' url=''>ALL_RIGHTS_RESERVED</gphoto:license>
+        <exif:tags>
+            <exif:imageUniqueID>f697d5c7c982db15db97c9228eacb10a</exif:imageUniqueID>
+        </exif:tags>
+        <media:group>
+            <media:content url='https://lh5.googleusercontent.com/-fBSTQmH1Qg8/TJdNN2pSkpI/AAAAAAAACG0/Rx2ntGp67tU/ava_for_pusto2.jpg' height='1168' width='1168' type='image/jpeg' medium='image'/>
+            <media:credit>Гриша К.</media:credit>
+            <media:description type='plain'/>
+            <media:keywords/>
+            <media:thumbnail url='https://lh5.googleusercontent.com/-fBSTQmH1Qg8/TJdNN2pSkpI/AAAAAAAACG0/Rx2ntGp67tU/s200-c/ava_for_pusto2.jpg' height='200' width='200'/>
+            <media:title type='plain'>ava_for_pusto2.jpg</media:title>
+        </media:group>
+    </entry>
+    <entry>
+        <id>https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5518964771976113250</id>
+        <published>2010-09-20T12:02:00.000Z</published>
+        <updated>2010-09-20T12:02:00.160Z</updated>
+        <category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/photos/2007#photo'/>
+        <title type='text'>ava_for_pusto.jpg</title>
+        <summary type='text'/>
+        <content type='image/jpeg' src='https://lh3.googleusercontent.com/-C4lVd6wpLsw/TJdNOCmH7GI/AAAAAAAACG4/6QMlMqn19ZA/ava_for_pusto.jpg'/>
+        <link rel='http://schemas.google.com/g/2005#feed' type='application/atom+xml' href='https://picasaweb.google.com/data/feed/api/user/naspeh/albumid/5220591610866623377/photoid/5518964771976113250'/>
+        <link rel='alternate' type='text/html' href='https://picasaweb.google.com/115954385615646692819/Naspeh#5518964771976113250'/>
+        <link rel='http://schemas.google.com/photos/2007#canonical' type='text/html' href='https://picasaweb.google.com/lh/photo/xFFeJInQcznIqMD-mzQ_zw'/>
+        <link rel='self' type='application/atom+xml' href='https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5518964771976113250'/>
+        <link rel='edit' type='application/atom+xml' href='https://picasaweb.google.com/data/entry/api/user/naspeh/albumid/5220591610866623377/photoid/5518964771976113250/1?tok=QUI1UGxRWUpRVmlHeHo2UzJhbDVfbHpzcUZQX2ZrLXR6UToxMzE2MDk0NDk4NjUz'/>
+        <link rel='edit-media' type='image/jpeg' href='https://picasaweb.google.com/data/media/api/user/naspeh/albumid/5220591610866623377/photoid/5518964771976113250/1?tok=QUI1UGxRYmluOUotTnlkY0huYV9MdjlnVlpKUFBocUN6dzoxMzE2MDk0NDk4NjUz'/>
+        <link rel='media-edit' type='image/jpeg' href='https://picasaweb.google.com/data/media/api/user/naspeh/albumid/5220591610866623377/photoid/5518964771976113250/1?tok=QUI1UGxRYmluOUotTnlkY0huYV9MdjlnVlpKUFBocUN6dzoxMzE2MDk0NDk4NjUz'/>
+        <link rel='http://schemas.google.com/photos/2007#report' type='text/html' href='https://picasaweb.google.com/lh/reportAbuse?uname=naspeh&amp;aid=5220591610866623377&amp;iid=5518964771976113250'/>
+        <gphoto:id>5518964771976113250</gphoto:id>
+        <gphoto:version>1</gphoto:version>
+        <gphoto:position>6.0</gphoto:position>
+        <gphoto:albumid>5220591610866623377</gphoto:albumid>
+        <gphoto:access>public</gphoto:access>
+        <gphoto:width>2372</gphoto:width>
+        <gphoto:height>660</gphoto:height>
+        <gphoto:size>440224</gphoto:size>
+        <gphoto:client/>
+        <gphoto:checksum/>
+        <gphoto:timestamp>1284984120000</gphoto:timestamp>
+        <gphoto:imageVersion>2158</gphoto:imageVersion>
+        <gphoto:commentingEnabled>true</gphoto:commentingEnabled>
+        <gphoto:commentCount>0</gphoto:commentCount>
+        <gphoto:license id='0' name='Все права защищены' url=''>ALL_RIGHTS_RESERVED</gphoto:license>
+        <exif:tags>
+            <exif:imageUniqueID>15fc89b6e24cc50eac6a6ef0a3d960f8</exif:imageUniqueID>
+        </exif:tags>
+        <media:group>
+            <media:content url='https://lh3.googleusercontent.com/-C4lVd6wpLsw/TJdNOCmH7GI/AAAAAAAACG4/6QMlMqn19ZA/ava_for_pusto.jpg' height='446' width='1600' type='image/jpeg' medium='image'/>
+            <media:credit>Гриша К.</media:credit>
+            <media:description type='plain'/>
+            <media:keywords/>
+            <media:thumbnail url='https://lh3.googleusercontent.com/-C4lVd6wpLsw/TJdNOCmH7GI/AAAAAAAACG4/6QMlMqn19ZA/s200-c/ava_for_pusto.jpg' height='200' width='200'/>
+            <media:title type='plain'>ava_for_pusto.jpg</media:title>
+        </media:group>
+    </entry>
+
+</feed>
