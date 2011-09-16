@@ -60,14 +60,14 @@
 
                     var perPage = opts.sizeX * opts.sizeY;
                     if (perPage > 1 && items.length > perPage) {
-                        // Evaluate page size;
+                        // Calculate size of page;
                         item = $(items[0]);
                         container.append(item);
                         var sizeX = item.outerWidth() * opts.sizeX;
                         var sizeY = item.outerHeight() * opts.sizeY;
                         item.remove();
 
-                        // Lay out on pages
+                        // Decompose into pages
                         var pages = [];
                         for (var i=0; i<=(items.length / perPage + 1); i++) {
                             item = items.slice(i*perPage, (i+1)*perPage);
