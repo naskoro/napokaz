@@ -10,24 +10,24 @@
     var templates = {
         'thumbItem': (
             '<div class="napokaz-item">' +
-            '   <a class="napokaz-thumb" href="<%= orig %>">' +
-            '       <span class="napokaz-thumb-inner"' +
-            '           style="' +
-            '               background-image: url(<%= thumb %>);' +
-            '               width: <%= thumbSize %>px;' +
-            '               height: <%= thumbSize %>px;' +
-            '           "' +
-            '       >&nbsp;</span>' +
-            '   </a>' +
-            '   <div class="napokaz-info">' +
-            '       <a href="<%= picasa %>">Посмотерть в picasa</a>' +
-            '   </div>' +
+                '<a class="napokaz-thumb" href="{{ orig }}">' +
+                    '<span class="napokaz-thumb-inner" ' +
+                        'style="' +
+                            'background-image: url({{ thumb }});' +
+                            'width: {{ thumbSize }}px;' +
+                            'height: {{ thumbSize }}px;' +
+                        '"' +
+                    '>&nbsp;</span>' +
+                '</a>' +
+                '<div class="napokaz-info">' +
+                    '<a href="{{ picasa }}">Посмотерть в picasa</a>' +
+                '</div>' +
             '</div>'
         ),
         'thumbPage' : (
-            '<div class="napokaz-page <% if (active) { %>napokaz-active<% } %>"' +
-            '   style="height:<%= y %>px; width: <%= x %>px"' +
-            '><%= page %></div>'
+            '<div class="napokaz-page {% if (active) { %}napokaz-active{% } %}" ' +
+                'style="height:{{ y }}px; width: {{ x }}px"' +
+            '>{{ page }}</div>'
         )
     };
 
@@ -54,7 +54,7 @@
                             'thumb': $this.find('media\\:group media\\:thumbnail').attr('url'),
                             'thumbSize': opts.thumbSize
                         };
-                        item = _.template(templates.thumbItem, item);
+                        item = tmpl(templates.thumbItem, item);
                         items.push(item);
                     });
 
@@ -71,7 +71,7 @@
                         var pages = [];
                         for (var i=0; i<=(items.length / perPage + 1); i++) {
                             item = items.slice(i*perPage, (i+1)*perPage);
-                            item = _.template(templates.thumbPage, {
+                            item = tmpl(templates.thumbPage, {
                                 page: item.join(''),
                                 x: sizeX,
                                 y: sizeY,
@@ -98,5 +98,40 @@
             feed += key + '/' + value + '/';
         });
         return feed;
+    }
+    // Taken from underscore.js with reformating.
+    // JavaScript micro-templating, similar to John Resig's implementation.
+    // Underscore templating handles arbitrary delimiters, preserves whitespace,
+    // and correctly escapes quotes within interpolated code.
+    function tmpl(str, data) {
+        var c = {
+            evaluate    : /\{%([\s\S]+?)%\}/g,
+            interpolate : /\{\{([\s\S]+?)\}\}/g
+        };
+        var fn = new Function('obj',
+            "var __p=[];" +
+            "var print = function() {" +
+                "__p.push.apply(__p, arguments);" +
+            "};" +
+            "with(obj || {}) {" +
+                "__p.push('" +
+                    str
+                    .replace(/\\/g, '\\\\')
+                    .replace(/'/g, "\\'")
+                    .replace(c.interpolate, function(match, code) {
+                        return "'," + code.replace(/\\'/g, "'") + ",'";
+                    })
+                    .replace(c.evaluate || null, function(match, code) {
+                        code = code.replace(/\\'/g, "'").replace(/[\r\n\t]/g, ' ');
+                        return "');" + code + "__p.push('";
+                    })
+                    .replace(/\r/g, '\\r')
+                    .replace(/\n/g, '\\n')
+                    .replace(/\t/g, '\\t') +
+                "');" +
+            "}" +
+            "return __p.join('');"
+        );
+        return data ? fn(data) : fn;
     }
 }(jQuery));
