@@ -8,6 +8,14 @@
         sizeY: 1
     };
     var templates = {
+        'thumbItems': (
+            '<div class="napokaz-items">{{ items }}</div>'
+        ),
+        'thumbPage' : (
+            '<div class="napokaz-page {% if (active) { %}napokaz-active{% } %}" ' +
+                'style="height:{{ y }}px; width: {{ x }}px"' +
+            '>{{ page }}</div>'
+        ),
         'thumbItem': (
             '<div class="napokaz-item">' +
                 '<a class="napokaz-thumb" href="{{ orig }}">' +
@@ -24,10 +32,11 @@
                 '</div>' +
             '</div>'
         ),
-        'thumbPage' : (
-            '<div class="napokaz-page {% if (active) { %}napokaz-active{% } %}" ' +
-                'style="height:{{ y }}px; width: {{ x }}px"' +
-            '>{{ page }}</div>'
+        'controls': (
+            '<div class="napokaz-controls">' +
+                '<a class="napokaz-prev" href="#">&laquo;</a>' +
+                '<a class="napokaz-next" href="#">&raquo;</a>' +
+            '</div>'
         )
     };
 
@@ -57,9 +66,10 @@
                         item = tmpl(templates.thumbItem, item);
                         items.push(item);
                     });
+                    var count = items.length;
 
                     var perPage = opts.sizeX * opts.sizeY;
-                    if (perPage > 1 && items.length > perPage) {
+                    if (count > perPage) {
                         // Calculate size of page;
                         item = $(items[0]);
                         container.append(item);
@@ -69,7 +79,7 @@
 
                         // Decompose into pages
                         var pages = [];
-                        for (var i=0; i<=(items.length / perPage + 1); i++) {
+                        for (var i=0; i<=(count / perPage); i++) {
                             item = items.slice(i*perPage, (i+1)*perPage);
                             item = tmpl(templates.thumbPage, {
                                 page: item.join(''),
@@ -80,8 +90,35 @@
                             pages.push(item);
                         }
                         items = pages;
+                        count = items.length;
+                    } else {
+                        count = 1;
                     }
-                    container.append(items.join(''));
+                    items = tmpl(templates.thumbItems, {'items': items.join('')});
+                    container.append(items);
+
+                    if (count > 1) {
+                        container.append(tmpl(templates.controls));
+                        container.find('.napokaz-prev, .napokaz-next').click(function() {
+                            var $this = $(this);
+                            var container = $this.parents('.napokaz');
+                            var active = container.find('.napokaz-page.napokaz-active');
+                            var element, selector;
+                            if ($this.hasClass('napokaz-prev')) {
+                                element = active.prev();
+                                selector = 'last';
+                            } else {
+                                element = active.next();
+                                selector = 'first';
+                            }
+                            if (!element.length) {
+                                element = container.find('.napokaz-page:' + selector);
+                            }
+                            active.removeClass('napokaz-active');
+                            element.addClass('napokaz-active');
+                            return false;
+                        });
+                    }
                 },
                 error: function(data, textStatus) {
                     console.error('Don\'t retrieved data from picasaweb', textStatus, data);
