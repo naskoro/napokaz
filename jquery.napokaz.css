@@ -19,3 +19,12 @@
 .napokaz-item .napokaz-info {
     display: none;
 }
+.napokaz-page {
+    z-index: 0;
+    display: none;
+}
+.napokaz-page.napokaz-active {
+    z-index: 1;
+    display: block;
+    border: 1px solid red;
+}
