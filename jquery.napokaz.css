@@ -12,8 +12,7 @@
     border: 1px solid #fff;
 }
 .napokaz-thumb img {
-    display: block;
-    margin: 0;
+    vertical-align: middle;
 }
 .napokaz-item .napokaz-info {
     display: none;

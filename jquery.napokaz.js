@@ -1,21 +1,36 @@
 (function ($) {
     var defaults = {
-        thumbsize: 72,
-        picasa: {
-            user: 'naspeh',
-            album: 'Naspeh'
-        }
+        thumbSize: 72,
+        thumbCrop: true,
+        picasaUser: 'naspeh',
+        picasaAlbum: 'Naspeh'
     };
+    var templates = {
+        'thumbItem': (
+            '<div class="napokaz-item">' +
+            '   <a class="napokaz-thumb" href="<%= orig %>"' +
+            '       style="width: <%= thumbSize %>px;height: <%= thumbSize %>px; line-height: <%= thumbSize %>px;"' +
+            '   >' +
+            '       <img src="<%= thumb %>" />' +
+            '   </a>' +
+            '   <div class="napokaz-info">' +
+            '       <a href="<%= picasa %>">Посмотерть в picasa</a>' +
+            '   </div>' +
+            '</div>'
+        )
+    };
+
+    // Public
     $.fn.napokaz = function(options) {
         options = $.extend({}, $.fn.napokaz.defaults, options);
         return this.each(function() {
             var container = $(this);
             var opts = $.extend({}, options, container.data('options'));
             $.ajax({
-                url: getPicasaFeed(opts.picasa),
+                url: getPicasaFeed({user: opts.picasaUser, album: opts.picasaAlbum}),
                 data: {
                     kind: 'photo',
-                    thumbsize: opts.thumbsize + 'c'
+                    thumbsize: opts.thumbSize + (opts.thumbCrop && 'c' || '')
                 },
                 dataType: 'jsonp',
                 success: function(data) {
@@ -23,12 +38,12 @@
                     $(data).find('entry').each(function() {
                         var $this = $(this);
                         var item = {
+                            'picasa': $this.find('link[rel="alternate"]').attr('href'),
                             'orig': $this.find('media\\:group media\\:content').attr('url'),
                             'thumb': $this.find('media\\:group media\\:thumbnail').attr('url'),
-                            'picasa': $this.find('link[rel="alternate"]').attr('href'),
-                            'thumbsize': opts.thumbsize
+                            'thumbSize': opts.thumbSize
                         };
-                        item = getThumbStr(item);
+                        item = _.template(templates.thumbItem, item);
                         items.push(item);
                     });
                     container.append(items.join(''));
@@ -41,19 +56,7 @@
     };
     $.fn.napokaz.defaults = defaults;
 
-    function getThumbStr(params) {
-        var str = (
-            '<div class="napokaz-item">' +
-            '   <a class="napokaz-thumb" href="<%= orig %>">' +
-            '       <img src="<%= thumb %>" width="<%= thumbsize %>" height="<%= thumbsize %>" />' +
-            '   </a>' +
-            '   <div class="napokaz-info">' +
-            '       <a href="<%= picasa %>">Посмотерть в picasa</a>' +
-            '   </div>' +
-            '</div>'
-        );
-        return _.template(str, params);
-    }
+    // Functions
     function getPicasaFeed(params) {
         var feed = 'https://picasaweb.google.com/data/feed/api/';
         _.each(params, function(value, key){
