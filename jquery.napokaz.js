@@ -8,10 +8,12 @@
     var templates = {
         'thumbItem': (
             '<div class="napokaz-item">' +
-            '   <a class="napokaz-thumb" href="<%= orig %>"' +
-            '       style="width: <%= thumbSize %>px;height: <%= thumbSize %>px; line-height: <%= thumbSize %>px;"' +
-            '   >' +
-            '       <img src="<%= thumb %>" />' +
+            '   <a class="napokaz-thumb" href="<%= orig %>">' +
+            '       <span class="napokaz-thumb-inner" style="' +
+            '           background-image: url(<%= thumb %>);' +
+            '           width: <%= thumbSize %>px;' +
+            '           height: <%= thumbSize %>px;' +
+            '       ">&nbsp;</span>' +
             '   </a>' +
             '   <div class="napokaz-info">' +
             '       <a href="<%= picasa %>">Посмотерть в picasa</a>' +

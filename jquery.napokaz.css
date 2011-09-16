@@ -3,6 +3,7 @@
 }
 .napokaz-item {
     display: inline-block;
+    vertical-align: top;
 }
 .napokaz-thumb {
     display: block;
@@ -11,8 +12,9 @@
     background-color: #666;
     border: 1px solid #fff;
 }
-.napokaz-thumb img {
-    vertical-align: middle;
+.napokaz-thumb-inner {
+    display: block;
+    background: transparent center center no-repeat;
 }
 .napokaz-item .napokaz-info {
     display: none;
