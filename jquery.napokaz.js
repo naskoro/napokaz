@@ -17,8 +17,8 @@
             '>{{ page }}</div>'
         ),
         'thumbItem': (
-            '<div class="napokaz-item">' +
-                '<a class="napokaz-thumb" href="{{ orig }}">' +
+            '<div class="napokaz-item" id="{{ id }}">' +
+                '<a class="napokaz-thumb" href="{{ orig }}" rel="{{ albumId }}">' +
                     '<span class="napokaz-thumb-inner" ' +
                         'style="' +
                             'background-image: url({{ thumb }});' +
@@ -50,18 +50,23 @@
                 url: getPicasaFeed({user: opts.picasaUser, album: opts.picasaAlbum}),
                 data: {
                     kind: 'photo',
-                    thumbsize: opts.thumbSize + (opts.thumbCrop && 'c' || '')
+                    thumbsize: opts.thumbSize + (opts.thumbCrop && 'c' || ''),
+                    imgmax: 1024
                 },
                 dataType: 'jsonp',
                 success: function(data) {
+                    var $data = $(data);
+                    var albumId = $data.find('gphoto\\:albumid:first').text();
                     var items = [];
-                    $(data).find('entry').each(function() {
+                    $data.find('entry').each(function() {
                         var $this = $(this);
                         var item = {
                             'picasa': $this.find('link[rel="alternate"]').attr('href'),
                             'orig': $this.find('media\\:group media\\:content').attr('url'),
                             'thumb': $this.find('media\\:group media\\:thumbnail').attr('url'),
-                            'thumbSize': opts.thumbSize
+                            'thumbSize': opts.thumbSize,
+                            'albumId': albumId,
+                            'id': $this.find('gphoto\\:id').text()
                         };
                         item = tmpl(templates.thumbItem, item);
                         items.push(item);
@@ -96,6 +101,7 @@
                     }
                     items = tmpl(templates.thumbItems, {'items': items.join('')});
                     container.append(items);
+                    container.find('a[rel="' + albumId + '"]').colorbox({width:'97%', height:'97%'});
 
                     if (count > 1) {
                         container.append(tmpl(templates.controls));
