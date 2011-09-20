@@ -1,5 +1,6 @@
 (function ($) {
     var defaults = {
+        maxSize: 1024,
         thumbSize: 72,
         thumbCrop: true,
         picasaUser: 'naspeh',
@@ -51,7 +52,7 @@
                 data: {
                     kind: 'photo',
                     thumbsize: opts.thumbSize + (opts.thumbCrop && 'c' || ''),
-                    imgmax: 1024
+                    imgmax: opts.maxSize
                 },
                 dataType: 'jsonp',
                 success: function(data) {
