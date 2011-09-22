@@ -178,6 +178,7 @@
 
                     var current = $('.napokaz-item#' + window.location.hash);
                     if (current.length) {
+                        hashCache = '';
                         current.find('.napokaz-thumb').click();
                     }
                 },
