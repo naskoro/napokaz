@@ -14,16 +14,18 @@
         thumbPage : (
             '<div class="napokaz-page {% if (active) { %}napokaz-active{% } %}" ' +
                 'style="height:{{ size.height }}px; width: {{ size.width }}px"' +
-            '>{{ page }}</div>'
+            '>{{ body }}</div>'
         ),
         thumbItem: (
             '<div class="napokaz-item" id="{{ id }}">' +
-                '<a class="napokaz-thumb" href="{{ orig }}" rel="{{ albumId }}" data-size=\'{"width": {{ size.width }},"height": {{ size.height }}}\'>' +
+                '<a class="napokaz-thumb" href="{{ orig.url }}" rel="{{ albumId }}" ' +
+                    'data-size=\'{"width": {{ orig.width }},"height": {{ orig.height }}}\'' +
+                '>' +
                     '<span class="napokaz-thumb-inner" ' +
                         'style="' +
-                            'background-image: url({{ thumb }});' +
-                            'width: {{ thumbSize }}px;' +
-                            'height: {{ thumbSize }}px;' +
+                            'background-image: url({{ thumb.url }});' +
+                            'width: {{ thumb.size }}px;' +
+                            'height: {{ thumb.size }}px;' +
                         '"' +
                     '>&nbsp;</span>' +
                 '</a>' +
@@ -86,10 +88,15 @@
                         var orig = $this.find('media\\:group media\\:content');
                         var item = {
                             'picasa': $this.find('link[rel="alternate"]').attr('href'),
-                            'orig': orig.attr('url'),
-                            'size': {width: orig.attr('width'), height: orig.attr('height')},
-                            'thumb': $this.find('media\\:group media\\:thumbnail').attr('url'),
-                            'thumbSize': opts.thumbSize,
+                            'orig': {
+                                url: orig.attr('url'),
+                                width: orig.attr('width'),
+                                height: orig.attr('height')
+                            },
+                            'thumb': {
+                                url: $this.find('media\\:group media\\:thumbnail').attr('url'),
+                                size: opts.thumbSize
+                            },
                             'albumId': albumId,
                             'id': $this.find('gphoto\\:id').text()
                         };
@@ -112,7 +119,7 @@
                         for (var i=0; i<=(count / perPage); i++) {
                             item = items.slice(i*perPage, (i+1)*perPage);
                             item = tmpl(templates.thumbPage, {
-                                page: item.join(''),
+                                body: item.join(''),
                                 size: {width: sizeX, height: sizeY},
                                 active: !i
                             });
