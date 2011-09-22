@@ -76,7 +76,7 @@
                 url: getPicasaFeed({user: opts.picasaUser, album: opts.picasaAlbum}),
                 data: {
                     kind: 'photo',
-                    thumbsize: opts.thumbSize + (opts.thumbCrop && 'c' || '')
+                    thumbsize: opts.thumbSize + (opts.thumbCrop && 'c' || '') + ',100c'
                 },
                 dataType: 'jsonp',
                 success: function(data) {
@@ -146,6 +146,7 @@
                             )
                         }));
                         inner.css('line-height', inner.height() + 'px');
+                        window.location.hash = $this.parents('.napokaz-item').attr('id');
                         return false;
                     });
 
@@ -170,6 +171,11 @@
                             element.addClass('napokaz-active');
                             return false;
                         });
+                    }
+
+                    var current = $('.napokaz-item#' + window.location.hash);
+                    if (current.length) {
+                        current.find('.napokaz-thumb').click();
                     }
                 },
                 error: function(data, textStatus) {
