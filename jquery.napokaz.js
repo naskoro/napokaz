@@ -58,6 +58,7 @@
     $.fn.napokaz = function(options) {
         options = $.extend({}, $.fn.napokaz.defaults, options);
 
+        var hashCache = '';
         var front = $(templates.front);
         $('body').append(front);
 
@@ -67,6 +68,7 @@
             if (front.not(':hidden') && key === 27) {
                 e.preventDefault();
                 front.fadeOut();
+                window.location.hash = hashCache;
             }
         });
         return this.each(function() {
@@ -135,6 +137,7 @@
                     container.find('a[rel="' + albumId + '"]').click(function() {
                         var $this = $(this);
                         if (front.is(':hidden')) {
+                            hashCache = window.location.hash;
                             front.show();
                         }
                         var inner = front.find('.napokaz-front-inner');
