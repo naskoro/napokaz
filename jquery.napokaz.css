@@ -48,3 +48,35 @@
 .napokaz-prev, .napokaz-next {
     padding: 0 10px;
 }
+.napokaz-front, .napokaz-front-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+.napokaz-front {
+    display: none;
+    z-index: 9999;
+}
+.napokaz-front-overlay {
+    background: #000;
+    opacity: 0.8;
+}
+.napokaz-front-view {
+    position: relative;
+    height: 90%;
+    text-align: center;
+    overflow: hidden;
+}
+.napokaz-front-inner {
+    padding: 0.5%;
+    width: 99%;
+    height: 99%;
+}
+.napokaz-front-orig {
+    vertical-align: middle;
+}
+.napokaz-front-items {
+    height: 10%;
+}

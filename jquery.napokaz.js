@@ -1,6 +1,5 @@
 (function ($) {
     var defaults = {
-        maxSize: 1024,
         thumbSize: 72,
         thumbCrop: true,
         picasaUser: 'naspeh',
@@ -9,17 +8,17 @@
         sizeY: 1
     };
     var templates = {
-        'thumbItems': (
+        thumbItems: (
             '<div class="napokaz-items">{{ items }}</div>'
         ),
-        'thumbPage' : (
+        thumbPage : (
             '<div class="napokaz-page {% if (active) { %}napokaz-active{% } %}" ' +
-                'style="height:{{ y }}px; width: {{ x }}px"' +
+                'style="height:{{ size.height }}px; width: {{ size.width }}px"' +
             '>{{ page }}</div>'
         ),
-        'thumbItem': (
+        thumbItem: (
             '<div class="napokaz-item" id="{{ id }}">' +
-                '<a class="napokaz-thumb" href="{{ orig }}" rel="{{ albumId }}">' +
+                '<a class="napokaz-thumb" href="{{ orig }}" rel="{{ albumId }}" data-size=\'{"width": {{ size.width }},"height": {{ size.height }}}\'>' +
                     '<span class="napokaz-thumb-inner" ' +
                         'style="' +
                             'background-image: url({{ thumb }});' +
@@ -33,17 +32,41 @@
                 '</div>' +
             '</div>'
         ),
-        'controls': (
+        controls: (
             '<div class="napokaz-controls">' +
                 '<a class="napokaz-prev" href="#">&laquo;</a>' +
                 '<a class="napokaz-next" href="#">&raquo;</a>' +
             '</div>'
+        ),
+        front: (
+            '<div class="napokaz-front">' +
+                '<div class="napokaz-front-overlay"></div>' +
+                '<div class="napokaz-front-view">' +
+                '   <div class="napokaz-front-inner"></div>' +
+                '</div>' +
+                '<div class="napokaz-front-items"></div>' +
+            '</div>'
+        ),
+        original: (
+            '<img class="napokaz-front-orig" src="{{ orig }}?imgmax={{ imgmax }}" />'
         )
     };
 
     // Public
     $.fn.napokaz = function(options) {
         options = $.extend({}, $.fn.napokaz.defaults, options);
+
+        var front = $(templates.front);
+        $('body').append(front);
+
+        // Set Navigation Key Bindings
+        $(document).bind('keydown.napokaz', function (e) {
+            var key = e.keyCode;
+            if (front.not(':hidden') && key === 27) {
+                e.preventDefault();
+                front.fadeOut();
+            }
+        });
         return this.each(function() {
             var container = $(this);
             var opts = $.extend({}, options, container.data('options'));
@@ -51,8 +74,7 @@
                 url: getPicasaFeed({user: opts.picasaUser, album: opts.picasaAlbum}),
                 data: {
                     kind: 'photo',
-                    thumbsize: opts.thumbSize + (opts.thumbCrop && 'c' || ''),
-                    imgmax: opts.maxSize
+                    thumbsize: opts.thumbSize + (opts.thumbCrop && 'c' || '')
                 },
                 dataType: 'jsonp',
                 success: function(data) {
@@ -61,9 +83,11 @@
                     var items = [];
                     $data.find('entry').each(function() {
                         var $this = $(this);
+                        var orig = $this.find('media\\:group media\\:content');
                         var item = {
                             'picasa': $this.find('link[rel="alternate"]').attr('href'),
-                            'orig': $this.find('media\\:group media\\:content').attr('url'),
+                            'orig': orig.attr('url'),
+                            'size': {width: orig.attr('width'), height: orig.attr('height')},
                             'thumb': $this.find('media\\:group media\\:thumbnail').attr('url'),
                             'thumbSize': opts.thumbSize,
                             'albumId': albumId,
@@ -89,8 +113,7 @@
                             item = items.slice(i*perPage, (i+1)*perPage);
                             item = tmpl(templates.thumbPage, {
                                 page: item.join(''),
-                                x: sizeX,
-                                y: sizeY,
+                                size: {width: sizeX, height: sizeY},
                                 active: !i
                             });
                             pages.push(item);
@@ -100,9 +123,24 @@
                     } else {
                         count = 1;
                     }
-                    items = tmpl(templates.thumbItems, {'items': items.join('')});
+                    items = tmpl(templates.thumbItems, {items: items.join('')});
                     container.append(items);
-                    container.find('a[rel="' + albumId + '"]').colorbox({width:'97%', height:'97%'});
+                    container.find('a[rel="' + albumId + '"]').click(function() {
+                        var $this = $(this);
+                        if (front.is(':hidden')) {
+                            front.show();
+                        }
+                        var inner = front.find('.napokaz-front-inner');
+                        inner.html(tmpl(templates.original, {
+                            orig: orig = $this.attr('href'),
+                            imgmax: getMaxSize(
+                                $this.data('size'),
+                                {width: inner.width(), height: inner.height()}
+                            )
+                        }));
+                        inner.css('line-height', inner.height() + 'px');
+                        return false;
+                    });
 
                     if (count > 1) {
                         container.append(tmpl(templates.controls));
@@ -142,6 +180,13 @@
             feed += key + '/' + value + '/';
         });
         return feed;
+    }
+    function getMaxSize(img, win) {
+        var proportion = img.width / img.height;
+        proportion = proportion > 1 && proportion || 1;
+        var result = Math.min(win.height * proportion, win.width);
+        result = Math.round(result);
+        return result;
     }
     // Taken from underscore.js with reformating.
     // JavaScript micro-templating, similar to John Resig's implementation.
