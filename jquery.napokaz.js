@@ -1,6 +1,7 @@
 (function ($) {
     var defaults = {
         thumbSize: 72,
+        thumbFrontSize: 80,
         thumbCrop: true,
         picasaUser: 'naspeh',
         picasaAlbum: 'Naspeh',
@@ -21,13 +22,20 @@
                 '<a class="napokaz-thumb" href="{{ orig.url }}" rel="{{ albumId }}" ' +
                     'data-size=\'{"width": {{ orig.width }},"height": {{ orig.height }}}\'' +
                 '>' +
-                    '<span class="napokaz-thumb-inner" ' +
+                    '<div class="napokaz-thumb-inner" ' +
                         'style="' +
                             'background-image: url({{ thumb.url }});' +
                             'width: {{ thumb.size }}px;' +
                             'height: {{ thumb.size }}px;' +
                         '"' +
-                    '>&nbsp;</span>' +
+                    '>&nbsp;</div>' +
+                    '<div class="napokaz-thumb2-inner" ' +
+                        'style="' +
+                            'background-image: url({{ thumb2.url }});' +
+                            'width: {{ thumb2.size }}px;' +
+                            'height: {{ thumb2.size }}px;' +
+                        '"' +
+                    '><div class="napokaz-thumb2-overlay"></div></div>' +
                 '</a>' +
                 '<div class="napokaz-info">' +
                     '<a href="{{ picasa }}">Посмотерть в picasa</a>' +
@@ -49,7 +57,7 @@
                 '<div class="napokaz-front-items"></div>' +
             '</div>'
         ),
-        original: (
+        frontOrig: (
             '<img class="napokaz-front-orig" src="{{ orig }}?imgmax={{ imgmax }}" />'
         )
     };
@@ -68,6 +76,10 @@
             if (front.not(':hidden') && key === 27) {
                 e.preventDefault();
                 front.fadeOut();
+                var current = $('.napokaz-item#' + hashCache);
+                if (current.length) {
+                    hashCache = '';
+                }
                 window.location.hash = hashCache;
             }
         });
@@ -78,7 +90,7 @@
                 url: getPicasaFeed({user: opts.picasaUser, album: opts.picasaAlbum}),
                 data: {
                     kind: 'photo',
-                    thumbsize: opts.thumbSize + (opts.thumbCrop && 'c' || '') + ',100c'
+                    thumbsize: opts.thumbSize + (opts.thumbCrop && 'c' || '') + ',80c'
                 },
                 dataType: 'jsonp',
                 success: function(data) {
@@ -96,8 +108,12 @@
                                 height: orig.attr('height')
                             },
                             'thumb': {
-                                url: $this.find('media\\:group media\\:thumbnail').attr('url'),
+                                url: $this.find('media\\:group media\\:thumbnail').first().attr('url'),
                                 size: opts.thumbSize
+                            },
+                            'thumb2': {
+                                url: $this.find('media\\:group media\\:thumbnail').last().attr('url'),
+                                size: opts.thumbFrontSize
                             },
                             'albumId': albumId,
                             'id': $this.find('gphoto\\:id').text()
@@ -110,10 +126,13 @@
                     var perPage = opts.sizeX * opts.sizeY;
                     if (count > perPage) {
                         // Calculate size of page;
-                        item = $(items[0]);
-                        container.append(item);
-                        var sizeX = item.outerWidth() * opts.sizeX;
-                        var sizeY = item.outerHeight() * opts.sizeY;
+                        container.append(tmpl(templates.thumbItems, {items: ''}));
+                        item = container.find('.napokaz-items');
+                        item.append(items[0]);
+                        var size = {
+                            width: item.width() * opts.sizeX,
+                            height: item.height() * opts.sizeY
+                        };
                         item.remove();
 
                         // Decompose into pages
@@ -122,7 +141,7 @@
                             item = items.slice(i*perPage, (i+1)*perPage);
                             item = tmpl(templates.thumbPage, {
                                 body: item.join(''),
-                                size: {width: sizeX, height: sizeY},
+                                size: size,
                                 active: !i
                             });
                             pages.push(item);
@@ -136,20 +155,37 @@
                     container.append(items);
                     container.find('a[rel="' + albumId + '"]').click(function() {
                         var $this = $(this);
+
+                        $this.parents('.napokaz-items').find('.napokaz-thumb').removeClass('napokaz-active');
+                        $this.parents('.napokaz-front-items').find('.napokaz-thumb').removeClass('napokaz-active');
+                        $this.addClass('napokaz-active');
+
                         if (front.is(':hidden')) {
                             hashCache = window.location.hash;
                             front.show();
                         }
                         var inner = front.find('.napokaz-front-inner');
-                        inner.html(tmpl(templates.original, {
+                        inner.html(tmpl(templates.frontOrig, {
                             orig: orig = $this.attr('href'),
                             imgmax: getMaxSize(
                                 $this.data('size'),
                                 {width: inner.width(), height: inner.height()}
                             )
                         }));
-                        inner.css('line-height', inner.height() + 'px');
+                        var items = $this.parents('.napokaz-items').find('.napokaz-item');
+                        if (items.length) {
+                            var controls = front.find('.napokaz-front-items');
+                            item = items.find('.napokaz-thumb2-inner');
+                            controls.css({
+                                width: Math.floor(inner.width() / item.width()) * item.width()
+                            });
+                            controls.html(items.clone(true));
+                        }
+
                         window.location.hash = $this.parents('.napokaz-item').attr('id');
+
+                        // Fix CSS
+                        inner.css('line-height', inner.height() + 'px');
                         return false;
                     });
 
@@ -176,9 +212,11 @@
                         });
                     }
 
+                    if (!window.location.hash) {
+                        return;
+                    }
                     var current = $('.napokaz-item#' + window.location.hash);
                     if (current.length) {
-                        hashCache = '';
                         current.find('.napokaz-thumb').click();
                     }
                 },
