@@ -1,7 +1,7 @@
 (function ($) {
     var defaults = {
         thumbSize: 72,
-        thumbFrontSize: 80,
+        thumbFrontSize: 72,
         thumbCrop: true,
         picasaUser: 'naspeh',
         picasaAlbum: 'Naspeh',
@@ -104,7 +104,7 @@
                 url: getPicasaFeed({user: opts.picasaUser, album: opts.picasaAlbum}),
                 data: {
                     kind: 'photo',
-                    thumbsize: opts.thumbSize + (opts.thumbCrop && 'c' || '') + ',80c'
+                    thumbsize: opts.thumbSize + (opts.thumbCrop && 'c' || '') + ',' + opts.thumbFrontSize + 'c'
                 },
                 dataType: 'jsonp',
                 success: function(data) {
@@ -188,12 +188,14 @@
                         }));
                         var items = $this.parents('.napokaz-items').find('.napokaz-item');
                         if (items.length) {
-                            var controls = front.find('.napokaz-front-items');
                             item = items.find('.napokaz-thumb2-inner');
-                            controls.css({
-                                width: Math.floor(inner.width() / item.width()) * item.width()
-                            });
+                            var controls = front.find('.napokaz-front-items');
                             controls.html(items.clone(true));
+                            controls.css({
+                                //width: Math.floor(inner.width() / item.width()) * item.width(),
+                                height: item.height() + 'px',
+                                marginTop: '-' + controls.innerHeight() + 'px'
+                            });
                         }
 
                         window.location.hash = $this.parents('.napokaz-item').attr('id');
