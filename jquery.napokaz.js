@@ -69,11 +69,17 @@
         var hashCache = '';
         var front = $(templates.front);
         $('body').append(front);
+        pager(front, 'napokaz-item', function(element) {
+            element.find('.napokaz-thumb').click();
+        });
 
         // Set Navigation Key Bindings
         $(document).bind('keydown.napokaz', function (e) {
+            if (front.is(':hidden')) {
+                return;
+            }
             var key = e.keyCode;
-            if (front.not(':hidden') && key === 27) {
+            if (key === 27) {
                 e.preventDefault();
                 front.fadeOut();
                 var current = $('.napokaz-item#' + hashCache);
@@ -82,7 +88,15 @@
                 }
                 window.location.hash = hashCache;
             }
+            if (key === 37) {
+                e.preventDefault();
+                front.trigger('napokaz-item.prev');
+            } else if (key === 39) {
+                e.preventDefault();
+                front.trigger('napokaz-item.next');
+            }
         });
+
         return this.each(function() {
             var container = $(this);
             var opts = $.extend({}, options, container.data('options'));
@@ -156,9 +170,9 @@
                     container.find('a[rel="' + albumId + '"]').click(function() {
                         var $this = $(this);
 
-                        $this.parents('.napokaz-items').find('.napokaz-thumb').removeClass('napokaz-active');
-                        $this.parents('.napokaz-front-items').find('.napokaz-thumb').removeClass('napokaz-active');
-                        $this.addClass('napokaz-active');
+                        $this.parents('.napokaz-items').find('.napokaz-item').removeClass('napokaz-active');
+                        $this.parents('.napokaz-front-items').find('.napokaz-item').removeClass('napokaz-active');
+                        $this.parents('.napokaz-item').addClass('napokaz-active');
 
                         if (front.is(':hidden')) {
                             hashCache = window.location.hash;
@@ -191,23 +205,15 @@
 
                     if (count > 1) {
                         container.append(tmpl(templates.controls));
+                        pager(container, 'napokaz-page');
                         container.find('.napokaz-prev, .napokaz-next').click(function() {
                             var $this = $(this);
                             var container = $this.parents('.napokaz');
-                            var active = container.find('.napokaz-page.napokaz-active');
-                            var element, selector;
                             if ($this.hasClass('napokaz-prev')) {
-                                element = active.prev();
-                                selector = 'last';
+                                container.trigger('napokaz-page.prev');
                             } else {
-                                element = active.next();
-                                selector = 'first';
+                                container.trigger('napokaz-page.next');
                             }
-                            if (!element.length) {
-                                element = container.find('.napokaz-page:' + selector);
-                            }
-                            active.removeClass('napokaz-active');
-                            element.addClass('napokaz-active');
                             return false;
                         });
                     }
@@ -229,6 +235,23 @@
     $.fn.napokaz.defaults = defaults;
 
     // Functions
+    function _pager(container, name, activateFunc, isNext) {
+        var active = container.find('.' + name + '.napokaz-active').removeClass('napokaz-active');
+        var element = isNext ? active.next() : active.prev();
+        if (!element.length) {
+            element = container.find('.' + name + (isNext ? ':first': ':last'));
+        }
+        element.addClass('napokaz-active');
+        activateFunc(element);
+    }
+    function pager(container, name, activateFunc) {
+        container.bind(name + '.prev', function() {
+            _pager(container, name, activateFunc, false);
+        });
+        container.bind(name + '.next', function() {
+            _pager(container, name, activateFunc, true);
+        });
+    }
     function getPicasaFeed(params) {
         var feed = 'https://picasaweb.google.com/data/feed/api/';
         $.each(params, function(key, value){

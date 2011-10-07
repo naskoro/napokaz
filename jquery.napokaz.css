@@ -63,9 +63,9 @@
     display: none;
     z-index: 9999;
 }
-.napokaz-front-overlay, .napokaz-thumb2-overlay {
+.napokaz-front-overlay {
     background: #000;
-    opacity: 0.8;
+    opacity: 0.97;
 }
 .napokaz-front-view {
     position: relative;
@@ -87,6 +87,7 @@
     position: relative;
     height: 100px;
     margin-top: -100px;
+    background: #000;
 }
 .napokaz-front-items .napokaz-thumb-inner {
     display: none;
@@ -94,6 +95,10 @@
 .napokaz-front-items .napokaz-thumb2-inner {
     display: block;
 }
-.napokaz-front-items .napokaz-thumb.napokaz-active .napokaz-thumb2-overlay {
+.napokaz-thumb2-overlay {
+    background: #000;
+    opacity: 0.6;
+}
+.napokaz-front-items .napokaz-item.napokaz-active .napokaz-thumb2-overlay {
     display: none;
 }
