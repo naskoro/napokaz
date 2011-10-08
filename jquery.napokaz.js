@@ -69,8 +69,11 @@
         var hashCache = '';
         var front = $(templates.front);
         $('body').append(front);
-        pager(front, 'napokaz-item', function(element) {
+        pager(front, '.napokaz-item', 'napokaz-active', function(element) {
             element.find('.napokaz-thumb').click();
+        });
+        pager(front, '.napokaz-item', 'napokaz-front-page', function(element, container, selector) {
+            markPage(container.find(selector), element, front.perPage, 'napokaz-front-page');
         });
 
         // Set Navigation Key Bindings
@@ -79,7 +82,7 @@
                 return;
             }
             var key = e.keyCode;
-            if (key === 27) {
+            if (key === 27) { // Esc
                 e.preventDefault();
                 front.fadeOut();
                 if (hashCache && $('.napokaz-item' + hashCache).length) {
@@ -87,12 +90,19 @@
                 }
                 window.location.hash = hashCache;
             }
-            if (key === 37) {
+            if (key === 37) { // <-
                 e.preventDefault();
-                front.trigger('napokaz-item.prev');
-            } else if (key === 39) {
+                front.trigger('napokaz-active.prev');
+            } else if (key === 39) { // ->
                 e.preventDefault();
-                front.trigger('napokaz-item.next');
+                front.trigger('napokaz-active.next');
+            }
+            if (key === 34) { // PageDown
+                e.preventDefault();
+                front.trigger('napokaz-front-page.next');
+            } else if (key === 33) { // PageUp
+                e.preventDefault();
+                front.trigger('napokaz-front-page.prev');
             }
         });
 
@@ -168,10 +178,13 @@
                     container.append(items);
                     container.find('a[rel="' + albumId + '"]').click(function() {
                         var $this = $(this);
+                        var current = $this.parents('.napokaz-item');
+                        var items = $this.parents('.napokaz-items').find('.napokaz-item');
+                        var controls = front.find('.napokaz-front-items');
 
-                        $this.parents('.napokaz-items').find('.napokaz-item').removeClass('napokaz-active');
-                        $this.parents('.napokaz-front-items').find('.napokaz-item').removeClass('napokaz-active');
-                        $this.parents('.napokaz-item').addClass('napokaz-active');
+                        items.removeClass('napokaz-active');
+                        controls.find('.napokaz-item').removeClass('napokaz-active');
+                        current.addClass('napokaz-active');
 
                         if (front.is(':hidden')) {
                             hashCache = window.location.hash;
@@ -185,18 +198,22 @@
                                 {width: inner.width(), height: inner.height()}
                             )
                         }));
-                        var items = $this.parents('.napokaz-items').find('.napokaz-item');
                         if (items.length) {
-                            item = items.find('.napokaz-thumb2-inner');
-                            var controls = front.find('.napokaz-front-items');
                             controls.html(items.clone(true));
+                            var one = controls.find('.napokaz-item');
+                            var height = controls.innerHeight();
+                            if (!controls.height()) {
+                                height = one.outerHeight() + height;
+                            }
                             controls.css({
-                                //width: Math.floor(inner.width() / item.width()) * item.width(),
-                                height: item.height() + 'px',
-                                marginTop: '-' + controls.innerHeight() + 'px'
+                                //width: Math.floor(inner.width() / one.width()) * one.width(),
+                                height: one.outerHeight() + 'px',
+                                marginTop: '-' + height + 'px'
                             });
+                            front.perPage = Math.floor(controls.width() / one.outerWidth());
                         }
 
+                        markPage(controls.find('.napokaz-item'), current, front.perPage, 'napokaz-front-page');
                         window.location.hash = $this.parents('.napokaz-item').attr('id');
 
                         // Fix CSS
@@ -206,14 +223,14 @@
 
                     if (count > 1) {
                         container.append(tmpl(templates.controls));
-                        pager(container, 'napokaz-page');
+                        pager(container, '.napokaz-page', 'napokaz-active');
                         container.find('.napokaz-prev, .napokaz-next').click(function() {
                             var $this = $(this);
                             var container = $this.parents('.napokaz');
                             if ($this.hasClass('napokaz-prev')) {
-                                container.trigger('napokaz-page.prev');
+                                container.trigger('napokaz-active.prev');
                             } else {
-                                container.trigger('napokaz-page.next');
+                                container.trigger('napokaz-active.next');
                             }
                             return false;
                         });
@@ -236,21 +253,35 @@
     $.fn.napokaz.defaults = defaults;
 
     // Functions
-    function _pager(container, name, activateFunc, isNext) {
-        var active = container.find('.' + name + '.napokaz-active').removeClass('napokaz-active');
+    function markPage(items, current, perPage, marker) {
+        var active;
+        for (var i=0; i<=items.length; i++) {
+            if($(items[i]).attr('id') == current.attr('id')) {
+                active = i;
+                break;
+            }
+        }
+        active = Math.floor(active / perPage) * perPage;
+        $(items).removeClass(marker).slice(active, active + perPage).addClass(marker);
+    }
+    function _pager(container, selector, marker, activateFunc, isNext) {
+        var active = container.find(selector + '.' + marker).removeClass(marker);
+        active = isNext ? active.last() : active.first();
         var element = isNext ? active.next() : active.prev();
         if (!element.length) {
-            element = container.find('.' + name + (isNext ? ':first': ':last'));
+            element = container.find(selector + (isNext ? ':first': ':last'));
         }
-        element.addClass('napokaz-active');
-        activateFunc(element);
+        element.addClass(marker);
+        if ($.isFunction(activateFunc)) {
+            activateFunc(element, container, selector);
+        }
     }
-    function pager(container, name, activateFunc) {
-        container.bind(name + '.prev', function() {
-            _pager(container, name, activateFunc, false);
+    function pager(container, selector, marker, activateFunc) {
+        container.bind(marker + '.prev', function() {
+            _pager(container, selector, marker, activateFunc, false);
         });
-        container.bind(name + '.next', function() {
-            _pager(container, name, activateFunc, true);
+        container.bind(marker + '.next', function() {
+            _pager(container, selector, marker, activateFunc, true);
         });
     }
     function getPicasaFeed(params) {
