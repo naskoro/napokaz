@@ -1,12 +1,13 @@
 (function ($) {
     var defaults = {
         thumbSize: 72,
-        thumbFrontSize: 60,
         thumbCrop: true,
         picasaUser: 'naspeh',
         picasaAlbum: 'Naspeh',
         sizeX: 3,
-        sizeY: 1
+        sizeY: 1,
+        frontThumbSize: 60,
+        frontMaxCount: 12
     };
     var templates = {
         thumbItems: (
@@ -108,7 +109,7 @@
                 url: getPicasaFeed({user: opts.picasaUser, album: opts.picasaAlbum}),
                 data: {
                     kind: 'photo',
-                    thumbsize: opts.thumbSize + (opts.thumbCrop && 'c' || '') + ',' + opts.thumbFrontSize + 'c'
+                    thumbsize: opts.thumbSize + (opts.thumbCrop && 'c' || '') + ',' + opts.frontThumbSize + 'c'
                 },
                 dataType: 'jsonp',
                 success: function(data) {
@@ -131,7 +132,7 @@
                             },
                             'thumb2': {
                                 url: $this.find('media\\:group media\\:thumbnail').last().attr('url'),
-                                size: opts.thumbFrontSize
+                                size: opts.frontThumbSize
                             },
                             'albumId': albumId,
                             'id': $this.find('gphoto\\:id').text()
@@ -160,7 +161,10 @@
                         if (items.length) {
                             controls.html(items.clone(true));
                             var one = controls.find('.napokaz-item:first').addClass('napokaz-front-page');
-                            front.perPage = Math.floor(controls.width() / one.outerWidth());
+                            front.perPage = Math.min(
+                                Math.floor(controls.width() / one.outerWidth()),
+                                opts.frontMaxCount
+                            );
 
                             controls.css({
                                 height: controls.height() + 'px',
