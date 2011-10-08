@@ -12,11 +12,6 @@
         thumbItems: (
             '<div class="napokaz-items">{{ items }}</div>'
         ),
-        thumbPage : (
-            '<div class="napokaz-page {% if (active) { %}napokaz-active{% } %}" ' +
-                'style="height:{{ size.height }}px; width: {{ size.width }}px"' +
-            '>{{ body }}</div>'
-        ),
         thumbItem: (
             '<div class="napokaz-item" id="{{ id }}">' +
                 '<a class="napokaz-thumb" href="{{ orig.url }}" rel="{{ albumId }}" ' +
@@ -144,38 +139,9 @@
                         item = tmpl(templates.thumbItem, item);
                         items.push(item);
                     });
-                    var count = items.length;
-
-                    var perPage = opts.sizeX * opts.sizeY;
-                    if (count > perPage) {
-                        // Calculate size of page;
-                        container.append(tmpl(templates.thumbItems, {items: ''}));
-                        item = container.find('.napokaz-items');
-                        item.append(items[0]);
-                        var size = {
-                            width: item.width() * opts.sizeX,
-                            height: item.height() * opts.sizeY
-                        };
-                        item.remove();
-
-                        // Decompose into pages
-                        var pages = [];
-                        for (var i=0; i<=(count / perPage); i++) {
-                            item = items.slice(i*perPage, (i+1)*perPage);
-                            item = tmpl(templates.thumbPage, {
-                                body: item.join(''),
-                                size: size,
-                                active: !i
-                            });
-                            pages.push(item);
-                        }
-                        items = pages;
-                        count = items.length;
-                    } else {
-                        count = 1;
-                    }
                     items = tmpl(templates.thumbItems, {items: items.join('')});
                     container.append(items);
+
                     container.find('a[rel="' + albumId + '"]').click(function() {
                         var $this = $(this);
                         var current = $this.parents('.napokaz-item');
@@ -221,16 +187,31 @@
                         return false;
                     });
 
+                    var perPage = opts.sizeX * opts.sizeY;
+                    var itemsWrap = container.find('.napokaz-items');
+                    items = itemsWrap.find('.napokaz-item');
+                    item = items.first();
+                    markPage(items, item, perPage, 'napokaz-page');
+                    var count = Math.ceil(items.length / perPage);
                     if (count > 1) {
+                        // Calculate size of page;
+                        itemsWrap.css({
+                            width: item.outerWidth() * opts.sizeX + 'px',
+                            height: item.outerHeight() * opts.sizeY + 'px'
+                        });
+                        pager(itemsWrap, '.napokaz-item', 'napokaz-page', function(element, container, selector) {
+                            markPage(container.find(selector), element, perPage, 'napokaz-page');
+                        });
+
                         container.append(tmpl(templates.controls));
                         pager(container, '.napokaz-page', 'napokaz-active');
                         container.find('.napokaz-prev, .napokaz-next').click(function() {
                             var $this = $(this);
-                            var container = $this.parents('.napokaz');
+                            var container = $this.parents('.napokaz').find('.napokaz-items');
                             if ($this.hasClass('napokaz-prev')) {
-                                container.trigger('napokaz-active.prev');
+                                container.trigger('napokaz-page.prev');
                             } else {
-                                container.trigger('napokaz-active.next');
+                                container.trigger('napokaz-page.next');
                             }
                             return false;
                         });

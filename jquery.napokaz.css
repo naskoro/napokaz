@@ -5,22 +5,19 @@
 .napokaz-items {
     display: inline-block;
     position: relative;
+    background-color: #666;
     border: 1px solid #666;
 }
+.napokaz-item {
+    display: none;
+    vertical-align: top;
+}
 .napokaz-page {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
-    background-color: #666;
+    display: inline-block;
 }
 .napokaz-page.napokaz-active {
     position: relative;
     z-index: 1;
-}
-.napokaz-item {
-    display: inline-block;
-    vertical-align: top;
 }
 .napokaz-thumb {
     display: block;
