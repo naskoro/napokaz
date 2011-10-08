@@ -52,7 +52,7 @@
             '<div class="napokaz-front">' +
                 '<div class="napokaz-front-overlay"></div>' +
                 '<div class="napokaz-front-view">' +
-                '   <div class="napokaz-front-inner"></div>' +
+                    '<div class="napokaz-front-inner"></div>' +
                 '</div>' +
                 '<div class="napokaz-front-items"></div>' +
             '</div>'
@@ -82,8 +82,7 @@
             if (key === 27) {
                 e.preventDefault();
                 front.fadeOut();
-                var current = $('.napokaz-item#' + hashCache);
-                if (current.length) {
+                if (hashCache && $('.napokaz-item' + hashCache).length) {
                     hashCache = '';
                 }
                 window.location.hash = hashCache;
