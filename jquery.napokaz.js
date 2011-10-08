@@ -1,7 +1,7 @@
 (function ($) {
     var defaults = {
         thumbSize: 72,
-        thumbFrontSize: 72,
+        thumbFrontSize: 60,
         thumbCrop: true,
         picasaUser: 'naspeh',
         picasaAlbum: 'Naspeh',
@@ -146,6 +146,7 @@
                         var $this = $(this);
                         var current = $this.parents('.napokaz-item');
                         var items = $this.parents('.napokaz-items').find('.napokaz-item');
+                        var inner = front.find('.napokaz-front-inner');
                         var controls = front.find('.napokaz-front-items');
 
                         items.removeClass('napokaz-active');
@@ -156,34 +157,29 @@
                             hashCache = window.location.hash;
                             front.show();
                         }
-                        var inner = front.find('.napokaz-front-inner');
-                        inner.html(tmpl(templates.frontOrig, {
-                            orig: orig = $this.attr('href'),
-                            imgmax: getMaxSize(
-                                $this.data('size'),
-                                {width: inner.width(), height: inner.height()}
-                            )
-                        }));
                         if (items.length) {
                             controls.html(items.clone(true));
-                            var one = controls.find('.napokaz-item');
-                            var height = controls.innerHeight();
-                            if (!controls.height()) {
-                                height = one.outerHeight() + height;
-                            }
-                            controls.css({
-                                //width: Math.floor(inner.width() / one.width()) * one.width(),
-                                height: one.outerHeight() + 'px',
-                                marginTop: '-' + height + 'px'
-                            });
+                            var one = controls.find('.napokaz-item:first').addClass('napokaz-front-page');
                             front.perPage = Math.floor(controls.width() / one.outerWidth());
+
+                            controls.css({
+                                height: controls.height() + 'px',
+                                marginTop: '-' + controls.outerHeight() + 'px'
+                            });
                         }
-
                         markPage(controls.find('.napokaz-item'), current, front.perPage, 'napokaz-front-page');
-                        window.location.hash = $this.parents('.napokaz-item').attr('id');
 
-                        // Fix CSS
+                        inner.css('bottom', controls.outerHeight() + 'px');
+                        inner.html(tmpl(templates.frontOrig, {
+                            orig: orig = $this.attr('href'),
+                            imgmax: getMaxSize($this.data('size'), {
+                                width: inner.width(),
+                                height: inner.height()
+                            })
+                        }));
                         inner.css('line-height', inner.height() + 'px');
+
+                        window.location.hash = $this.parents('.napokaz-item').attr('id');
                         return false;
                     });
 
