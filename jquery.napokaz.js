@@ -160,7 +160,6 @@
         return {
             show: function (thumb, opts) {
                 var current = thumb.parents('.napokaz-item');
-                var items = thumb.parents('.napokaz-items').find('.napokaz-item');
                 var inner = front.find('.napokaz-front-inner');
                 var controls = front.find('.napokaz-front-items');
 
@@ -170,9 +169,10 @@
                 }
 
                 // Calculate front panels {{{
+                var items = thumb.parents('.napokaz-items').find('.napokaz-item');
                 if (items.length) {
                     controls.html(items.clone(true));
-                    controls.find('.napokaz-item:first').addClass('napokaz-front-page');
+                    current = controls.find('#' + current.attr('id')).addClass('napokaz-front-page');
                     controls.css({
                         height: controls.height() + 'px',
                         marginTop: '-' + controls.outerHeight() + 'px'
@@ -190,7 +190,7 @@
                 // }}}
 
                 items = controls.find('.napokaz-item').removeClass('napokaz-active');
-                current = controls.find('#' + current.attr('id')).addClass('napokaz-active');
+                current.addClass('napokaz-active');
                 perPage = Math.min(
                     Math.floor(controls.width() / current.outerWidth()),
                     opts.frontMaxCount
@@ -277,13 +277,8 @@
         }
     }
     function markPage(current, items, marker, perPage) {
-        var active;
-        for (var i=0; i<=items.length; i++) {
-            if($(items[i]).attr('id') == current.attr('id')) {
-                active = i;
-                break;
-            }
-        }
+        perPage = perPage ? perPage : 1;
+        var active = items.index(current);
         active = Math.floor(active / perPage) * perPage;
         $(items).removeClass(marker).slice(active, active + perPage).addClass(marker);
     }
