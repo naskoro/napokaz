@@ -135,11 +135,11 @@
                     }
                     window.location.hash = hashCache;
                 },
-                37: function() {  // <-
+                37: function() {  // <=
                     e.preventDefault();
                     front.trigger('napokaz-active.prev');
                 },
-                39: function() {  // ->
+                39: function() {  // =>
                     e.preventDefault();
                     front.trigger('napokaz-active.next');
                 },
@@ -164,29 +164,20 @@
                 var inner = front.find('.napokaz-front-inner');
                 var controls = front.find('.napokaz-front-items');
 
-                items.removeClass('napokaz-active');
-                controls.find('.napokaz-item').removeClass('napokaz-active');
-                current.addClass('napokaz-active');
-
                 if (front.is(':hidden')) {
                     hashCache = window.location.hash;
                     front.show();
                 }
+
+                // Calculate front panels {{{
                 if (items.length) {
                     controls.html(items.clone(true));
-                    var one = controls.find('.napokaz-item:first').addClass('napokaz-front-page');
-                    perPage = Math.min(
-                        Math.floor(controls.width() / one.outerWidth()),
-                        opts.frontMaxCount
-                    );
-
+                    controls.find('.napokaz-item:first').addClass('napokaz-front-page');
                     controls.css({
                         height: controls.height() + 'px',
                         marginTop: '-' + controls.outerHeight() + 'px'
                     });
                 }
-                markPage(current, controls.find('.napokaz-item'), 'napokaz-front-page', perPage);
-
                 inner.css('bottom', controls.outerHeight() + 'px');
                 inner.html(tmpl(templates.frontOrig, {
                     orig: orig = thumb.attr('href'),
@@ -196,7 +187,15 @@
                     })
                 }));
                 inner.css('line-height', inner.height() + 'px');
+                // }}}
 
+                items = controls.find('.napokaz-item').removeClass('napokaz-active');
+                current = controls.find('#' + current.attr('id')).addClass('napokaz-active');
+                perPage = Math.min(
+                    Math.floor(controls.width() / current.outerWidth()),
+                    opts.frontMaxCount
+                );
+                markPage(current, items, 'napokaz-front-page', perPage);
                 window.location.hash = thumb.parents('.napokaz-item').attr('id');
             },
             checkHash: function() {
@@ -210,10 +209,9 @@
         };
     })();
 
-    // Public
+    // Public {{{
     $.fn.napokaz = function(options) {
         options = $.extend({}, $.fn.napokaz.defaults, options);
-
         return this.each(function() {
             var container = $(this);
             var opts = $.extend({}, options, container.data('options'));
@@ -244,6 +242,7 @@
         });
     };
     $.fn.napokaz.defaults = defaults;
+    // }}}
 
     // Functions
     function addControls(container, opts) {
