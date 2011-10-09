@@ -2,12 +2,16 @@
     var defaults = {
         thumbSize: 72,
         thumbCrop: true,
-        picasaUser: 'naspeh',
-        picasaAlbum: 'Naspeh',
         sizeX: 3,
         sizeY: 1,
+
+        // Front options
         frontThumbSize: 60,
-        frontMaxCount: 12
+        frontMaxCount: 12,
+
+        // Picasa options
+        picasaUser: 'naspeh',
+        picasaAlbum: 'Naspeh'
     };
     var templates = {
         thumbItems: (
@@ -104,45 +108,53 @@
     var front = (function() {
         var perPage;
         var hashCache;
+
         var front = $(templates.front);
+        pager(front, '.napokaz-item', 'napokaz-active', function(element) {
+            element.find('.napokaz-thumb').click();
+        });
+        pager(front, '.napokaz-item', 'napokaz-front-page', function(element, items, marker) {
+            markPage(element, items, marker, perPage);
+        });
 
         $(document).ready(function() {
             $('body').append(front);
-            pager(front, '.napokaz-item', 'napokaz-active', function(element) {
-                element.find('.napokaz-thumb').click();
-            });
-            pager(front, '.napokaz-item', 'napokaz-front-page', function(element, items, marker) {
-                markPage(element, items, marker, perPage);
-            });
+        });
 
-            // Set Navigation Key Bindings
-            $(document).bind('keydown.napokaz-front', function (e) {
-                if (front.is(':hidden')) {
-                    return;
-                }
-                var key = e.keyCode;
-                if (key === 27) {        // Esc
+        // Set Navigation Key Bindings
+        $(document).bind('keydown.napokaz-front', function (e) {
+            if (front.is(':hidden')) {
+                return;
+            }
+            var handler = {
+                27: function() {  // Esc
                     e.preventDefault();
                     front.fadeOut();
                     if (hashCache && $('.napokaz-item' + hashCache).length) {
                         hashCache = '';
                     }
                     window.location.hash = hashCache;
-                } else if (key === 37) {        // <-
+                },
+                37: function() {  // <-
                     e.preventDefault();
                     front.trigger('napokaz-active.prev');
-                } else if (key === 39) { // ->
+                },
+                39: function() {  // ->
                     e.preventDefault();
                     front.trigger('napokaz-active.next');
-                }
-                if (key === 34) {        // PageDown
-                    e.preventDefault();
-                    front.trigger('napokaz-front-page.next');
-                } else if (key === 33) { // PageUp
+                },
+                33: function() {  // PageUp
                     e.preventDefault();
                     front.trigger('napokaz-front-page.prev');
+                },
+                34: function() {  // PageDown
+                    e.preventDefault();
+                    front.trigger('napokaz-front-page.next');
                 }
-            });
+            };
+            if (handler.hasOwnProperty(e.keyCode)) {
+                handler[e.keyCode]();
+            }
         });
 
         return {
