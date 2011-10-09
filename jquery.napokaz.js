@@ -58,172 +58,172 @@
         )
     };
 
+    var picasa = {
+        getFeed: function(params) {
+            var feed = 'https://picasaweb.google.com/data/feed/api/';
+            $.each(params, function(key, value){
+                feed += key + '/' + value + '/';
+            });
+            return feed;
+        },
+        parse: function(data, opts) {
+            data = $(data);
+            var albumId = data.find('gphoto\\:albumid:first').text();
+            var items = [];
+            data.find('entry').each(function() {
+                var $this = $(this);
+                var orig = $this.find('media\\:group media\\:content');
+                var item = {
+                    'picasa': $this.find('link[rel="alternate"]').attr('href'),
+                    'orig': {
+                        url: orig.attr('url'),
+                        width: orig.attr('width'),
+                        height: orig.attr('height')
+                    },
+                    'thumb': {
+                        url: $this.find('media\\:group media\\:thumbnail').first().attr('url'),
+                        size: opts.thumbSize
+                    },
+                    'thumb2': {
+                        url: $this.find('media\\:group media\\:thumbnail').last().attr('url'),
+                        size: opts.frontThumbSize
+                    },
+                    'albumId': albumId,
+                    'id': $this.find('gphoto\\:id').text()
+                };
+                item = tmpl(templates.thumbItem, item);
+                items.push(item);
+            });
+            return {
+                items: items,
+                albumId: albumId
+            };
+        }
+    };
+
+    var front = (function() {
+        var perPage;
+        var hashCache;
+        var front = $(templates.front);
+
+        $(document).ready(function() {
+            $('body').append(front);
+            pager(front, '.napokaz-item', 'napokaz-active', function(element) {
+                element.find('.napokaz-thumb').click();
+            });
+            pager(front, '.napokaz-item', 'napokaz-front-page', function(element, items, marker) {
+                markPage(element, items, marker, perPage);
+            });
+
+            // Set Navigation Key Bindings
+            $(document).bind('keydown.napokaz-front', function (e) {
+                if (front.is(':hidden')) {
+                    return;
+                }
+                var key = e.keyCode;
+                if (key === 27) {        // Esc
+                    e.preventDefault();
+                    front.fadeOut();
+                    if (hashCache && $('.napokaz-item' + hashCache).length) {
+                        hashCache = '';
+                    }
+                    window.location.hash = hashCache;
+                } else if (key === 37) {        // <-
+                    e.preventDefault();
+                    front.trigger('napokaz-active.prev');
+                } else if (key === 39) { // ->
+                    e.preventDefault();
+                    front.trigger('napokaz-active.next');
+                }
+                if (key === 34) {        // PageDown
+                    e.preventDefault();
+                    front.trigger('napokaz-front-page.next');
+                } else if (key === 33) { // PageUp
+                    e.preventDefault();
+                    front.trigger('napokaz-front-page.prev');
+                }
+            });
+        });
+
+        return {
+            show: function (thumb, opts) {
+                var current = thumb.parents('.napokaz-item');
+                var items = thumb.parents('.napokaz-items').find('.napokaz-item');
+                var inner = front.find('.napokaz-front-inner');
+                var controls = front.find('.napokaz-front-items');
+
+                items.removeClass('napokaz-active');
+                controls.find('.napokaz-item').removeClass('napokaz-active');
+                current.addClass('napokaz-active');
+
+                if (front.is(':hidden')) {
+                    hashCache = window.location.hash;
+                    front.show();
+                }
+                if (items.length) {
+                    controls.html(items.clone(true));
+                    var one = controls.find('.napokaz-item:first').addClass('napokaz-front-page');
+                    perPage = Math.min(
+                        Math.floor(controls.width() / one.outerWidth()),
+                        opts.frontMaxCount
+                    );
+
+                    controls.css({
+                        height: controls.height() + 'px',
+                        marginTop: '-' + controls.outerHeight() + 'px'
+                    });
+                }
+                markPage(current, controls.find('.napokaz-item'), 'napokaz-front-page', perPage);
+
+                inner.css('bottom', controls.outerHeight() + 'px');
+                inner.html(tmpl(templates.frontOrig, {
+                    orig: orig = thumb.attr('href'),
+                    imgmax: getMaxSize(thumb.data('size'), {
+                        width: inner.width(),
+                        height: inner.height()
+                    })
+                }));
+                inner.css('line-height', inner.height() + 'px');
+
+                window.location.hash = thumb.parents('.napokaz-item').attr('id');
+            },
+            checkHash: function() {
+                if (window.location.hash) {
+                    var current = $('.napokaz-item#' + window.location.hash);
+                    if (current.length) {
+                        current.find('.napokaz-thumb').click();
+                    }
+                }
+            }
+        };
+    })();
+
     // Public
     $.fn.napokaz = function(options) {
         options = $.extend({}, $.fn.napokaz.defaults, options);
-
-        var hashCache = '';
-        var front = $(templates.front);
-        $('body').append(front);
-        pager(front, '.napokaz-item', 'napokaz-active', function(element) {
-            element.find('.napokaz-thumb').click();
-        });
-        pager(front, '.napokaz-item', 'napokaz-front-page', function(element, container, selector) {
-            markPage(container.find(selector), element, front.perPage, 'napokaz-front-page');
-        });
-
-        // Set Navigation Key Bindings
-        $(document).bind('keydown.napokaz', function (e) {
-            if (front.is(':hidden')) {
-                return;
-            }
-            var key = e.keyCode;
-            if (key === 27) { // Esc
-                e.preventDefault();
-                front.fadeOut();
-                if (hashCache && $('.napokaz-item' + hashCache).length) {
-                    hashCache = '';
-                }
-                window.location.hash = hashCache;
-            }
-            if (key === 37) { // <-
-                e.preventDefault();
-                front.trigger('napokaz-active.prev');
-            } else if (key === 39) { // ->
-                e.preventDefault();
-                front.trigger('napokaz-active.next');
-            }
-            if (key === 34) { // PageDown
-                e.preventDefault();
-                front.trigger('napokaz-front-page.next');
-            } else if (key === 33) { // PageUp
-                e.preventDefault();
-                front.trigger('napokaz-front-page.prev');
-            }
-        });
 
         return this.each(function() {
             var container = $(this);
             var opts = $.extend({}, options, container.data('options'));
             $.ajax({
-                url: getPicasaFeed({user: opts.picasaUser, album: opts.picasaAlbum}),
+                url: picasa.getFeed({user: opts.picasaUser, album: opts.picasaAlbum}),
                 data: {
                     kind: 'photo',
                     thumbsize: opts.thumbSize + (opts.thumbCrop && 'c' || '') + ',' + opts.frontThumbSize + 'c'
                 },
                 dataType: 'jsonp',
                 success: function(data) {
-                    var $data = $(data);
-                    var albumId = $data.find('gphoto\\:albumid:first').text();
-                    var items = [];
-                    $data.find('entry').each(function() {
-                        var $this = $(this);
-                        var orig = $this.find('media\\:group media\\:content');
-                        var item = {
-                            'picasa': $this.find('link[rel="alternate"]').attr('href'),
-                            'orig': {
-                                url: orig.attr('url'),
-                                width: orig.attr('width'),
-                                height: orig.attr('height')
-                            },
-                            'thumb': {
-                                url: $this.find('media\\:group media\\:thumbnail').first().attr('url'),
-                                size: opts.thumbSize
-                            },
-                            'thumb2': {
-                                url: $this.find('media\\:group media\\:thumbnail').last().attr('url'),
-                                size: opts.frontThumbSize
-                            },
-                            'albumId': albumId,
-                            'id': $this.find('gphoto\\:id').text()
-                        };
-                        item = tmpl(templates.thumbItem, item);
-                        items.push(item);
-                    });
-                    items = tmpl(templates.thumbItems, {items: items.join('')});
-                    container.append(items);
+                    data = picasa.parse(data, opts);
+                    container.append(
+                        tmpl(templates.thumbItems, {items: data.items.join('')})
+                    );
+                    addControls(container, opts);
 
-                    container.find('a[rel="' + albumId + '"]').click(function() {
-                        var $this = $(this);
-                        var current = $this.parents('.napokaz-item');
-                        var items = $this.parents('.napokaz-items').find('.napokaz-item');
-                        var inner = front.find('.napokaz-front-inner');
-                        var controls = front.find('.napokaz-front-items');
-
-                        items.removeClass('napokaz-active');
-                        controls.find('.napokaz-item').removeClass('napokaz-active');
-                        current.addClass('napokaz-active');
-
-                        if (front.is(':hidden')) {
-                            hashCache = window.location.hash;
-                            front.show();
-                        }
-                        if (items.length) {
-                            controls.html(items.clone(true));
-                            var one = controls.find('.napokaz-item:first').addClass('napokaz-front-page');
-                            front.perPage = Math.min(
-                                Math.floor(controls.width() / one.outerWidth()),
-                                opts.frontMaxCount
-                            );
-
-                            controls.css({
-                                height: controls.height() + 'px',
-                                marginTop: '-' + controls.outerHeight() + 'px'
-                            });
-                        }
-                        markPage(controls.find('.napokaz-item'), current, front.perPage, 'napokaz-front-page');
-
-                        inner.css('bottom', controls.outerHeight() + 'px');
-                        inner.html(tmpl(templates.frontOrig, {
-                            orig: orig = $this.attr('href'),
-                            imgmax: getMaxSize($this.data('size'), {
-                                width: inner.width(),
-                                height: inner.height()
-                            })
-                        }));
-                        inner.css('line-height', inner.height() + 'px');
-
-                        window.location.hash = $this.parents('.napokaz-item').attr('id');
+                    container.find('a[rel="' + data.albumId + '"]').click(function() {
+                        front.show($(this), opts);
                         return false;
                     });
-
-                    var perPage = opts.sizeX * opts.sizeY;
-                    var itemsWrap = container.find('.napokaz-items');
-                    items = itemsWrap.find('.napokaz-item');
-                    item = items.first();
-                    markPage(items, item, perPage, 'napokaz-page');
-                    var count = Math.ceil(items.length / perPage);
-                    if (count > 1) {
-                        // Calculate size of page;
-                        itemsWrap.css({
-                            width: item.outerWidth() * opts.sizeX + 'px',
-                            height: item.outerHeight() * opts.sizeY + 'px'
-                        });
-                        pager(itemsWrap, '.napokaz-item', 'napokaz-page', function(element, container, selector) {
-                            markPage(container.find(selector), element, perPage, 'napokaz-page');
-                        });
-
-                        container.append(tmpl(templates.controls));
-                        pager(container, '.napokaz-page', 'napokaz-active');
-                        container.find('.napokaz-prev, .napokaz-next').click(function() {
-                            var $this = $(this);
-                            var container = $this.parents('.napokaz').find('.napokaz-items');
-                            if ($this.hasClass('napokaz-prev')) {
-                                container.trigger('napokaz-page.prev');
-                            } else {
-                                container.trigger('napokaz-page.next');
-                            }
-                            return false;
-                        });
-                    }
-
-                    if (!window.location.hash) {
-                        return;
-                    }
-                    var current = $('.napokaz-item#' + window.location.hash);
-                    if (current.length) {
-                        current.find('.napokaz-thumb').click();
-                    }
+                    front.checkHash();
                 },
                 error: function(data, textStatus) {
                     console.error('Don\'t retrieved data from picasaweb', textStatus, data);
@@ -234,7 +234,38 @@
     $.fn.napokaz.defaults = defaults;
 
     // Functions
-    function markPage(items, current, perPage, marker) {
+    function addControls(container, opts) {
+        var perPage = opts.sizeX * opts.sizeY;
+        var wrap = container.find('.napokaz-items');
+        var items = wrap.find('.napokaz-item');
+        var item = items.first();
+        markPage(item, items, 'napokaz-page', perPage);
+
+        var count = Math.ceil(items.length / perPage);
+        if (count > 1) {
+            wrap.css({
+                width: item.outerWidth() * opts.sizeX + 'px',
+                height: item.outerHeight() * opts.sizeY + 'px'
+            });
+            pager(wrap, '.napokaz-item', 'napokaz-page', function(element, items, marker) {
+                markPage(element, items, marker, perPage);
+            });
+
+            container.append(tmpl(templates.controls));
+            pager(container, '.napokaz-page', 'napokaz-active');
+            container.find('.napokaz-prev, .napokaz-next').click(function() {
+                var $this = $(this);
+                var container = $this.parents('.napokaz').find('.napokaz-items');
+                if ($this.hasClass('napokaz-prev')) {
+                    container.trigger('napokaz-page.prev');
+                } else {
+                    container.trigger('napokaz-page.next');
+                }
+                return false;
+            });
+        }
+    }
+    function markPage(current, items, marker, perPage) {
         var active;
         for (var i=0; i<=items.length; i++) {
             if($(items[i]).attr('id') == current.attr('id')) {
@@ -245,32 +276,25 @@
         active = Math.floor(active / perPage) * perPage;
         $(items).removeClass(marker).slice(active, active + perPage).addClass(marker);
     }
-    function _pager(container, selector, marker, activateFunc, isNext) {
-        var active = container.find(selector + '.' + marker).removeClass(marker);
-        active = isNext ? active.last() : active.first();
-        var element = isNext ? active.next() : active.prev();
-        if (!element.length) {
-            element = container.find(selector + (isNext ? ':first': ':last'));
-        }
-        element.addClass(marker);
-        if ($.isFunction(activateFunc)) {
-            activateFunc(element, container, selector);
-        }
-    }
     function pager(container, selector, marker, activateFunc) {
+        function _pager(isNext) {
+            var active = container.find(selector + '.' + marker).removeClass(marker);
+            active = isNext ? active.last() : active.first();
+            var element = isNext ? active.next() : active.prev();
+            if (!element.length) {
+                element = container.find(selector + (isNext ? ':first': ':last'));
+            }
+            element.addClass(marker);
+            if ($.isFunction(activateFunc)) {
+                activateFunc(element, container.find(selector), marker);
+            }
+        }
         container.bind(marker + '.prev', function() {
-            _pager(container, selector, marker, activateFunc, false);
+            _pager(false);
         });
         container.bind(marker + '.next', function() {
-            _pager(container, selector, marker, activateFunc, true);
+            _pager(true);
         });
-    }
-    function getPicasaFeed(params) {
-        var feed = 'https://picasaweb.google.com/data/feed/api/';
-        $.each(params, function(key, value){
-            feed += key + '/' + value + '/';
-        });
-        return feed;
     }
     function getMaxSize(img, win) {
         var proportion = img.width / img.height;
