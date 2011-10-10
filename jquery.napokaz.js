@@ -1,12 +1,11 @@
 (function ($) {
     var defaults = {
-        thumbSize: 72,
-        thumbCrop: true,
+        thumbSize: '72c',
         sizeX: 3,
         sizeY: 1,
 
         // Front options
-        frontThumbSize: 60,
+        frontThumbSize: '60c',
         frontMaxCount: 12,
 
         // Picasa options
@@ -80,8 +79,13 @@
             var items = [];
             data.find('entry').each(function() {
                 var $this = $(this);
-                var orig = $this.find('media\\:group media\\:content');
+                var media = $this.find('media\\:group');
+                var orig = media.find('media\\:content');
+                var thumb = media.find('media\\:thumbnail').first();
+                var thumb2 = media.find('media\\:thumbnail').last();
                 var item = {
+                    'id': $this.find('gphoto\\:id').text(),
+                    'albumId': albumId,
                     'picasa': $this.find('link[rel="alternate"]').attr('href'),
                     'orig': {
                         url: orig.attr('url'),
@@ -89,16 +93,14 @@
                         height: orig.attr('height')
                     },
                     'thumb': {
-                        url: $this.find('media\\:group media\\:thumbnail').first().attr('url'),
-                        size: opts.thumbSize
+                        url: thumb.attr('url'),
+                        size: Math.max(thumb.attr('height'), thumb.attr('width'))
                     },
                     'thumb2': {
-                        url: $this.find('media\\:group media\\:thumbnail').last().attr('url'),
-                        size: opts.frontThumbSize
+                        url: thumb2.attr('url'),
+                        size: Math.max(thumb2.attr('height'), thumb2.attr('width'))
                     },
-                    'albumId': albumId,
-                    'id': $this.find('gphoto\\:id').text(),
-                    'tags': $this.find('media\\:keywords').text().split(', ')
+                    'tags': media.find('media\\:keywords').text().split(', ')
                 };
                 var ignore = false;
                 if (tagReg && !tagReg.test(item.tags)) {
@@ -132,7 +134,7 @@
         });
 
         $(document).ready(function() {
-            $('body').append(front);
+            $('body').prepend(front);
         });
 
         // Set Navigation Key Bindings
@@ -210,7 +212,8 @@
                     opts.frontMaxCount
                 );
                 markPage(current, items, 'napokaz-front-page', perPage);
-                window.location.hash = thumb.parents('.napokaz-item').attr('id');
+                front.attr('id', current.attr('id'));
+                window.location.hash = current.attr('id');
             },
             checkHash: function() {
                 if (window.location.hash) {
@@ -233,10 +236,7 @@
                 url: picasa.getFeed({user: opts.picasaUser, album: opts.picasaAlbum}),
                 data: {
                     kind: 'photo',
-                    thumbsize: (
-                        opts.thumbSize + (opts.thumbCrop && 'c' || '') + ',' +
-                        opts.frontThumbSize + 'c'
-                    )
+                    thumbsize: opts.thumbSize + ',' + opts.frontThumbSize
                 },
                 dataType: 'jsonp',
                 success: function(data) {
