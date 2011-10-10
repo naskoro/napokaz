@@ -73,8 +73,6 @@
         },
         parse: function(data, opts) {
             data = $(data);
-            var tagReg = opts.picasaTags.length ? new RegExp(opts.picasaTags.join('|')) : undefined;
-            var tagIgnoreReg = opts.picasaTagsIgnore.length ? new RegExp(opts.picasaTagsIgnore.join('|')) : undefined;
             var albumId = data.find('gphoto\\:albumid:first').text();
             var items = [];
             data.find('entry').each(function() {
@@ -94,22 +92,15 @@
                     },
                     'thumb': {
                         url: thumb.attr('url'),
-                        size: Math.max(thumb.attr('height'), thumb.attr('width'))
+                        size: opts.thumbSizeInt
                     },
                     'thumb2': {
                         url: thumb2.attr('url'),
-                        size: Math.max(thumb2.attr('height'), thumb2.attr('width'))
+                        size: opts.frontThumbSizeInt
                     },
                     'tags': media.find('media\\:keywords').text().split(', ')
                 };
-                var ignore = false;
-                if (tagReg && !tagReg.test(item.tags)) {
-                    ignore = true;
-                }
-                if (tagIgnoreReg && tagIgnoreReg.test(item.tags)) {
-                    ignore = true;
-                }
-                if (!ignore) {
+                if (picasa.checkTags(item.tags, opts)) {
                     item = tmpl(templates.thumbItem, item);
                     items.push(item);
                 }
@@ -118,6 +109,21 @@
                 items: items,
                 albumId: albumId
             };
+        },
+        checkTags: function(tags, opts) {
+            tags = ',' + tags + ',';
+            var ignore = opts.picasaTags && !opts.picasaTags.test(tags);
+            ignore = ignore || opts.picasaTagsIgnore && opts.picasaTagsIgnore.test(tags);
+            return !ignore;
+        },
+        preTags: function(tags) {
+            if ($.isArray(tags) && tags.length) {
+                tags = tags.join(',|,');
+                tags = new RegExp(',' + tags + ',');
+            } else {
+                tags = undefined;
+            }
+            return tags;
         }
     };
 
@@ -231,7 +237,7 @@
         options = $.extend({}, $.fn.napokaz.defaults, options);
         return this.each(function() {
             var container = $(this);
-            var opts = $.extend({}, options, container.data('options'));
+            var opts = preOptions($.extend({}, options, container.data('options')));
             $.ajax({
                 url: picasa.getFeed({user: opts.picasaUser, album: opts.picasaAlbum}),
                 data: {
@@ -262,6 +268,13 @@
     // }}}
 
     // Functions
+    function preOptions(o) {
+        o.thumbSizeInt = parseInt(o.thumbSize, 10);
+        o.frontThumbSizeInt = parseInt(o.frontThumbSize, 10);
+        o.picasaTags = picasa.preTags(o.picasaTags);
+        o.picasaTagsIgnore = picasa.preTags(o.picasaTagsIgnore);
+        return o;
+    }
     function addControls(container, opts) {
         var perPage = opts.sizeX * opts.sizeY;
         var wrap = container.find('.napokaz-items');
