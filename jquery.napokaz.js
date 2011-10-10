@@ -11,7 +11,9 @@
 
         // Picasa options
         picasaUser: 'naspeh',
-        picasaAlbum: 'Naspeh'
+        picasaAlbum: 'Naspeh',
+        picasaTags: [],
+        picasaTagsIgnore: []
     };
     var templates = {
         thumbItems: (
@@ -72,6 +74,8 @@
         },
         parse: function(data, opts) {
             data = $(data);
+            var tagReg = opts.picasaTags.length ? new RegExp(opts.picasaTags.join('|')) : undefined;
+            var tagIgnoreReg = opts.picasaTagsIgnore.length ? new RegExp(opts.picasaTagsIgnore.join('|')) : undefined;
             var albumId = data.find('gphoto\\:albumid:first').text();
             var items = [];
             data.find('entry').each(function() {
@@ -93,10 +97,20 @@
                         size: opts.frontThumbSize
                     },
                     'albumId': albumId,
-                    'id': $this.find('gphoto\\:id').text()
+                    'id': $this.find('gphoto\\:id').text(),
+                    'tags': $this.find('media\\:keywords').text().split(', ')
                 };
-                item = tmpl(templates.thumbItem, item);
-                items.push(item);
+                var ignore = false;
+                if (tagReg && !tagReg.test(item.tags)) {
+                    ignore = true;
+                }
+                if (tagIgnoreReg && tagIgnoreReg.test(item.tags)) {
+                    ignore = true;
+                }
+                if (!ignore) {
+                    item = tmpl(templates.thumbItem, item);
+                    items.push(item);
+                }
             });
             return {
                 items: items,
@@ -219,7 +233,10 @@
                 url: picasa.getFeed({user: opts.picasaUser, album: opts.picasaAlbum}),
                 data: {
                     kind: 'photo',
-                    thumbsize: opts.thumbSize + (opts.thumbCrop && 'c' || '') + ',' + opts.frontThumbSize + 'c'
+                    thumbsize: (
+                        opts.thumbSize + (opts.thumbCrop && 'c' || '') + ',' +
+                        opts.frontThumbSize + 'c'
+                    )
                 },
                 dataType: 'jsonp',
                 success: function(data) {
