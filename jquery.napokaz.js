@@ -20,7 +20,7 @@
         ),
         thumbItem: (
             '<div class="napokaz-item" id="{{ id }}">' +
-                '<a class="napokaz-thumb" href="{{ orig.url }}" rel="{{ albumId }}" ' +
+                '<a class="napokaz-thumb" href="{{ orig.url }}" rel="{{ albumId }}" title="{{ title }}"' +
                     'data-size=\'{"width": {{ orig.width }},"height": {{ orig.height }}}\'' +
                 '>' +
                     '<div class="napokaz-thumb-inner" ' +
@@ -39,13 +39,14 @@
                     '><div class="napokaz-thumb2-overlay"></div></div>' +
                 '</a>' +
                 '<div class="napokaz-info">' +
-                    '<a href="{{ picasa }}">Посмотерть в picasa</a>' +
+                    '<a href="{{ picasa }}">Watch in <b>picasa</b></a>' +
                 '</div>' +
             '</div>'
         ),
         controls: (
             '<div class="napokaz-controls">' +
                 '<a class="napokaz-prev" href="#">&laquo;</a>' +
+                '<b class="napokaz-number"></b> of <b class="napokaz-count"></b> photos' +
                 '<a class="napokaz-next" href="#">&raquo;</a>' +
             '</div>'
         ),
@@ -98,7 +99,8 @@
                         url: thumb2.attr('url'),
                         size: opts.frontThumbSizeInt
                     },
-                    'tags': media.find('media\\:keywords').text().split(', ')
+                    'title': media.find('media\\:title').text(),
+                    'tags': media.find('media\\:keywords').text()
                 };
                 if (picasa.checkTags(item.tags, opts)) {
                     item = tmpl(templates.thumbItem, item);
@@ -111,7 +113,7 @@
             };
         },
         checkTags: function(tags, opts) {
-            tags = ',' + tags + ',';
+            tags = tags ? ',' + tags.split(', ').join(',') + ',' : '';
             var ignore = opts.picasaTags && !opts.picasaTags.test(tags);
             ignore = ignore || opts.picasaTagsIgnore && opts.picasaTagsIgnore.test(tags);
             return !ignore;
@@ -284,15 +286,20 @@
 
         var count = Math.ceil(items.length / perPage);
         if (count > 1) {
+            container.append(tmpl(templates.controls));
             wrap.css({
                 width: item.outerWidth() * opts.sizeX + 'px',
                 height: item.outerHeight() * opts.sizeY + 'px'
             });
             pager(wrap, '.napokaz-item', 'napokaz-page', function(element, items, marker) {
                 markPage(element, items, marker, perPage);
-            });
 
-            container.append(tmpl(templates.controls));
+                var controls = container.find('.napokaz-controls');
+                var number = items.index(element) + perPage;
+                number = number < items.length ? number : items.length;
+                controls.find('.napokaz-number').text(number);
+                controls.find('.napokaz-count').text(items.length);
+            });
             pager(container, '.napokaz-page', 'napokaz-active');
             container.find('.napokaz-prev, .napokaz-next').click(function() {
                 var $this = $(this);
