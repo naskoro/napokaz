@@ -14,19 +14,17 @@
         picasaIgnore: ''
     };
     var picasa = {
-        baseUrl: 'https://picasaweb.google.com/data/feed/api/',
         fetch: function(opts, success) {
-            var path = ['user', opts.picasaUser, 'album', opts.picasaAlbum].join('/');
             $.ajax({
-                url: picasa.baseUrl + path,
+                url:'https://picasaweb.google.com/data/feed/api/' +
+                    ['user', opts.picasaUser, 'album', opts.picasaAlbum].join('/'),
                 data: {
                     kind: 'photo',
-                    thumbsize: opts.boxThumbsize + ',' + opts.frontThumbsize
+                    thumbsize: [opts.boxThumbsize, opts.frontThumbsize].join(',')
                 },
                 dataType: 'jsonp',
                 success: function(data) {
-                    data = picasa.parse(data, opts);
-                    success(data);
+                    success(picasa.parse(opts, data));
                 },
                 error: function(data, textStatus) {
                     console.error(
@@ -35,7 +33,7 @@
                 }
             });
         },
-        parse: function(data, opts) {
+        parse: function(opts, data) {
             data = $(data);
             var albumId = data.find('gphoto\\:albumid:first').text();
             var items = [];
