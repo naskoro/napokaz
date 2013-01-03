@@ -90,6 +90,16 @@
         }
     };
 
+    var template = (
+        '<div class="napokaz-items">' +
+        '  {% $.each(items, function(num, item) { %}' +
+        '  <div class="napokaz-item">' +
+        '    <a class="napokaz-thumb" href="{{ item.orig.url }}" >{{ item.title}}</a>' +
+        '  </div>' +
+        '  {% }); %}' +
+        '</div>'
+    );
+
     // Public {{{
     $.fn.napokaz = function(options) {
         options = $.extend({}, $.fn.napokaz.defaults, options);
@@ -98,6 +108,7 @@
             var opts = preOptions($.extend({}, options, container.data()));
             picasa.fetch(opts, function(data) {
                 console.log(data);
+                container.html(tmpl(template, data));
             });
         });
     };
@@ -118,5 +129,40 @@
         var result = Math.min(win.height * proportion, win.width);
         result = Math.round(result);
         return result;
+    }
+    // Taken from underscore.js with reformating.
+    // JavaScript micro-templating, similar to John Resig's implementation.
+    // Underscore templating handles arbitrary delimiters, preserves whitespace,
+    // and correctly escapes quotes within interpolated code.
+    function tmpl(str, data) {
+        var c = {
+            evaluate    : /\{%([\s\S]+?)%\}/g,
+            interpolate : /\{\{([\s\S]+?)\}\}/g
+        };
+        var fn = new Function('obj',
+            "var __p=[];" +
+            "var print = function() {" +
+                "__p.push.apply(__p, arguments);" +
+            "};" +
+            "with(obj || {}) {" +
+                "__p.push('" +
+                    str
+                    .replace(/\\/g, '\\\\')
+                    .replace(/'/g, "\\'")
+                    .replace(c.interpolate, function(match, code) {
+                        return "'," + code.replace(/\\'/g, "'") + ",'";
+                    })
+                    .replace(c.evaluate || null, function(match, code) {
+                        code = code.replace(/\\'/g, "'").replace(/[\r\n\t]/g, ' ');
+                        return "');" + code + "__p.push('";
+                    })
+                    .replace(/\r/g, '\\r')
+                    .replace(/\n/g, '\\n')
+                    .replace(/\t/g, '\\t') +
+                "');" +
+            "}" +
+            "return __p.join('');"
+        );
+        return data ? fn(data) : fn;
     }
 }(jQuery));
