@@ -91,12 +91,32 @@
     };
 
     var template = (
-        '<div class="napokaz-items">' +
-        '  {% $.each(items, function(num, item) { %}' +
-        '  <div class="napokaz-item">' +
-        '    <a class="napokaz-thumb" href="{{ item.orig.url }}" >{{ item.title}}</a>' +
-        '  </div>' +
-        '  {% }); %}' +
+        // Box on page
+        '<div class="napokaz-b">' +
+            '{% $.each(items, function(num, item) { %}' +
+            '<a class="napokaz-b-thumb"' +
+                'href="{{ item.orig.url }}"' +
+                'style="' +
+                    'background-image: url({{ item.boxThumb.url }});' +
+                    'width: {{ item.boxThumb.size }}px;' +
+                    'height: {{ item.boxThumb.size }}px"' +
+            '>&nbsp;</a>' +
+            '{% }); %}' +
+        '</div>' +
+        // Front
+        '<div class="napokaz-f">' +
+            '<div class="napokaz-f-overlay"></div>' +
+            '<div class="napokaz-f-orig"></div>' +
+            '<div class="napokaz-f-thumbs">' +
+                '{% $.each(items, function(num, item) { %}' +
+                '<div class="napokaz-f-thumb"' +
+                    'style="' +
+                        'background-image: url({{ item.frontThumb.url }});' +
+                        'width: {{ item.frontThumb.size }}px;' +
+                        'height: {{ item.frontThumb.size }}px"' +
+                '>&nbsp;</div>' +
+                '{% }); %}' +
+            '</div>' +
         '</div>'
     );
 
