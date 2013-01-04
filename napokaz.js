@@ -120,16 +120,55 @@
         '</div>'
     );
 
+    var main = function(opts, container) {
+        var me = {
+            process: function() {
+                picasa.fetch(opts, function(data) {
+                    console.log(data);
+                    container.html(tmpl(template, data));
+                    container.find('.napokaz-b-thumb').on('click', me.showFront);
+                });
+            },
+            showFront: function() {
+                var front = container.find('.napokaz-f');
+                front.bind('show', function() {
+                    $(this).slideDown();
+                });
+                front.bind('hide', function() {
+                    $(this).slideUp();
+                });
+                front.trigger('show');
+
+                // Set navigation key bindings
+                $(document).on('keydown.napokaz-f', function (e) {
+                    if (front.is(':hidden')) {
+                        return;
+                    }
+                    var events = {
+                        27: 'hide', // Esc
+                        37: 'prev', // <=
+                        39: 'next', // =>
+                        33: 'page.prev', // PageUp
+                        34: 'page.next' // PageDown
+                    };
+                    if (events.hasOwnProperty(e.keyCode)) {
+                        e.preventDefault();
+                        front.trigger(events[e.keyCode]);
+                    }
+                });
+                return false;
+            }
+        };
+        return me;
+    };
+
     // Public {{{
     $.fn.napokaz = function(options) {
         options = $.extend({}, $.fn.napokaz.defaults, options);
         return this.each(function() {
             var container = $(this);
             var opts = preOptions($.extend({}, options, container.data()));
-            picasa.fetch(opts, function(data) {
-                console.log(data);
-                container.html(tmpl(template, data));
-            });
+            main(opts, container).process();
         });
     };
     $.fn.napokaz.defaults = defaults;
@@ -142,13 +181,6 @@
         o.picasaTags = picasa.preTags(o.picasaTags);
         o.picasaIgnore = picasa.preTags(o.picasaIgnore);
         return o;
-    }
-    function getMaxSize(img, win) {
-        var proportion = img.width / img.height;
-        proportion = proportion > 1 && proportion || 1;
-        var result = Math.min(win.height * proportion, win.width);
-        result = Math.round(result);
-        return result;
     }
     // Taken from underscore.js with reformating.
     // JavaScript micro-templating, similar to John Resig's implementation.
