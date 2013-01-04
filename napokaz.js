@@ -96,6 +96,7 @@
             '{% $.each(items, function(num, item) { %}' +
             '<a class="napokaz-b-thumb"' +
                 'href="{{ item.orig.url }}"' +
+                'id="{{ item.id }}"' +
                 'style="' +
                     'background-image: url({{ item.boxThumb.url }});' +
                     'width: {{ item.boxThumb.size }}px;' +
@@ -110,6 +111,7 @@
             '<div class="napokaz-f-thumbs">' +
                 '{% $.each(items, function(num, item) { %}' +
                 '<div class="napokaz-f-thumb"' +
+                    'id="{{ item.id }}"' +
                     'style="' +
                         'background-image: url({{ item.frontThumb.url }});' +
                         'width: {{ item.frontThumb.size }}px;' +
@@ -131,13 +133,30 @@
             },
             showFront: function() {
                 var front = container.find('.napokaz-f');
-                front.bind('show', function() {
-                    $(this).slideDown();
+                front.on({
+                    'show': function() {
+                        $(this).show();
+                    },
+                    'hide': function() {
+                        $(this).hide();
+                    },
+                    'current': function(e, thumb) {
+                        thumb = $(thumb);
+                        front.trigger('active', thumb);
+                        thumb = container.find('.napokaz-b #' + thumb.attr('id'));
+                        front.find('.napokaz-f-orig').css({
+                            'background-image': 'url(' + thumb.attr('href')  + ')'
+                        });
+                    },
+                    'next': function() {}
                 });
-                front.bind('hide', function() {
-                    $(this).slideUp();
+                activer(front, 'napokaz-f-thumb', 'napokaz-f-active');
+                front.find('.napokaz-f-thumb').on('click', function() {
+                    front.trigger('current', this);
+                    return false;
                 });
                 front.trigger('show');
+                front.trigger('current', front.find('#' + $(this).attr('id')));
 
                 // Set navigation key bindings
                 $(document).on('keydown.napokaz-f', function (e) {
@@ -181,6 +200,26 @@
         o.picasaTags = picasa.preTags(o.picasaTags);
         o.picasaIgnore = picasa.preTags(o.picasaIgnore);
         return o;
+    }
+    function activer(box, element_cls, active_cls) {
+        function _pager(isNext) {
+            return function () {
+                var active = box.find('.' + active_cls);
+                var element = isNext ? active.next() : active.prev();
+                if (!element.length) {
+                    element = box.find('.' + element_cls + (isNext ? ':first': ':last'));
+                }
+                box.trigger('current', element);
+            };
+        }
+        box.on({
+            'prev': _pager(false),
+            'next': _pager(true),
+            'active': function(e, element) {
+                box.find('.' + active_cls).removeClass(active_cls);
+                $(element).addClass(active_cls);
+            }
+        });
     }
     // Taken from underscore.js with reformating.
     // JavaScript micro-templating, similar to John Resig's implementation.

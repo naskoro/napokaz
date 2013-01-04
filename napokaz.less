@@ -34,7 +34,6 @@
     .napokaz-f-orig {
         position: relative;
         height: 90%;
-        background-image: url(https://lh6.googleusercontent.com/-HgEAdj5hwXA/Tiwe-gqvauI/AAAAAAAACmE/FjP8z_5uzt0/IMG_7876.JPG);
         background-position: center center;
         background-repeat: no-repeat;
     }
@@ -47,13 +46,16 @@
 
         .napokaz-f-thumb {
             .inline-block();
+            cursor: pointer;
             background-position: center center;
             background-repeat: no-repeat;
             border: 2px solid #000;
-            .opacity(0.6);
+            .opacity(0.5);
         }
-        .napokaz-f-thumb-active {
-            .opacity(0);
+        .napokaz-f-active {
+            padding: 1px;
+            border: 1px solid #fff;
+            .opacity();
         }
     }
 }

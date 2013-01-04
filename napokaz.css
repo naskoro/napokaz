@@ -34,7 +34,6 @@
 .napokaz-f .napokaz-f-orig {
   position: relative;
   height: 90%;
-  background-image: url(https://lh6.googleusercontent.com/-HgEAdj5hwXA/Tiwe-gqvauI/AAAAAAAACmE/FjP8z_5uzt0/IMG_7876.JPG);
   background-position: center center;
   background-repeat: no-repeat;
 }
@@ -47,14 +46,17 @@
 }
 .napokaz-f .napokaz-f-thumbs .napokaz-f-thumb {
   display: inline-block;
+  cursor: pointer;
   background-position: center center;
   background-repeat: no-repeat;
   border: 2px solid #000;
-  opacity: 0.6;
-  filter: alpha(opacity=60);
+  opacity: 0.5;
+  filter: alpha(opacity=50);
 }
-.napokaz-f .napokaz-f-thumbs .napokaz-f-thumb-active {
-  opacity: 0;
-  filter: alpha(opacity=0);
+.napokaz-f .napokaz-f-thumbs .napokaz-f-active {
+  padding: 1px;
+  border: 1px solid #fff;
+  opacity: 100;
+  filter: alpha(opacity=10000);
 }
 /* Mixins */
