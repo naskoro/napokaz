@@ -112,6 +112,7 @@
                 '{% $.each(items, function(num, item) { %}' +
                 '<div class="napokaz-f-thumb"' +
                     'id="{{ item.id }}"' +
+                    'data-href="{{ item.orig.url }}"' +
                     'style="' +
                         'background-image: url({{ item.frontThumb.url }});' +
                         'width: {{ item.frontThumb.size }}px;' +
@@ -132,6 +133,7 @@
                 });
             },
             showFront: function() {
+                var thumbB = $(this);
                 var front = container.find('.napokaz-f');
                 front.on({
                     'show': function() {
@@ -143,12 +145,10 @@
                     'current': function(e, thumb) {
                         thumb = $(thumb);
                         front.trigger('active', thumb);
-                        thumb = container.find('.napokaz-b #' + thumb.attr('id'));
                         front.find('.napokaz-f-orig').css({
-                            'background-image': 'url(' + thumb.attr('href')  + ')'
+                            'background-image': 'url(' + thumb.data('href')  + ')'
                         });
-                    },
-                    'next': function() {}
+                    }
                 });
                 activer(front, 'napokaz-f-thumb', 'napokaz-f-active');
                 front.find('.napokaz-f-thumb').on('click', function() {
@@ -156,7 +156,7 @@
                     return false;
                 });
                 front.trigger('show');
-                front.trigger('current', front.find('#' + $(this).attr('id')));
+                front.trigger('current', front.find('#' + thumbB.attr('id')));
 
                 // Set navigation key bindings
                 $(document).on('keydown.napokaz-f', function (e) {
@@ -201,13 +201,13 @@
         o.picasaIgnore = picasa.preTags(o.picasaIgnore);
         return o;
     }
-    function activer(box, element_cls, active_cls) {
+    function activer(box, elementCls, activeCls) {
         function _pager(isNext) {
             return function () {
-                var active = box.find('.' + active_cls);
+                var active = box.find('.' + activeCls);
                 var element = isNext ? active.next() : active.prev();
                 if (!element.length) {
-                    element = box.find('.' + element_cls + (isNext ? ':first': ':last'));
+                    element = box.find('.' + elementCls + (isNext ? ':first': ':last'));
                 }
                 box.trigger('current', element);
             };
@@ -216,8 +216,8 @@
             'prev': _pager(false),
             'next': _pager(true),
             'active': function(e, element) {
-                box.find('.' + active_cls).removeClass(active_cls);
-                $(element).addClass(active_cls);
+                box.find('.' + activeCls).removeClass(activeCls);
+                $(element).addClass(activeCls);
             }
         });
     }
