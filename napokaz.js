@@ -10,7 +10,7 @@
         // Picasa options
         picasaUser: 'naspeh',
         picasaAlbum: 'Naspeh',
-        picasaTags: '',
+        picasaFilter: '',
         picasaIgnore: ''
     };
     var picasa = {
@@ -74,7 +74,7 @@
         },
         checkTags: function(opts, tags) {
             tags = tags ? ',' + tags.split(', ').join(',') + ',' : '';
-            var ignore = opts.picasaTags && !opts.picasaTags.test(tags);
+            var ignore = opts.picasaFilter && !opts.picasaFilter.test(tags);
             ignore = ignore || opts.picasaIgnore && opts.picasaIgnore.test(tags);
             return !ignore;
         },
@@ -94,14 +94,13 @@
         // Box on page
         '<div class="napokaz-b">' +
             '{% $.each(items, function(num, item) { %}' +
-            '<a class="napokaz-b-thumb"' +
-                'href="{{ item.orig.url }}"' +
+            '<div class="napokaz-b-thumb"' +
                 'id="{{ item.id }}"' +
                 'style="' +
                     'background-image: url({{ item.boxThumb.url }});' +
                     'width: {{ item.boxThumb.size }}px;' +
                     'height: {{ item.boxThumb.size }}px"' +
-            '>&nbsp;</a>' +
+            '>&nbsp;</div>' +
             '{% }); %}' +
         '</div>' +
         // Front
@@ -247,7 +246,7 @@
     function preOptions(o) {
         o.boxThumbsizeInt = parseInt(o.boxThumbsize, 10);
         o.frontThumbsizeInt = parseInt(o.frontThumbsize, 10);
-        o.picasaTags = picasa.preTags(o.picasaTags);
+        o.picasaFilter = picasa.preTags(o.picasaFilter);
         o.picasaIgnore = picasa.preTags(o.picasaIgnore);
         return o;
     }

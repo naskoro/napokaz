@@ -6,8 +6,7 @@
 .napokaz-b .napokaz-b-thumb {
   display: None;
   margin: 1px;
-  text-decoration: none;
-  text-transform: none;
+  cursor: pointer;
   background-position: center center;
   background-repeat: no-repeat;
   border: 1px solid #fff;
