@@ -34,13 +34,20 @@
   filter: alpha(opacity=94);
 }
 .napokaz-f .napokaz-f-orig {
-  position: relative;
-  height: 90%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 100px;
+  left: 0;
+  padding: 20px;
   background-position: center center;
   background-repeat: no-repeat;
 }
 .napokaz-f .napokaz-f-thumbs {
-  position: relative;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
   padding: 2px;
   text-align: center;
   white-space: nowrap;

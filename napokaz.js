@@ -106,12 +106,13 @@
         // Front
         '<div class="napokaz-f">' +
             '<div class="napokaz-f-overlay"></div>' +
-            '<div class="napokaz-f-orig"></div>' +
+            '<div class="napokaz-f-orig">&nbsp;</div>' +
             '<div class="napokaz-f-thumbs">' +
                 '{% $.each(items, function(num, item) { %}' +
                 '<div class="napokaz-f-thumb"' +
                     'id="{{ item.id }}"' +
                     'data-href="{{ item.orig.url }}"' +
+                    'data-size="[{{ item.orig.width }},{{ item.orig.height }}]"' +
                     'style="' +
                         'background-image: url({{ item.frontThumb.url }});' +
                         'width: {{ item.frontThumb.size }}px;' +
@@ -138,8 +139,8 @@
                     var front = container.find('.napokaz-f');
                     var current = front.find('#' + $(this).attr('id'));
                     me.initFront(front, current);
-                    front.trigger('current', current);
                     front.trigger('show');
+                    front.trigger('current', current);
                     return false;
                 });
                 me.activer(box, 'napokaz-b-thumb', 'napokaz-b-show', perPage);
@@ -165,8 +166,12 @@
                         if (!thumb.hasClass('napokaz-f-show')) {
                             front.trigger('page:active', thumb);
                         }
-                        front.find('.napokaz-f-orig').css({
-                            'background-image': 'url(' + thumb.data('href')  + ')'
+                        me.getImg(front, thumb);
+                        var preloads = [thumb.next(), thumb.prev()];
+                        $.each(preloads, function() {
+                            if (this.length) {
+                                me.getImg(front, this, preloadOnly=true);
+                            }
                         });
                     }
                 });
@@ -215,16 +220,43 @@
                     box.find('.' + activeCls).removeClass(activeCls);
                     if (perPage <= 1) {
                         element.addClass(activeCls);
-                    } else {
-                        var items = box.find('.' + elementCls);
-                        var active = items.index(element);
-                        active = Math.floor(active / perPage) * perPage;
-                        items.slice(active, active + perPage).addClass(activeCls);
+                        return;
                     }
+                    var items = box.find('.' + elementCls);
+                    var active = items.index(element);
+                    active = Math.floor(active / perPage) * perPage;
+                    items.slice(active, active + perPage).addClass(activeCls);
                 });
                 box.on(prefix + 'current', function(e, element) {
                     box.trigger(prefix + 'active', element);
                 });
+            },
+            getImg: function(front, thumb, preloadOnly) {
+                var box = front.find('.napokaz-f-orig');
+                var orig = thumb.data();
+                var url = (
+                    orig.href + '?imgmax=' +
+                    me.getImgMax(orig.size, [box.width(), box.height()])
+                );
+                if (preloadOnly) {
+                    $('<img/>')[0].src = url;
+                    return;
+                }
+                box.css({
+                    'bottom': front.find('.napokaz-f-thumbs').outerHeight(),
+                    'background-image': 'url(' + url  + ')'
+                });
+            },
+            getImgMax: function(img, win) {
+                img = {w:img[0], h:img[1]};
+                win = {w:win[0], h:win[1]};
+
+                var ratio, result;
+                ratio = img.w / img.h;
+                ratio = ratio > 1 && ratio || 1;
+                result = Math.min(win.h * ratio, win.w);
+                result = Math.round(result);
+                return result;
             }
         };
         return me;
