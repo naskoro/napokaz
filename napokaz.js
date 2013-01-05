@@ -89,7 +89,6 @@
             return tags;
         }
     };
-
     var template = (
         // Box on page
         '<div class="napokaz-b">' +
@@ -122,17 +121,9 @@
             '</div>' +
         '</div>'
     );
-
     var main = function(opts, container) {
         var me = {
             process: function() {
-                picasa.fetch(opts, function(data) {
-                    console.log(data);
-                    container.html(tmpl(template, data));
-                    me.init(container);
-                });
-            },
-            init: function(container) {
                 var box = container.find('.napokaz-b');
                 var perPage = opts.boxWidth * opts.boxHeight;
                 box.find('.napokaz-b-thumb').on('click', function() {
@@ -268,7 +259,12 @@
         return this.each(function() {
             var container = $(this);
             var opts = preOptions($.extend({}, options, container.data()));
-            main(opts, container).process();
+            picasa.fetch(opts, function(data) {
+                console.log(data);
+                container.html(tmpl(template, data));
+                main(opts, container).process();
+            });
+
         });
     };
     $.fn.napokaz.defaults = defaults;
@@ -282,7 +278,7 @@
         o.picasaIgnore = picasa.preTags(o.picasaIgnore);
         return o;
     }
-    // Taken from underscore.js with reformating.
+    // Taken from underscore.js with reformating and another delimiters.
     // JavaScript micro-templating, similar to John Resig's implementation.
     // Underscore templating handles arbitrary delimiters, preserves whitespace,
     // and correctly escapes quotes within interpolated code.
