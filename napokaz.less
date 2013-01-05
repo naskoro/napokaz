@@ -4,13 +4,16 @@
     border: 1px solid #666;
 
     .napokaz-b-thumb {
-        .inline-block();
+        display: None;
         margin: 1px;
         text-decoration: none;
         text-transform: none;
         background-position: center center;
         background-repeat: no-repeat;
         border: 1px solid #fff;
+    }
+    .napokaz-b-show {
+        .inline-block();
     }
 }
 .napokaz-f {
@@ -45,7 +48,7 @@
         background: #000;
 
         .napokaz-f-thumb {
-            .inline-block();
+            display: none;
             cursor: pointer;
             background-position: center center;
             background-repeat: no-repeat;
@@ -56,6 +59,9 @@
             padding: 1px;
             border: 1px solid #fff;
             .opacity();
+        }
+        .napokaz-f-show {
+            .inline-block();
         }
     }
 }

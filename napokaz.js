@@ -5,7 +5,7 @@
         boxHeight: 1,
 
         frontThumbsize: '60c',
-        frontCount: 12,
+        frontCount: 8,
 
         // Picasa options
         picasaUser: 'naspeh',
@@ -129,12 +129,31 @@
                 picasa.fetch(opts, function(data) {
                     console.log(data);
                     container.html(tmpl(template, data));
-                    container.find('.napokaz-b-thumb').on('click', me.showFront);
+                    me.init(container);
                 });
             },
-            showFront: function() {
-                var thumbB = $(this);
-                var front = container.find('.napokaz-f');
+            init: function(container) {
+                var box = container.find('.napokaz-b');
+                var perPage = opts.boxWidth * opts.boxHeight;
+                box.find('.napokaz-b-thumb').on('click', function() {
+                    var front = container.find('.napokaz-f');
+                    var current = front.find('#' + $(this).attr('id'));
+                    me.initFront(front, current);
+                    front.trigger('current', current);
+                    front.trigger('show');
+                    return false;
+                });
+                me.activer(box, 'napokaz-b-thumb', 'napokaz-b-show', perPage);
+                box.trigger('page:active', box.find('.napokaz-b-thumb:first'));
+            },
+            initFront: function(front, current) {
+                if (front.data('initOnce')) {
+                    return;
+                }
+                front.data('initOnce', true);
+
+                me.activer(front, 'napokaz-f-thumb', 'napokaz-f-active');
+                me.activer(front, 'napokaz-f-thumb', 'napokaz-f-show', opts.frontCount);
                 front.on({
                     'show': function() {
                         $(this).show();
@@ -144,19 +163,18 @@
                     },
                     'current': function(e, thumb) {
                         thumb = $(thumb);
-                        front.trigger('active', thumb);
+                        if (!thumb.hasClass('napokaz-f-show')) {
+                            front.trigger('page:active', thumb);
+                        }
                         front.find('.napokaz-f-orig').css({
                             'background-image': 'url(' + thumb.data('href')  + ')'
                         });
                     }
                 });
-                activer(front, 'napokaz-f-thumb', 'napokaz-f-active');
                 front.find('.napokaz-f-thumb').on('click', function() {
                     front.trigger('current', this);
                     return false;
                 });
-                front.trigger('show');
-                front.trigger('current', front.find('#' + thumbB.attr('id')));
 
                 // Set navigation key bindings
                 $(document).on('keydown.napokaz-f', function (e) {
@@ -167,15 +185,47 @@
                         27: 'hide', // Esc
                         37: 'prev', // <=
                         39: 'next', // =>
-                        33: 'page.prev', // PageUp
-                        34: 'page.next' // PageDown
+                        33: 'page:prev', // PageUp
+                        34: 'page:next' // PageDown
                     };
                     if (events.hasOwnProperty(e.keyCode)) {
                         e.preventDefault();
                         front.trigger(events[e.keyCode]);
                     }
                 });
-                return false;
+            },
+            activer: function(box, elementCls, activeCls, perPage) {
+                perPage = !perPage ? 0 : perPage;
+                var prefix = perPage > 1 ? 'page:' : '';
+                var pager = function(e) {
+                    var active, element, by, isNext;
+                    isNext = e.data.isNext;
+                    active = box.find('.' + activeCls);
+                    active = isNext ? active.last() : active.first();
+                    element = isNext ? active.next() : active.prev();
+                    if (!element.length) {
+                        by = '.' + elementCls + (isNext ? ':first': ':last');
+                        element = box.find(by);
+                    }
+                    box.trigger(prefix + 'current', element);
+                };
+                box.on(prefix + 'prev', {isNext: false}, pager);
+                box.on(prefix + 'next', {isNext: true}, pager);
+                box.on(prefix + 'active', function(e, element) {
+                    element = $(element);
+                    box.find('.' + activeCls).removeClass(activeCls);
+                    if (perPage <= 1) {
+                        element.addClass(activeCls);
+                    } else {
+                        var items = box.find('.' + elementCls);
+                        var active = items.index(element);
+                        active = Math.floor(active / perPage) * perPage;
+                        items.slice(active, active + perPage).addClass(activeCls);
+                    }
+                });
+                box.on(prefix + 'current', function(e, element) {
+                    box.trigger(prefix + 'active', element);
+                });
             }
         };
         return me;
@@ -200,26 +250,6 @@
         o.picasaTags = picasa.preTags(o.picasaTags);
         o.picasaIgnore = picasa.preTags(o.picasaIgnore);
         return o;
-    }
-    function activer(box, elementCls, activeCls) {
-        function _pager(isNext) {
-            return function () {
-                var active = box.find('.' + activeCls);
-                var element = isNext ? active.next() : active.prev();
-                if (!element.length) {
-                    element = box.find('.' + elementCls + (isNext ? ':first': ':last'));
-                }
-                box.trigger('current', element);
-            };
-        }
-        box.on({
-            'prev': _pager(false),
-            'next': _pager(true),
-            'active': function(e, element) {
-                box.find('.' + activeCls).removeClass(activeCls);
-                $(element).addClass(activeCls);
-            }
-        });
     }
     // Taken from underscore.js with reformating.
     // JavaScript micro-templating, similar to John Resig's implementation.

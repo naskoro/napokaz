@@ -4,13 +4,16 @@
   border: 1px solid #666;
 }
 .napokaz-b .napokaz-b-thumb {
-  display: inline-block;
+  display: None;
   margin: 1px;
   text-decoration: none;
   text-transform: none;
   background-position: center center;
   background-repeat: no-repeat;
   border: 1px solid #fff;
+}
+.napokaz-b .napokaz-b-show {
+  display: inline-block;
 }
 .napokaz-f {
   position: absolute;
@@ -45,7 +48,7 @@
   background: #000;
 }
 .napokaz-f .napokaz-f-thumbs .napokaz-f-thumb {
-  display: inline-block;
+  display: none;
   cursor: pointer;
   background-position: center center;
   background-repeat: no-repeat;
@@ -58,5 +61,8 @@
   border: 1px solid #fff;
   opacity: 100;
   filter: alpha(opacity=10000);
+}
+.napokaz-f .napokaz-f-thumbs .napokaz-f-show {
+  display: inline-block;
 }
 /* Mixins */
