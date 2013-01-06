@@ -104,25 +104,27 @@
         '</div>' +
         // Front
         '<div class="napokaz-f">' +
-            '<div class="napokaz-f-overlay"></div>' +
+            '<div class="napokaz-f-overlay">&nbsp;</div>' +
             '<div class="napokaz-f-orig">' +
+                '<div class="napokaz-f-prev"></div>' +
+                '<a class="napokaz-f-link" href=""></a>' +
+                '<div class="napokaz-f-next"></div>' +
             '</div>' +
             '<div class="napokaz-f-thumbs">' +
-                '<div class="napokaz-f-page-prev">&nbsp;</div>' +
-                '<div class="napokaz-f-prev">&nbsp;</div>' +
+                '<div class="napokaz-f-pprev"></div>' +
                 '{% $.each(items, function(num, item) { %}' +
                 '<div class="napokaz-f-thumb"' +
                     'id="{{ item.id }}"' +
                     'data-href="{{ item.orig.url }}"' +
                     'data-size="[{{ item.orig.width }},{{ item.orig.height }}]"' +
+                    'data-picasa="{{ item.picasa }}"' +
                     'style="' +
                         'background-image: url({{ item.frontThumb.url }});' +
                         'width: {{ item.frontThumb.size }}px;' +
                         'height: {{ item.frontThumb.size }}px"' +
                 '>&nbsp;</div>' +
                 '{% }); %}' +
-                '<div class="napokaz-f-next">&nbsp;</div>' +
-                '<div class="napokaz-f-page-next">&nbsp;</div>' +
+                '<div class="napokaz-f-pnext"></div>' +
             '</div>' +
         '</div>'
     );
@@ -141,13 +143,24 @@
                 });
                 me.selector(box, 'napokaz-b-thumb', 'napokaz-b-show', perPage);
                 box.trigger('page:select', box.find('.napokaz-b-thumb:first'));
-                box.find(window.location.hash).click();
+                if (!$('.napokaz-f:visible').length) {
+                    box.find(window.location.hash).click();
+                }
             },
             initFront: function(front, current) {
                 if (front.data('initOnce')) {
                     return;
                 }
                 front.data('initOnce', true);
+
+                var count = front.find('.napokaz-f-thumb').length;
+                if (count <= opts.frontCount) {
+                    front.find('.napokaz-f-pprev, .napokaz-f-pnext').hide();
+                }
+                if (count === 1) {
+                    front.find('.napokaz-f-prev, .napokaz-f-next').hide();
+                    front.find('.napokaz-f-thumbs').hide();
+                }
 
                 me.selector(front, 'napokaz-f-thumb', 'napokaz-f-active');
                 me.selector(front, 'napokaz-f-thumb', 'napokaz-f-show', opts.frontCount);
@@ -181,17 +194,19 @@
                     front.trigger('select', this);
                     return false;
                 });
-                front.find('.napokaz-f-prev').click(function() {
-                    front.trigger('prev');
-                });
-                front.find('.napokaz-f-next').click(function() {
-                    front.trigger('next');
-                });
-                front.find('.napokaz-f-page-prev').click(function() {
-                    front.trigger('page:prev');
-                });
-                front.find('.napokaz-f-page-next').click(function() {
-                    front.trigger('page:next');
+                var events = [
+                    ['.napokaz-f-prev', 'prev'],
+                    ['.napokaz-f-next, .napokaz-f-orig a', 'next'],
+                    ['.napokaz-f-pprev', 'page:prev'],
+                    ['.napokaz-f-pnext', 'page:next']
+                ];
+                $.each(events, function(i, item) {
+                    front.find(item[0]).on('click', function() {
+                        if (count > 1) {
+                            front.trigger(item[1]);
+                        }
+                        return false;
+                    });
                 });
 
                 // Set navigation key bindings
@@ -200,7 +215,9 @@
                         return;
                     }
                     var events = {
+                        8: 'hide', // Backspace
                         27: 'hide', // Esc
+                        46: 'hide', // Delete
                         37: 'prev', // <=
                         39: 'next', // =>
                         33: 'page:prev', // PageUp
@@ -250,13 +267,14 @@
                     me.getImgMax(orig.size, [box.width(), box.height()])
                 );
                 if (preloadOnly) {
-                    $('<img/>')[0].src = url;
+                    $('<img/>').attr('src', url);
                     return;
                 }
                 box.css({
                     'bottom': front.find('.napokaz-f-thumbs').outerHeight(),
                     'background-image': 'url(' + url  + ')'
                 });
+                box.find('a').attr('href', orig.picasa);
             },
             getImgMax: function(img, win) {
                 img = {w:img[0], h:img[1]};
