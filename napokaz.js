@@ -107,13 +107,14 @@
         '<div class="napokaz-f">' +
             '<div class="napokaz-f-overlay">&nbsp;</div>' +
             '<div class="napokaz-f-orig">' +
-                '<div class="napokaz-f-prev"></div>' +
+                '<div class="napokaz-f-prev">&lang;</div>' +
+                '<div class="napokaz-f-next">&rang;</div>' +
                 '<div class="napokaz-f-img"></div>' +
                 '<a class="napokaz-f-title" href="" target="_blank"></a>' +
-                '<div class="napokaz-f-next"></div>' +
             '</div>' +
             '<div class="napokaz-f-thumbs">' +
-                '<div class="napokaz-f-pprev"></div>' +
+                '<div class="napokaz-f-pprev">&lang;</div>' +
+                '<div class="napokaz-f-pnext">&rang;</div>' +
                 '{% $.each(items, function(num, item) { %}' +
                 '<div class="napokaz-f-thumb"' +
                     'id="{{ item.id }}"' +
@@ -128,7 +129,6 @@
                         'height: {{ item.frontThumb.size }}px"' +
                 '>&nbsp;</div>' +
                 '{% }); %}' +
-                '<div class="napokaz-f-pnext"></div>' +
             '</div>' +
         '</div>'
     );

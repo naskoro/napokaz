@@ -63,37 +63,39 @@
 }
 .napokaz-f .napokaz-f-orig .napokaz-f-prev {
   position: absolute;
-  top: 0;
+  top: 50%;
   bottom: 0;
-  left: -40px;
-  width: 0;
-  margin: 0 5px;
+  width: 30px;
+  padding: 0 5px;
+  margin-top: -20px;
+  font-size: 40px;
+  font-weight: bolder;
+  color: #eee;
   cursor: pointer;
-  border-style: solid;
-  border-width: 15px;
-  -webkit-border-radius: 60px 0 0 60px;
-  -moz-border-radius: 60px 0 0 60px;
-  border-radius: 60px 0 0 60px;
+  left: -40px;
+  padding-right: 20%;
 }
 .napokaz-f .napokaz-f-orig .napokaz-f-prev:hover {
-  border-color: #666;
+  color: #fff;
+  text-shadow: 0 0 10px #fff;
 }
 .napokaz-f .napokaz-f-orig .napokaz-f-next {
   position: absolute;
-  top: 0;
-  right: -40px;
+  top: 50%;
   bottom: 0;
-  width: 0;
-  margin: 0 5px;
+  width: 30px;
+  padding: 0 5px;
+  margin-top: -20px;
+  font-size: 40px;
+  font-weight: bolder;
+  color: #eee;
   cursor: pointer;
-  border-style: solid;
-  border-width: 15px;
-  -webkit-border-radius: 0 60px 60px 0;
-  -moz-border-radius: 0 60px 60px 0;
-  border-radius: 0 60px 60px 0;
+  right: -40px;
+  padding-left: 20%;
 }
 .napokaz-f .napokaz-f-orig .napokaz-f-next:hover {
-  border-color: #666;
+  color: #fff;
+  text-shadow: 0 0 10px #fff;
 }
 .napokaz-f .napokaz-f-thumbs {
   position: absolute;
@@ -111,12 +113,11 @@
   cursor: pointer;
   background-position: center center;
   background-repeat: no-repeat;
-  border: 1px solid transparent;
-  opacity: 0.5;
-  filter: alpha(opacity=50);
+  border: 1px solid #eee;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
 }
 .napokaz-f .napokaz-f-thumbs .napokaz-f-active {
-  border: 1px solid #eee;
   opacity: 100;
   filter: alpha(opacity=10000);
 }
@@ -125,36 +126,38 @@
 }
 .napokaz-f .napokaz-f-thumbs .napokaz-f-pprev {
   position: absolute;
-  top: 0;
+  top: 50%;
   bottom: 0;
-  left: -40px;
-  width: 0;
-  margin: 0 5px;
+  width: 30px;
+  padding: 0 5px;
+  margin-top: -20px;
+  font-size: 40px;
+  font-weight: bolder;
+  color: #eee;
   cursor: pointer;
-  border-style: solid;
-  border-width: 15px;
-  -webkit-border-radius: 60px 0 0 60px;
-  -moz-border-radius: 60px 0 0 60px;
-  border-radius: 60px 0 0 60px;
+  left: -40px;
+  padding-right: 20%;
 }
 .napokaz-f .napokaz-f-thumbs .napokaz-f-pprev:hover {
-  border-color: #666;
+  color: #fff;
+  text-shadow: 0 0 10px #fff;
 }
 .napokaz-f .napokaz-f-thumbs .napokaz-f-pnext {
   position: absolute;
-  top: 0;
-  right: -40px;
+  top: 50%;
   bottom: 0;
-  width: 0;
-  margin: 0 5px;
+  width: 30px;
+  padding: 0 5px;
+  margin-top: -20px;
+  font-size: 40px;
+  font-weight: bolder;
+  color: #eee;
   cursor: pointer;
-  border-style: solid;
-  border-width: 15px;
-  -webkit-border-radius: 0 60px 60px 0;
-  -moz-border-radius: 0 60px 60px 0;
-  border-radius: 0 60px 60px 0;
+  right: -40px;
+  padding-left: 20%;
 }
 .napokaz-f .napokaz-f-thumbs .napokaz-f-pnext:hover {
-  border-color: #666;
+  color: #fff;
+  text-shadow: 0 0 10px #fff;
 }
 /* Mixins */
