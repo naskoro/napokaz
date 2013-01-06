@@ -61,6 +61,7 @@
                         size: opts.frontThumbsizeInt
                     },
                     'title': media.find('media\\:title').text(),
+                    'desc': media.find('media\\:description').text(),
                     'tags': media.find('media\\:keywords').text()
                 };
                 if (picasa.checkTags(opts, item.tags)) {
@@ -107,7 +108,8 @@
             '<div class="napokaz-f-overlay">&nbsp;</div>' +
             '<div class="napokaz-f-orig">' +
                 '<div class="napokaz-f-prev"></div>' +
-                '<a class="napokaz-f-link" href=""></a>' +
+                '<div class="napokaz-f-img"></div>' +
+                '<a class="napokaz-f-title" href="" target="_blank"></a>' +
                 '<div class="napokaz-f-next"></div>' +
             '</div>' +
             '<div class="napokaz-f-thumbs">' +
@@ -115,6 +117,8 @@
                 '{% $.each(items, function(num, item) { %}' +
                 '<div class="napokaz-f-thumb"' +
                     'id="{{ item.id }}"' +
+                    'data-title="{{ item.title }}"' +
+                    'data-desc="{{ item.desc }}"' +
                     'data-href="{{ item.orig.url }}"' +
                     'data-size="[{{ item.orig.width }},{{ item.orig.height }}]"' +
                     'data-picasa="{{ item.picasa }}"' +
@@ -196,7 +200,7 @@
                 });
                 var events = [
                     ['.napokaz-f-prev', 'prev'],
-                    ['.napokaz-f-next, .napokaz-f-orig a', 'next'],
+                    ['.napokaz-f-next, .napokaz-f-img', 'next'],
                     ['.napokaz-f-pprev', 'page:prev'],
                     ['.napokaz-f-pnext', 'page:next']
                 ];
@@ -261,20 +265,22 @@
             },
             getImg: function(front, thumb, preloadOnly) {
                 var box = front.find('.napokaz-f-orig');
-                var orig = thumb.data();
+                var img = thumb.data();
                 var url = (
-                    orig.href + '?imgmax=' +
-                    me.getImgMax(orig.size, [box.width(), box.height()])
+                    img.href + '?imgmax=' +
+                    me.getImgMax(img.size, [box.width(), box.height()])
                 );
                 if (preloadOnly) {
                     $('<img/>').attr('src', url);
                     return;
                 }
                 box.css({
-                    'bottom': front.find('.napokaz-f-thumbs').outerHeight(),
+                    'bottom': front.find('.napokaz-f-thumbs').outerHeight(true),
                     'background-image': 'url(' + url  + ')'
                 });
-                box.find('a').attr('href', orig.picasa);
+                box.find('.napokaz-f-title')
+                    .html(img.desc || img.title)
+                    .attr('href', img.picasa);
             },
             getImgMax: function(img, win) {
                 img = {w:img[0], h:img[1]};

@@ -40,15 +40,26 @@
         right: 0;
         bottom: 100px;
         left: 0;
-        padding: 20px 40px;
+        margin: 20px 40px 30px 40px;
+        text-align: center;
         background-position: center center;
         background-repeat: no-repeat;
 
-        .napokaz-f-link {
+        .napokaz-f-img {
             display: block;
             width: 100%;
             height: 100%;
+            cursor: pointer;
+        }
+        .napokaz-f-title {
+            position: relative;
+            margin-top: -10px;
+            font-size: 12px;
+            color: #eee;
             text-decoration: none;
+            &:hover {
+                text-decoration: underline;
+            }
         }
         .napokaz-f-prev {
             .arrow-left;
@@ -62,7 +73,8 @@
         right: 0;
         bottom: 0;
         left: 0;
-        padding: 2px 2px 20px 2px;
+        padding: 2px;
+        margin: 0 40px 10px 40px;
         text-align: center;
         white-space: nowrap;
 
@@ -83,12 +95,10 @@
             .inline-block;
         }
         .napokaz-f-pprev {
-            .arrow-left;
-            bottom: 20px;
+            .arrow-left();
         }
         .napokaz-f-pnext {
-            .arrow-right;
-            bottom: 20px;
+            .arrow-right();
         }
     }
 }
@@ -96,7 +106,7 @@
 /* Mixins */
 .arrow() {
     width:0;
-    margin: 5px;
+    margin: 0 5px;
     cursor: pointer;
     border-style: solid;
     border-width: 15px;
@@ -107,7 +117,7 @@
 .arrow-right(@radius: 60px) {
     position: absolute;
     top: 0;
-    right: 0;
+    right: -40px;
     bottom: 0;
     .arrow;
     .border-radius(0, @radius, @radius, 0);
@@ -116,7 +126,7 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 0;
+    left: -40px;
     .arrow;
     .border-radius(@radius, 0, 0, @radius);
 }

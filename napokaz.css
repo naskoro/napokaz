@@ -40,23 +40,34 @@
   right: 0;
   bottom: 100px;
   left: 0;
-  padding: 20px 40px;
+  margin: 20px 40px 30px 40px;
+  text-align: center;
   background-position: center center;
   background-repeat: no-repeat;
 }
-.napokaz-f .napokaz-f-orig .napokaz-f-link {
+.napokaz-f .napokaz-f-orig .napokaz-f-img {
   display: block;
   width: 100%;
   height: 100%;
+  cursor: pointer;
+}
+.napokaz-f .napokaz-f-orig .napokaz-f-title {
+  position: relative;
+  margin-top: -10px;
+  font-size: 12px;
+  color: #eee;
   text-decoration: none;
+}
+.napokaz-f .napokaz-f-orig .napokaz-f-title:hover {
+  text-decoration: underline;
 }
 .napokaz-f .napokaz-f-orig .napokaz-f-prev {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
+  left: -40px;
   width: 0;
-  margin: 5px;
+  margin: 0 5px;
   cursor: pointer;
   border-style: solid;
   border-width: 15px;
@@ -70,10 +81,10 @@
 .napokaz-f .napokaz-f-orig .napokaz-f-next {
   position: absolute;
   top: 0;
-  right: 0;
+  right: -40px;
   bottom: 0;
   width: 0;
-  margin: 5px;
+  margin: 0 5px;
   cursor: pointer;
   border-style: solid;
   border-width: 15px;
@@ -89,7 +100,8 @@
   right: 0;
   bottom: 0;
   left: 0;
-  padding: 2px 2px 20px 2px;
+  padding: 2px;
+  margin: 0 40px 10px 40px;
   text-align: center;
   white-space: nowrap;
 }
@@ -115,16 +127,15 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
+  left: -40px;
   width: 0;
-  margin: 5px;
+  margin: 0 5px;
   cursor: pointer;
   border-style: solid;
   border-width: 15px;
   -webkit-border-radius: 60px 0 0 60px;
   -moz-border-radius: 60px 0 0 60px;
   border-radius: 60px 0 0 60px;
-  bottom: 20px;
 }
 .napokaz-f .napokaz-f-thumbs .napokaz-f-pprev:hover {
   border-color: #666;
@@ -132,17 +143,16 @@
 .napokaz-f .napokaz-f-thumbs .napokaz-f-pnext {
   position: absolute;
   top: 0;
-  right: 0;
+  right: -40px;
   bottom: 0;
   width: 0;
-  margin: 5px;
+  margin: 0 5px;
   cursor: pointer;
   border-style: solid;
   border-width: 15px;
   -webkit-border-radius: 0 60px 60px 0;
   -moz-border-radius: 0 60px 60px 0;
   border-radius: 0 60px 60px 0;
-  bottom: 20px;
 }
 .napokaz-f .napokaz-f-thumbs .napokaz-f-pnext:hover {
   border-color: #666;
