@@ -134,7 +134,7 @@
                     front.trigger('select', current);
                     return false;
                 });
-                me.activer(box, 'napokaz-b-thumb', 'napokaz-b-show', perPage);
+                me.selector(box, 'napokaz-b-thumb', 'napokaz-b-show', perPage);
                 box.trigger('page:select', box.find('.napokaz-b-thumb:first'));
             },
             initFront: function(front, current) {
@@ -143,8 +143,8 @@
                 }
                 front.data('initOnce', true);
 
-                me.activer(front, 'napokaz-f-thumb', 'napokaz-f-active');
-                me.activer(front, 'napokaz-f-thumb', 'napokaz-f-show', opts.frontCount);
+                me.selector(front, 'napokaz-f-thumb', 'napokaz-f-active');
+                me.selector(front, 'napokaz-f-thumb', 'napokaz-f-show', opts.frontCount);
                 front.on({
                     'show': function() {
                         $(this).show();
@@ -189,10 +189,10 @@
                     }
                 });
             },
-            activer: function(box, elementCls, activeCls, perPage) {
+            selector: function(box, elementCls, activeCls, perPage) {
                 perPage = !perPage ? 0 : perPage;
                 var prefix = perPage > 1 ? 'page:' : '';
-                var pager = function(e) {
+                var selector = function(e) {
                     var active, element, by, isNext;
                     isNext = e.data.isNext;
                     active = box.find('.' + activeCls);
@@ -204,8 +204,8 @@
                     }
                     box.trigger(prefix + 'select', element);
                 };
-                box.on(prefix + 'prev', {isNext: false}, pager);
-                box.on(prefix + 'next', {isNext: true}, pager);
+                box.on(prefix + 'prev', {isNext: false}, selector);
+                box.on(prefix + 'next', {isNext: true}, selector);
                 box.on(prefix + 'select', function(e, element) {
                     element = $(element);
                     box.find('.' + activeCls).removeClass(activeCls);
