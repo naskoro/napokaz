@@ -136,6 +136,7 @@
                 });
                 me.selector(box, 'napokaz-b-thumb', 'napokaz-b-show', perPage);
                 box.trigger('page:select', box.find('.napokaz-b-thumb:first'));
+                box.find(window.location.hash).click();
             },
             initFront: function(front, current) {
                 if (front.data('initOnce')) {
@@ -151,6 +152,7 @@
                     },
                     'hide': function() {
                         $(this).hide();
+                        window.location.hash = '';
                     },
                     'select': function(e, thumb) {
                         thumb = $(thumb);
@@ -164,6 +166,7 @@
                                 me.getImg(front, this, preloadOnly=true);
                             }
                         });
+                        window.location.hash = thumb.attr('id');
                     }
                 });
                 front.find('.napokaz-f-thumb').on('click', function() {
