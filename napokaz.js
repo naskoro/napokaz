@@ -135,7 +135,7 @@
                     return false;
                 });
                 me.activer(box, 'napokaz-b-thumb', 'napokaz-b-show', perPage);
-                box.trigger('page:active', box.find('.napokaz-b-thumb:first'));
+                box.trigger('page:current', box.find('.napokaz-b-thumb:first'));
             },
             initFront: function(front, current) {
                 if (front.data('initOnce')) {
@@ -155,7 +155,7 @@
                     'current': function(e, thumb) {
                         thumb = $(thumb);
                         if (!thumb.hasClass('napokaz-f-show')) {
-                            front.trigger('page:active', thumb);
+                            front.trigger('page:current', thumb);
                         }
                         me.getImg(front, thumb);
                         var preloads = [thumb.next(), thumb.prev()];
@@ -206,7 +206,7 @@
                 };
                 box.on(prefix + 'prev', {isNext: false}, pager);
                 box.on(prefix + 'next', {isNext: true}, pager);
-                box.on(prefix + 'active', function(e, element) {
+                box.on(prefix + 'current', function(e, element) {
                     element = $(element);
                     box.find('.' + activeCls).removeClass(activeCls);
                     if (perPage <= 1) {
@@ -217,9 +217,6 @@
                     var active = items.index(element);
                     active = Math.floor(active / perPage) * perPage;
                     items.slice(active, active + perPage).addClass(activeCls);
-                });
-                box.on(prefix + 'current', function(e, element) {
-                    box.trigger(prefix + 'active', element);
                 });
             },
             getImg: function(front, thumb, preloadOnly) {
