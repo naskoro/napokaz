@@ -21,6 +21,7 @@
   bottom: 0;
   left: 0;
   display: none;
+  overflow: hidden;
 }
 .napokaz-f .napokaz-f-overlay {
   position: absolute;
@@ -39,9 +40,33 @@
   right: 0;
   bottom: 100px;
   left: 0;
-  padding: 20px;
+  padding: 20px 40px;
   background-position: center center;
   background-repeat: no-repeat;
+}
+.napokaz-f .napokaz-f-prev {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin: 5px;
+  cursor: pointer;
+  border: transparent solid 10px;
+  border-right-color: #999;
+}
+.napokaz-f .napokaz-f-prev:hover {
+  border-right-color: #eee;
+}
+.napokaz-f .napokaz-f-next {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin: 5px;
+  cursor: pointer;
+  border: transparent solid 10px;
+  border-left-color: #999;
+}
+.napokaz-f .napokaz-f-next:hover {
+  border-left-color: #eee;
 }
 .napokaz-f .napokaz-f-thumbs {
   position: absolute;
@@ -70,5 +95,29 @@
 }
 .napokaz-f .napokaz-f-thumbs .napokaz-f-show {
   display: inline-block;
+}
+.napokaz-f .napokaz-f-thumbs .napokaz-f-page-prev {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin: 5px;
+  cursor: pointer;
+  border: transparent solid 10px;
+  border-right-color: #999;
+}
+.napokaz-f .napokaz-f-thumbs .napokaz-f-page-prev:hover {
+  border-right-color: #eee;
+}
+.napokaz-f .napokaz-f-thumbs .napokaz-f-page-next {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin: 5px;
+  cursor: pointer;
+  border: transparent solid 10px;
+  border-left-color: #999;
+}
+.napokaz-f .napokaz-f-thumbs .napokaz-f-page-next:hover {
+  border-left-color: #eee;
 }
 /* Mixins */

@@ -12,7 +12,7 @@
         border: 1px solid #fff;
     }
     .napokaz-b-show {
-        .inline-block();
+        .inline-block;
     }
 }
 .napokaz-f {
@@ -22,6 +22,7 @@
     bottom: 0;
     left: 0;
     display: none;
+    overflow: hidden;
 
     .napokaz-f-overlay {
         position: absolute;
@@ -39,9 +40,15 @@
         right: 0;
         bottom: 100px;
         left: 0;
-        padding: 20px;
+        padding: 20px 40px;
         background-position: center center;
         background-repeat: no-repeat;
+    }
+    .napokaz-f-prev {
+        .arrow-left;
+    }
+    .napokaz-f-next {
+        .arrow-right;
     }
     .napokaz-f-thumbs {
         position: absolute;
@@ -67,12 +74,40 @@
             .opacity;
         }
         .napokaz-f-show {
-            .inline-block();
+            .inline-block;
+        }
+        .napokaz-f-page-prev {
+            .arrow-left;
+        }
+        .napokaz-f-page-next {
+            .arrow-right;
         }
     }
 }
 
 /* Mixins */
+.arrow(@width) {
+    .inline-block;
+    width: 0;
+    height: 0;
+    margin: 5px;
+    cursor: pointer;
+    border: transparent solid @width;
+}
+.arrow-right(@width: 10px) {
+    .arrow(@width);
+    border-left-color: #999;
+    &:hover {
+        border-left-color: #eee;
+    }
+}
+.arrow-left(@width: 10px) {
+    .arrow(@width);
+    border-right-color: #999;
+    &:hover {
+        border-right-color: #eee;
+    }
+}
 .inline-block() {
     display: inline-block;
 }

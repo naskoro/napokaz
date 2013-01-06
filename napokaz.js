@@ -105,8 +105,11 @@
         // Front
         '<div class="napokaz-f">' +
             '<div class="napokaz-f-overlay"></div>' +
-            '<div class="napokaz-f-orig">&nbsp;</div>' +
+            '<div class="napokaz-f-orig">' +
+            '</div>' +
             '<div class="napokaz-f-thumbs">' +
+                '<div class="napokaz-f-page-prev">&nbsp;</div>' +
+                '<div class="napokaz-f-prev">&nbsp;</div>' +
                 '{% $.each(items, function(num, item) { %}' +
                 '<div class="napokaz-f-thumb"' +
                     'id="{{ item.id }}"' +
@@ -118,6 +121,8 @@
                         'height: {{ item.frontThumb.size }}px"' +
                 '>&nbsp;</div>' +
                 '{% }); %}' +
+                '<div class="napokaz-f-next">&nbsp;</div>' +
+                '<div class="napokaz-f-page-next">&nbsp;</div>' +
             '</div>' +
         '</div>'
     );
@@ -126,7 +131,7 @@
             process: function() {
                 var box = container.find('.napokaz-b');
                 var perPage = opts.boxWidth * opts.boxHeight;
-                box.find('.napokaz-b-thumb').on('click', function() {
+                box.find('.napokaz-b-thumb').click(function() {
                     var front = container.find('.napokaz-f');
                     var current = front.find('#' + $(this).attr('id'));
                     me.initFront(front, current);
@@ -160,7 +165,10 @@
                             front.trigger('page:select', thumb);
                         }
                         me.getImg(front, thumb);
-                        var preloads = [thumb.next(), thumb.prev()];
+                        var preloads = [
+                            thumb.next('.napokaz-f-thumb'),
+                            thumb.prev('.napokaz-f-thumb')
+                        ];
                         $.each(preloads, function() {
                             if (this.length) {
                                 me.getImg(front, this, preloadOnly=true);
@@ -169,9 +177,21 @@
                         window.location.hash = thumb.attr('id');
                     }
                 });
-                front.find('.napokaz-f-thumb').on('click', function() {
+                front.find('.napokaz-f-thumb').click(function() {
                     front.trigger('select', this);
                     return false;
+                });
+                front.find('.napokaz-f-prev').click(function() {
+                    front.trigger('prev');
+                });
+                front.find('.napokaz-f-next').click(function() {
+                    front.trigger('next');
+                });
+                front.find('.napokaz-f-page-prev').click(function() {
+                    front.trigger('page:prev');
+                });
+                front.find('.napokaz-f-page-next').click(function() {
+                    front.trigger('page:next');
                 });
 
                 // Set navigation key bindings
@@ -192,34 +212,34 @@
                     }
                 });
             },
-            selector: function(box, elementCls, activeCls, perPage) {
+            selector: function(box, elementCls, currentCls, perPage) {
                 perPage = !perPage ? 0 : perPage;
                 var prefix = perPage > 1 ? 'page:' : '';
+                var elementSel = '.' + elementCls;
+                var currentSel = '.' + currentCls;
                 var selector = function(e) {
-                    var active, element, by, isNext;
+                    var cur, el, isNext;
                     isNext = e.data.isNext;
-                    active = box.find('.' + activeCls);
-                    active = isNext ? active.last() : active.first();
-                    element = isNext ? active.next() : active.prev();
-                    if (!element.length) {
-                        by = '.' + elementCls + (isNext ? ':first': ':last');
-                        element = box.find(by);
+                    cur = box.find(currentSel + (isNext ? ':last': ':first'));
+                    el = cur[isNext ? 'next': 'prev'](elementSel);
+                    if (!el.length) {
+                        el = box.find(elementSel + (isNext ? ':first': ':last'));
                     }
-                    box.trigger(prefix + 'select', element);
+                    box.trigger(prefix + 'select', el);
                 };
                 box.on(prefix + 'prev', {isNext: false}, selector);
                 box.on(prefix + 'next', {isNext: true}, selector);
                 box.on(prefix + 'select', function(e, element) {
                     element = $(element);
-                    box.find('.' + activeCls).removeClass(activeCls);
+                    box.find(currentSel).removeClass(currentCls);
                     if (perPage <= 1) {
-                        element.addClass(activeCls);
+                        element.addClass(currentCls);
                         return;
                     }
-                    var items = box.find('.' + elementCls);
-                    var active = items.index(element);
-                    active = Math.floor(active / perPage) * perPage;
-                    items.slice(active, active + perPage).addClass(activeCls);
+                    var items = box.find(elementSel);
+                    var current = items.index(element);
+                    current = Math.floor(current / perPage) * perPage;
+                    items.slice(current, current + perPage).addClass(currentCls);
                 });
             },
             getImg: function(front, thumb, preloadOnly) {
