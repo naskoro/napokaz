@@ -131,11 +131,11 @@
                     var current = front.find('#' + $(this).attr('id'));
                     me.initFront(front, current);
                     front.trigger('show');
-                    front.trigger('current', current);
+                    front.trigger('select', current);
                     return false;
                 });
                 me.activer(box, 'napokaz-b-thumb', 'napokaz-b-show', perPage);
-                box.trigger('page:current', box.find('.napokaz-b-thumb:first'));
+                box.trigger('page:select', box.find('.napokaz-b-thumb:first'));
             },
             initFront: function(front, current) {
                 if (front.data('initOnce')) {
@@ -152,10 +152,10 @@
                     'hide': function() {
                         $(this).hide();
                     },
-                    'current': function(e, thumb) {
+                    'select': function(e, thumb) {
                         thumb = $(thumb);
                         if (!thumb.hasClass('napokaz-f-show')) {
-                            front.trigger('page:current', thumb);
+                            front.trigger('page:select', thumb);
                         }
                         me.getImg(front, thumb);
                         var preloads = [thumb.next(), thumb.prev()];
@@ -167,7 +167,7 @@
                     }
                 });
                 front.find('.napokaz-f-thumb').on('click', function() {
-                    front.trigger('current', this);
+                    front.trigger('select', this);
                     return false;
                 });
 
@@ -202,11 +202,11 @@
                         by = '.' + elementCls + (isNext ? ':first': ':last');
                         element = box.find(by);
                     }
-                    box.trigger(prefix + 'current', element);
+                    box.trigger(prefix + 'select', element);
                 };
                 box.on(prefix + 'prev', {isNext: false}, pager);
                 box.on(prefix + 'next', {isNext: true}, pager);
-                box.on(prefix + 'current', function(e, element) {
+                box.on(prefix + 'select', function(e, element) {
                     element = $(element);
                     box.find('.' + activeCls).removeClass(activeCls);
                     if (perPage <= 1) {
