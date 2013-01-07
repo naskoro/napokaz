@@ -263,6 +263,9 @@
             },
             getImg: function(front, thumb, preloadOnly) {
                 var box = front.find('.napokaz-f-orig');
+                box.css({
+                    'bottom': front.find('.napokaz-f-thumbs').outerHeight(true)
+                });
                 var img = thumb.data();
                 var url = (
                     img.href + '?imgmax=' +
@@ -273,7 +276,6 @@
                     return;
                 }
                 box.css({
-                    'bottom': front.find('.napokaz-f-thumbs').outerHeight(true),
                     'background-image': 'url(' + url  + ')'
                 });
                 front.find('.napokaz-f-title')
