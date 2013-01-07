@@ -87,7 +87,7 @@
         bottom: 0;
         left: 0;
         display: none;
-        margin: 0 40px 10px 40px;
+        margin: 0 40px 20px 40px;
         text-align: center;
         white-space: nowrap;
 
@@ -101,7 +101,7 @@
             .opacity(0.4);
         }
         .napokaz-f-current {
-            .opacity;
+            .opacity(0.99);
         }
         .napokaz-f-show {
             .inline-block;
@@ -158,7 +158,7 @@
     right: -40px;
     padding-left: 50%;
     span {
-        right: 5px;
+        right: 10px;
     }
 }
 .arrow-left() {
@@ -166,7 +166,7 @@
     left: -40px;
     padding-right: 50%;
     span {
-        left: 5px;
+        left: 10px;
     }
 }
 .inline-block() {
@@ -174,7 +174,7 @@
     *display: inline;
     *zoom: 1;
 }
-.opacity(@opacity: 100) {
+.opacity(@opacity: 1) {
     opacity: @opacity;
     @opperc: @opacity * 100;
     filter: ~"alpha(opacity=@{opperc})";

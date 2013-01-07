@@ -85,7 +85,7 @@
   margin-top: -20px;
 }
 .napokaz-f .napokaz-f-orig .napokaz-f-prev span {
-  left: 5px;
+  left: 10px;
 }
 .napokaz-f .napokaz-f-orig .napokaz-f-next {
   position: absolute;
@@ -112,7 +112,7 @@
   margin-top: -20px;
 }
 .napokaz-f .napokaz-f-orig .napokaz-f-next span {
-  right: 5px;
+  right: 10px;
 }
 .napokaz-f .napokaz-f-orig .napokaz-f-title {
   display: block;
@@ -136,7 +136,7 @@
   bottom: 0;
   left: 0;
   display: none;
-  margin: 0 40px 10px 40px;
+  margin: 0 40px 20px 40px;
   text-align: center;
   white-space: nowrap;
 }
@@ -151,8 +151,8 @@
   filter: alpha(opacity=40);
 }
 .napokaz-f .napokaz-f-thumbs .napokaz-f-current {
-  opacity: 100;
-  filter: alpha(opacity=10000);
+  opacity: 0.99;
+  filter: alpha(opacity=99);
 }
 .napokaz-f .napokaz-f-thumbs .napokaz-f-show {
   display: inline-block;
@@ -184,7 +184,7 @@
   margin-top: -20px;
 }
 .napokaz-f .napokaz-f-thumbs .napokaz-f-pprev span {
-  left: 5px;
+  left: 10px;
 }
 .napokaz-f .napokaz-f-thumbs .napokaz-f-pnext {
   position: absolute;
@@ -211,7 +211,7 @@
   margin-top: -20px;
 }
 .napokaz-f .napokaz-f-thumbs .napokaz-f-pnext span {
-  right: 5px;
+  right: 10px;
 }
 .napokaz-f .napokaz-f-ctrls .napokaz-f-pprev,
 .napokaz-f .napokaz-f-ctrls .napokaz-f-pnext {
