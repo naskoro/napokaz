@@ -108,13 +108,13 @@
             '<div class="napokaz-f-overlay">&nbsp;</div>' +
             '<div class="napokaz-f-orig">' +
                 '<div class="napokaz-f-close">&otimes;</div>' +
-                '<div class="napokaz-f-prev"><span>&lang;</span></div>' +
-                '<div class="napokaz-f-next"><span>&rang;</span></div>' +
+                '<div class="napokaz-f-prev"><span>&lsaquo;</span></div>' +
+                '<div class="napokaz-f-next"><span>&rsaquo;</span></div>' +
                 '<a class="napokaz-f-title" href="" target="_blank"></a>' +
             '</div>' +
             '<div class="napokaz-f-thumbs napokaz-f-ctrls">' +
-                '<div class="napokaz-f-pprev"><span>&lang;</span></div>' +
-                '<div class="napokaz-f-pnext"><span>&rang;</span></div>' +
+                '<div class="napokaz-f-pprev"><span>&laquo;</span></div>' +
+                '<div class="napokaz-f-pnext"><span>&raquo;</span></div>' +
                 '{% $.each(items, function(num, item) { %}' +
                 '<div class="napokaz-f-thumb"' +
                     'id="{{ item.id }}"' +
