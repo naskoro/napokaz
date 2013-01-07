@@ -40,11 +40,24 @@
         right: 0;
         bottom: 100px;
         left: 0;
-        margin: 20px 40px 30px 40px;
+        margin: 30px 40px;
         text-align: center;
         background-position: center center;
         background-repeat: no-repeat;
 
+        .napokaz-f-close {
+            position: relative;
+            top: -30px;
+            right: -35px;
+            float: right;
+            font-size: 25px;
+            color: #eee;
+            cursor: pointer;
+            &:hover {
+                color: #fff;
+                text-shadow: 0 0 8px #fff, 0 0 20px #fff;
+            }
+        }
         .napokaz-f-prev {
             .arrow-left;
         }

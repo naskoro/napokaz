@@ -107,6 +107,7 @@
         '<div class="napokaz-f napokaz-f-ctrls">' +
             '<div class="napokaz-f-overlay">&nbsp;</div>' +
             '<div class="napokaz-f-orig">' +
+                '<div class="napokaz-f-close">&otimes;</div>' +
                 '<div class="napokaz-f-prev"><span>&lang;</span></div>' +
                 '<div class="napokaz-f-next"><span>&rang;</span></div>' +
                 '<a class="napokaz-f-title" href="" target="_blank"></a>' +
@@ -196,6 +197,7 @@
                     return false;
                 });
                 var events = [
+                    ['.napokaz-f-close', 'hide'],
                     ['.napokaz-f-prev', 'prev'],
                     ['.napokaz-f-next', 'next'],
                     ['.napokaz-f-pprev', 'page:prev'],
@@ -203,9 +205,7 @@
                 ];
                 $.each(events, function(i, item) {
                     front.find(item[0]).on('click', function() {
-                        if (count > 1) {
-                            front.trigger(item[1]);
-                        }
+                        front.trigger(item[1]);
                         return false;
                     });
                 });
