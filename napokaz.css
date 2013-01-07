@@ -71,7 +71,7 @@
   color: #eee;
   cursor: pointer;
   left: -40px;
-  padding-right: 30%;
+  padding-right: 50%;
 }
 .napokaz-f .napokaz-f-orig .napokaz-f-prev:hover {
   color: #fff;
@@ -98,7 +98,7 @@
   color: #eee;
   cursor: pointer;
   right: -40px;
-  padding-left: 70%;
+  padding-left: 50%;
 }
 .napokaz-f .napokaz-f-orig .napokaz-f-next:hover {
   color: #fff;
@@ -170,7 +170,7 @@
   color: #eee;
   cursor: pointer;
   left: -40px;
-  padding-right: 30%;
+  padding-right: 50%;
 }
 .napokaz-f .napokaz-f-thumbs .napokaz-f-pprev:hover {
   color: #fff;
@@ -197,7 +197,7 @@
   color: #eee;
   cursor: pointer;
   right: -40px;
-  padding-left: 70%;
+  padding-left: 50%;
 }
 .napokaz-f .napokaz-f-thumbs .napokaz-f-pnext:hover {
   color: #fff;
