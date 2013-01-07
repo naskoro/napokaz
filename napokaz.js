@@ -104,17 +104,17 @@
             '{% }); %}' +
         '</div>' +
         // Front
-        '<div class="napokaz-f">' +
+        '<div class="napokaz-f napokaz-f-ctrls">' +
             '<div class="napokaz-f-overlay">&nbsp;</div>' +
             '<div class="napokaz-f-orig">' +
-                '<div class="napokaz-f-prev">&lang;</div>' +
-                '<div class="napokaz-f-next">&rang;</div>' +
+                '<div class="napokaz-f-prev"><span>&lang;</span></div>' +
+                '<div class="napokaz-f-next"><span>&rang;</span></div>' +
                 '<div class="napokaz-f-img"></div>' +
                 '<a class="napokaz-f-title" href="" target="_blank"></a>' +
             '</div>' +
-            '<div class="napokaz-f-thumbs">' +
-                '<div class="napokaz-f-pprev">&lang;</div>' +
-                '<div class="napokaz-f-pnext">&rang;</div>' +
+            '<div class="napokaz-f-thumbs napokaz-f-ctrls">' +
+                '<div class="napokaz-f-pprev"><span>&lang;</span></div>' +
+                '<div class="napokaz-f-pnext"><span>&rang;</span></div>' +
                 '{% $.each(items, function(num, item) { %}' +
                 '<div class="napokaz-f-thumb"' +
                     'id="{{ item.id }}"' +
@@ -158,15 +158,13 @@
                 front.data('initOnce', true);
 
                 var count = front.find('.napokaz-f-thumb').length;
-                if (count <= opts.frontCount) {
-                    front.find('.napokaz-f-pprev, .napokaz-f-pnext').hide();
-                }
                 if (count === 1) {
-                    front.find('.napokaz-f-prev, .napokaz-f-next').hide();
-                    front.find('.napokaz-f-thumbs').hide();
+                    front.removeClass('napokaz-f-ctrls');
+                } else if (count <= opts.frontCount) {
+                    front.find('.napokaz-f-thumbs').removeClass('napokaz-f-ctrls');
                 }
 
-                me.selector(front, 'napokaz-f-thumb', 'napokaz-f-active');
+                me.selector(front, 'napokaz-f-thumb', 'napokaz-f-current');
                 me.selector(front, 'napokaz-f-thumb', 'napokaz-f-show', opts.frontCount);
                 front.on({
                     'show': function() {
@@ -200,7 +198,7 @@
                 });
                 var events = [
                     ['.napokaz-f-prev', 'prev'],
-                    ['.napokaz-f-next, .napokaz-f-img', 'next'],
+                    ['.napokaz-f-next, .napokaz-f-orig', 'next'],
                     ['.napokaz-f-pprev', 'page:prev'],
                     ['.napokaz-f-pnext', 'page:next']
                 ];
@@ -278,7 +276,7 @@
                     'bottom': front.find('.napokaz-f-thumbs').outerHeight(true),
                     'background-image': 'url(' + url  + ')'
                 });
-                box.find('.napokaz-f-title')
+                front.find('.napokaz-f-title')
                     .html(img.desc || img.title)
                     .attr('href', img.picasa);
             },
