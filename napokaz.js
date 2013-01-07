@@ -109,7 +109,6 @@
             '<div class="napokaz-f-orig">' +
                 '<div class="napokaz-f-prev"><span>&lang;</span></div>' +
                 '<div class="napokaz-f-next"><span>&rang;</span></div>' +
-                '<div class="napokaz-f-img"></div>' +
                 '<a class="napokaz-f-title" href="" target="_blank"></a>' +
             '</div>' +
             '<div class="napokaz-f-thumbs napokaz-f-ctrls">' +
@@ -198,7 +197,7 @@
                 });
                 var events = [
                     ['.napokaz-f-prev', 'prev'],
-                    ['.napokaz-f-next, .napokaz-f-orig', 'next'],
+                    ['.napokaz-f-next', 'next'],
                     ['.napokaz-f-pprev', 'page:prev'],
                     ['.napokaz-f-pnext', 'page:next']
                 ];
