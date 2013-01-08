@@ -107,9 +107,9 @@
         '<div class="napokaz-f napokaz-f-ctrls">' +
             '<div class="napokaz-f-overlay">&nbsp;</div>' +
             '<div class="napokaz-f-orig">' +
-                '<div class="napokaz-f-close">&otimes;</div>' +
                 '<div class="napokaz-f-prev"><span>&lsaquo;</span></div>' +
                 '<div class="napokaz-f-next"><span>&rsaquo;</span></div>' +
+                '<div class="napokaz-f-close">&otimes;</div>' +
                 '<div class="napokaz-f-img"></div>' +
                 '<a class="napokaz-f-title" href="" target="_blank"></a>' +
             '</div>' +
