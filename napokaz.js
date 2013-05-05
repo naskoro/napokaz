@@ -1,4 +1,5 @@
 (function ($) {
+    'use strict';
     var defaults = {
         boxThumbsize: '72c',
         boxWidth: 3,
@@ -187,7 +188,7 @@
                         ];
                         $.each(preloads, function() {
                             if (this.length) {
-                                me.getImg(front, this, preloadOnly=true);
+                                me.getImg(front, this, true);
                             }
                         });
                         window.location.hash = thumb.attr('id');
@@ -358,3 +359,9 @@
         return data ? fn(data) : fn;
     }
 }(jQuery));
+if (!window.console) {
+    window.console = {
+        log: function() {},
+        error: function() {}
+    };
+}

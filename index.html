@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Napokaz</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="http://code.jquery.com/jquery.js"></script>
 
@@ -12,7 +13,13 @@
         });
     </script>
     <style>
-        .napokaz {display: inline-block; margin: 5px; vertical-align: top;}
+        .napokaz {
+            display: inline-block;
+            *display: inline;
+            *zoom: 1;
+            margin: 5px;
+            vertical-align: top;
+        }
     </style>
 </head>
 <body>
@@ -52,4 +59,5 @@
         data-box-thumbsize="120c"
         data-picasa-album="20121016_Karpaty_Spravzhnya_Kazka">
     </div>
+</body>
 </html>
