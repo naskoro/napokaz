@@ -35,6 +35,7 @@
             });
         },
         parse: function(opts, data) {
+            //data = $($.parseXML(data)); //Work in IE7 %)
             data = $(data);
             var albumId = data.find('gphoto\\:albumid:first').text();
             var items = [];
