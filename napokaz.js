@@ -314,6 +314,9 @@
         });
     };
     $.fn.napokaz.defaults = defaults;
+    $.fn.napokaz.defaults.set = function(options) {
+        $.fn.napokaz.defaults = $.extend({}, $.fn.napokaz.defaults, options);
+    }
     // }}}
 
     // Functions
