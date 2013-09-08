@@ -151,7 +151,7 @@
                 me.selector(box, 'napokaz-b-thumb', 'napokaz-b-show', perPage);
                 box.trigger('page:select', box.find('.napokaz-b-thumb:first'));
                 if (!$('.napokaz-f:visible').length) {
-                    box.find(window.location.hash).click();
+                    box.find(window.location.hash.replace('-','')).click();
                 }
             },
             initFront: function(front, current) {
@@ -192,7 +192,7 @@
                                 me.getImg(front, this, true);
                             }
                         });
-                        window.location.hash = thumb.attr('id');
+                        window.location.hash = '-' + thumb.attr('id');
                     }
                 });
                 front.find('.napokaz-f-thumb').click(function() {
