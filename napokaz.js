@@ -98,8 +98,9 @@
             '{% $.each(items, function(num, item) { %}' +
             '<div class="napokaz-b-thumb"' +
                 'id="{{ item.id }}"' +
+                'data-bg-img="{{ item.boxThumb.url }}"' +
                 'style="' +
-                    'background-image: url({{ item.boxThumb.url }});' +
+                    'background-image: none;' +
                     'width: {{ item.boxThumb.size }}px;' +
                     'height: {{ item.boxThumb.size }}px"' +
             '>&nbsp;</div>' +
@@ -126,8 +127,9 @@
                     'data-href="{{ item.orig.url }}"' +
                     'data-size="[{{ item.orig.width }},{{ item.orig.height }}]"' +
                     'data-picasa="{{ item.picasa }}"' +
+                    'data-bg-img="{{ item.frontThumb.url }}"' +
                     'style="' +
-                        'background-image: url({{ item.frontThumb.url }});' +
+                        'background-image: none;' +
                         'width: {{ item.frontThumb.size }}px;' +
                         'height: {{ item.frontThumb.size }}px"' +
                 '>&nbsp;</div>' +
@@ -260,7 +262,14 @@
                     var items = box.find(elementSel);
                     var current = items.index(element);
                     current = Math.floor(current / perPage) * perPage;
-                    items.slice(current, current + perPage).addClass(currentCls);
+                    items = items.slice(current, current + perPage).addClass(currentCls);
+                    items.each(function() {
+                        var $this = $(this);
+                        var url = $this.data('bg-img');
+                        if (url) {
+                            $this.css({'background-image': 'url(' + url  + ')'});
+                        }
+                    });
                 });
             },
             getImg: function(front, thumb, preloadOnly) {
@@ -277,9 +286,7 @@
                     $('<img/>').attr('src', url);
                     return;
                 }
-                box.css({
-                    'background-image': 'url(' + url  + ')'
-                });
+                box.css({'background-image': 'url(' + url  + ')'});
                 front.find('.napokaz-f-title')
                     .html(img.desc || img.title)
                     .attr('href', img.picasa);
