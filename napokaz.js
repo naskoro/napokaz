@@ -73,7 +73,8 @@
             });
             return {
                 items: items,
-                albumId: albumId
+                albumId: albumId,
+                opts: opts
             };
         },
         checkTags: function(opts, tags) {
@@ -97,6 +98,9 @@
         // Box on page
         '<div class="napokaz-b">' +
             '{% $.each(items, function(num, item) { %}' +
+            '{% if (!num) { %}' +
+                '<div class="napokaz-b-page">' +
+            '{% } %}' +
             '<div class="napokaz-b-thumb"' +
                 'id="{{ item.id }}"' +
                 'data-img="{{ item.boxThumb.url }}"' +
@@ -105,6 +109,11 @@
                     'width: {{ item.boxThumb.size }}px;' +
                     'height: {{ item.boxThumb.size }}px"' +
             '>&nbsp;</div>' +
+            '{% if ((items.length - num) === 1) { %}' +
+                '</div>' +
+            '{% } else if ((num + 1) % opts.boxWidth === 0) { %}' +
+                '</div><div class="napokaz-b-page">' +
+            '{% } %}' +
             '{% }); %}' +
         '</div>' +
         // Front
