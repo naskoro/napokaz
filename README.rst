@@ -5,6 +5,8 @@ __ https://picasaweb.google.com/
 
 Has one dependence jquery. Formally it jquery plugin.
 
+`Live examples. <http://pusto.org/s/napokaz/>`_
+
 Usage:
 
 .. code:: html
@@ -26,8 +28,6 @@ Usage:
         data-picasa-user="115954385615646692819"
         data-picasa-albumid="5923049200824375969">
     </div>
-
-`Live examples. <http://pusto.org/s/napokaz/>`_
 
 **Screenshot:**
 
