@@ -1,4 +1,5 @@
-Lightweight image viewer for picasaweb__;
+Lightweight image viewer for picasaweb__
+----------------------------------------
 
 __ https://picasaweb.google.com/
 
