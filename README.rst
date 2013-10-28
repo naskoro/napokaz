@@ -3,7 +3,7 @@ Lightweight image viewer for picasaweb__
 
 __ https://picasaweb.google.com/
 
-Has one dependence jquery. Formally it jquery plugin.
+Has one dependence jquery. Formally jquery plugin.
 
 `Live examples. <http://pusto.org/s/napokaz/>`_
 
