@@ -11,6 +11,7 @@ Usage:
 
 .. code:: html
 
+    <link rel="stylesheet" href="napokaz.css" />
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="napokaz.js"></script>
     <script>
