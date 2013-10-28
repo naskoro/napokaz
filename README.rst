@@ -27,6 +27,8 @@ Usage:
         data-picasa-albumid="5923049200824375969">
     </div>
 
+`Live examples. <http://pusto.org/s/napokaz/>`_
+
 **Screenshot:**
 
 .. image:: screenshot.png
