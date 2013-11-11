@@ -364,49 +364,42 @@
     }
 
     function swipe(elements, callback) {
-        $.each(elements, function(i, element) {
+        if (!('ontouchstart' in window)) {
+            return;
+        }
+        $.each(elements, function() {
             var x, delta,
+            element = $(this),
             check = function(callback) {
                 return function(event) {
+                    event.preventDefault();
+                    event = event.originalEvent;
                     if (event.touches.length == 1 || event.scale && event.scale !== 1) {
                         callback(event);
                     }
-                    event.preventDefault();
                 };
             },
-            handler = {
-                handleEvent: function(event) {
-                    switch (event.type) {
-                        case 'touchstart': this.start(event); break;
-                        case 'touchmove': this.move(event); break;
-                        case 'touchend': this.end(event); break;
-                    }
-                },
-                start: check(function(event) {
-                    x = event.touches[0].pageX;
-                    element.addEventListener('touchmove', handler, false);
-                    element.addEventListener('touchend', handler, false);
-                }),
-                move: check(function(event) {
-                    delta = x - event.touches[0].pageX;
-                }),
-                end: function(event) {
-                    if (x && delta === undefined) {
-                        $(element).click();
-                    } else if (Math.abs(delta) > 50) {
-                        callback(delta);
-                    } else {
-                        event.preventDefault();
-                    }
-                    x = undefined;
-                    delta = undefined;
-                    element.removeEventListener('touchmove', handler, false);
-                    element.removeEventListener('touchend', handler, false);
+            start = check(function(event) {
+                x = event.touches[0].pageX;
+                element.on('touchmove', move);
+                element.on('touchend', end);
+            }),
+            move = check(function(event) {
+                delta = x - event.touches[0].pageX;
+            }),
+            end = function(event) {
+                event.preventDefault();
+                if (x && delta === undefined) {
+                    $(element).click();
+                } else if (Math.abs(delta) > 50) {
+                    callback(delta);
                 }
+                x = undefined;
+                delta = undefined;
+                element.off('touchmove', move);
+                element.off('touchend', end);
             };
-            if (!!window.addEventListener) {
-                element.addEventListener('touchstart', handler, false);
-            }
+            element.on('touchstart', start);
         });
     }
 
