@@ -367,38 +367,38 @@
         if (!('ontouchstart' in window)) {
             return;
         }
-        $.each(elements, function() {
-            var x, delta,
-            element = $(this),
-            check = function(callback) {
-                return function(event) {
-                    event.preventDefault();
-                    event = event.originalEvent;
-                    if (event.touches.length == 1 || event.scale && event.scale !== 1) {
-                        callback(event);
-                    }
-                };
-            },
-            start = check(function(event) {
-                x = event.touches[0].pageX;
-                element.on('touchmove', move);
-                element.on('touchend', end);
-            }),
-            move = check(function(event) {
-                delta = x - event.touches[0].pageX;
-            }),
-            end = function(event) {
+
+        var check = function(callback) {
+            return function($event) {
+                $event.preventDefault();
+                event = $event.originalEvent;
+                if (event.touches.length == 1 || event.scale && event.scale !== 1) {
+                    callback(event.touches[0], $($event.target));
+                }
+            };
+        };
+        var start = check(function(touch, element) {
+            var delta, x = touch.pageX;
+            var move = check(function(touch) {
+                delta = x - touch.pageX;
+            });
+            var end = function(event) {
                 event.preventDefault();
                 if (x && delta === undefined) {
                     $(element).click();
                 } else if (Math.abs(delta) > 50) {
                     callback(delta);
                 }
-                x = undefined;
-                delta = undefined;
+                x = delta = undefined;
                 element.off('touchmove', move);
                 element.off('touchend', end);
             };
+
+            element.on('touchmove', move);
+            element.on('touchend', end);
+        });
+        $.each(elements, function() {
+            var element = $(this);
             element.on('touchstart', start);
         });
     }
