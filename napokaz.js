@@ -156,188 +156,186 @@
     );
     var main = function(opts, container) {
         var $w = $(window);
-        var me = {
-            process: function() {
-                var box = container.find('.napokaz-b');
-                var perPage = opts.boxWidth * opts.boxHeight;
-                box.find('.napokaz-b-thumb').click(function() {
-                    var front = container.find('.napokaz-f');
-                    var current = front.find('#' + $(this).attr('id'));
-                    me.initFront(front, current);
-                    front.trigger('show');
-                    front.trigger('select', current);
+        function process() {
+            var box = container.find('.napokaz-b');
+            var perPage = opts.boxWidth * opts.boxHeight;
+            box.find('.napokaz-b-thumb').click(function() {
+                var front = container.find('.napokaz-f');
+                var current = front.find('#' + $(this).attr('id'));
+                initFront(front, current);
+                front.trigger('show');
+                front.trigger('select', current);
+                return false;
+            });
+            selector(box, 'napokaz-b-thumb', 'napokaz-b-show', perPage);
+            box.trigger('page:select', box.find('.napokaz-b-thumb:first'));
+            if (!$('.napokaz-f:visible').length) {
+                box.find(window.location.hash).click();
+            }
+        }
+        function initFront(front, current) {
+            if (front.data('initOnce')) {
+                return;
+            }
+            front.data('initOnce', true);
+
+            var count = front.find('.napokaz-f-thumb').length;
+            if (count === 1) {
+                front.removeClass('napokaz-f-ctrls');
+            } else if (count <= opts.frontCount) {
+                front.find('.napokaz-f-thumbs').removeClass('napokaz-f-ctrls');
+            }
+
+            selector(front, 'napokaz-f-thumb', 'napokaz-f-current');
+            selector(front, 'napokaz-f-thumb', 'napokaz-f-show', opts.frontCount);
+            front.on({
+                'show': function() {
+                    $(this).show();
+                },
+                'hide': function() {
+                    $(this).hide();
+                    if (opts.frontUseHash) {
+                        window.location.hash = '';
+                    }
+                },
+                'select': function(e, thumb) {
+                    thumb = $(thumb);
+                    if (!thumb.hasClass('napokaz-f-show')) {
+                        front.trigger('page:select', thumb);
+                    }
+                    getImg(front, thumb, true);
+                    var preloads = [
+                        thumb.next('.napokaz-f-thumb'),
+                        thumb.prev('.napokaz-f-thumb')
+                    ];
+                    $.each(preloads, function() {
+                        if (this.length) {
+                            getImg(front, this);
+                        }
+                    });
+                    if (opts.frontUseHash) {
+                        window.location.hash = thumb.attr('id');
+                    }
+                }
+            });
+            front.find('.napokaz-f-thumb').click(function() {
+                front.trigger('select', this);
+                return false;
+            });
+            var events = [
+                ['.napokaz-f-close', 'hide'],
+                ['.napokaz-f-prev', 'prev'],
+                ['.napokaz-f-next', 'next'],
+                ['.napokaz-f-pprev', 'page:prev'],
+                ['.napokaz-f-pnext', 'page:next']
+            ];
+            $.each(events, function(i, item) {
+                front.find(item[0]).on('click', function() {
+                    front.trigger(item[1]);
                     return false;
                 });
-                me.selector(box, 'napokaz-b-thumb', 'napokaz-b-show', perPage);
-                box.trigger('page:select', box.find('.napokaz-b-thumb:first'));
-                if (!$('.napokaz-f:visible').length) {
-                    box.find(window.location.hash).click();
-                }
-            },
-            initFront: function(front, current) {
-                if (front.data('initOnce')) {
+            });
+
+            swipe(front.find('.napokaz-f-next, .napokaz-f-prev'), function(delta) {
+                front.trigger((delta && delta < 0) ? 'prev' : 'next');
+            });
+            swipe(front.find('.napokaz-f-thumb'), function(delta) {
+                front.trigger((delta && delta < 0) ? 'page:prev' : 'page:next');
+            });
+
+            // Set navigation key bindings
+            $(document).on('keydown.napokaz-f', function (e) {
+                if (front.is(':hidden')) {
                     return;
                 }
-                front.data('initOnce', true);
-
-                var count = front.find('.napokaz-f-thumb').length;
-                if (count === 1) {
-                    front.removeClass('napokaz-f-ctrls');
-                } else if (count <= opts.frontCount) {
-                    front.find('.napokaz-f-thumbs').removeClass('napokaz-f-ctrls');
-                }
-
-                me.selector(front, 'napokaz-f-thumb', 'napokaz-f-current');
-                me.selector(front, 'napokaz-f-thumb', 'napokaz-f-show', opts.frontCount);
-                front.on({
-                    'show': function() {
-                        $(this).show();
-                    },
-                    'hide': function() {
-                        $(this).hide();
-                        if (opts.frontUseHash) {
-                            window.location.hash = '';
-                        }
-                    },
-                    'select': function(e, thumb) {
-                        thumb = $(thumb);
-                        if (!thumb.hasClass('napokaz-f-show')) {
-                            front.trigger('page:select', thumb);
-                        }
-                        me.getImg(front, thumb, true);
-                        var preloads = [
-                            thumb.next('.napokaz-f-thumb'),
-                            thumb.prev('.napokaz-f-thumb')
-                        ];
-                        $.each(preloads, function() {
-                            if (this.length) {
-                                me.getImg(front, this);
-                            }
-                        });
-                        if (opts.frontUseHash) {
-                            window.location.hash = thumb.attr('id');
-                        }
-                    }
-                });
-                front.find('.napokaz-f-thumb').click(function() {
-                    front.trigger('select', this);
-                    return false;
-                });
-                var events = [
-                    ['.napokaz-f-close', 'hide'],
-                    ['.napokaz-f-prev', 'prev'],
-                    ['.napokaz-f-next', 'next'],
-                    ['.napokaz-f-pprev', 'page:prev'],
-                    ['.napokaz-f-pnext', 'page:next']
-                ];
-                $.each(events, function(i, item) {
-                    front.find(item[0]).on('click', function() {
-                        front.trigger(item[1]);
-                        return false;
-                    });
-                });
-
-                swipe(front.find('.napokaz-f-next, .napokaz-f-prev'), function(delta) {
-                    front.trigger((delta && delta < 0) ? 'prev' : 'next');
-                });
-                swipe(front.find('.napokaz-f-thumb'), function(delta) {
-                    front.trigger((delta && delta < 0) ? 'page:prev' : 'page:next');
-                });
-
-                // Set navigation key bindings
-                $(document).on('keydown.napokaz-f', function (e) {
-                    if (front.is(':hidden')) {
-                        return;
-                    }
-                    var events = {
-                        8: 'hide', // Backspace
-                        27: 'hide', // Esc
-                        46: 'hide', // Delete
-                        37: 'prev', // <=
-                        39: 'next', // =>
-                        33: 'page:prev', // PageUp
-                        34: 'page:next' // PageDown
-                    };
-                    if (events.hasOwnProperty(e.keyCode)) {
-                        e.preventDefault();
-                        front.trigger(events[e.keyCode]);
-                    }
-                });
-            },
-            selector: function(box, elementCls, currentCls, perPage) {
-                perPage = !perPage ? 0 : perPage;
-                var prefix = perPage > 1 ? 'page:' : '';
-                var elementSel = '.' + elementCls;
-                var currentSel = '.' + currentCls;
-                var selector = function(e) {
-                    var cur, el, isNext;
-                    isNext = e.data.isNext;
-                    cur = box.find(currentSel + (isNext ? ':last': ':first'));
-                    el = cur[isNext ? 'next': 'prev'](elementSel);
-                    if (!el.length) {
-                        el = box.find(elementSel + (isNext ? ':first': ':last'));
-                    }
-                    box.trigger(prefix + 'select', el);
+                var events = {
+                    8: 'hide', // Backspace
+                    27: 'hide', // Esc
+                    46: 'hide', // Delete
+                    37: 'prev', // <=
+                    39: 'next', // =>
+                    33: 'page:prev', // PageUp
+                    34: 'page:next' // PageDown
                 };
-                box.on(prefix + 'prev', {isNext: false}, selector);
-                box.on(prefix + 'next', {isNext: true}, selector);
-                box.on(prefix + 'select', function(e, element) {
-                    element = $(element);
-                    box.find(currentSel).removeClass(currentCls);
-                    if (perPage <= 1) {
-                        element.addClass(currentCls);
-                        return;
-                    }
-                    var items = box.find(elementSel);
-                    var current = items.index(element);
-                    current = Math.floor(current / perPage) * perPage;
-                    items = items.slice(current, current + perPage).addClass(currentCls);
-                    items.each(function() {
-                        var $this = $(this);
-                        var url = $this.data('img');
-                        if (url) {
-                            $this.one('show', function() {
-                                $this.css({'background-image': 'url(' + url  + ')'});
-                            });
-                            showImg($this, 'show');
-                        }
-                    });
-                });
-            },
-            getImg: function(front, thumb, current) {
-                var box = front.find('.napokaz-f-orig');
-                box.css({
-                    'bottom': front.find('.napokaz-f-thumbs').outerHeight(true)
-                });
-                box.one('show', function() {
-                    box.css({'background-image': 'url(' + url  + ')'});
-                });
-                var img = thumb.data();
-                var url = (
-                    img.href + '?imgmax=' +
-                    me.getImgMax(img.size, [box.width(), box.height()])
-                );
-                if (current) {
-                    box.trigger('show');
-                    front.find('.napokaz-f-title')
-                        .html(img.desc || img.title)
-                        .attr('href', img.picasa);
-                } else {
-                    $('<img/>').attr('src', url);
+                if (events.hasOwnProperty(e.keyCode)) {
+                    e.preventDefault();
+                    front.trigger(events[e.keyCode]);
                 }
-            },
-            getImgMax: function(img, win) {
-                img = {w: img[0], h: img[1]};
-                win = {w: win[0], h: win[1]};
-
-                var ratio, result;
-                ratio = img.w / img.h;
-                ratio = ratio > 1 && ratio || 1;
-                result = Math.min(win.h * ratio, win.w);
-                result = Math.round(result);
-                return result;
+            });
+        }
+        function selector(box, elementCls, currentCls, perPage) {
+            perPage = !perPage ? 0 : perPage;
+            var prefix = perPage > 1 ? 'page:' : '';
+            var elementSel = '.' + elementCls;
+            var currentSel = '.' + currentCls;
+            var select = function(e) {
+                var cur, el, isNext;
+                isNext = e.data.isNext;
+                cur = box.find(currentSel + (isNext ? ':last': ':first'));
+                el = cur[isNext ? 'next': 'prev'](elementSel);
+                if (!el.length) {
+                    el = box.find(elementSel + (isNext ? ':first': ':last'));
+                }
+                box.trigger(prefix + 'select', el);
+            };
+            box.on(prefix + 'prev', {isNext: false}, select);
+            box.on(prefix + 'next', {isNext: true}, select);
+            box.on(prefix + 'select', function(e, element) {
+                element = $(element);
+                box.find(currentSel).removeClass(currentCls);
+                if (perPage <= 1) {
+                    element.addClass(currentCls);
+                    return;
+                }
+                var items = box.find(elementSel);
+                var current = items.index(element);
+                current = Math.floor(current / perPage) * perPage;
+                items = items.slice(current, current + perPage).addClass(currentCls);
+                items.each(function() {
+                    var $this = $(this);
+                    var url = $this.data('img');
+                    if (url) {
+                        $this.one('show', function() {
+                            $this.css({'background-image': 'url(' + url  + ')'});
+                        });
+                        showImg($this, 'show');
+                    }
+                });
+            });
+        }
+        function getImg(front, thumb, current) {
+            var box = front.find('.napokaz-f-orig');
+            box.css({
+                'bottom': front.find('.napokaz-f-thumbs').outerHeight(true)
+            });
+            box.one('show', function() {
+                box.css({'background-image': 'url(' + url  + ')'});
+            });
+            var img = thumb.data();
+            var url = (
+                img.href + '?imgmax=' +
+                getImgMax(img.size, [box.width(), box.height()])
+            );
+            if (current) {
+                box.trigger('show');
+                front.find('.napokaz-f-title')
+                    .html(img.desc || img.title)
+                    .attr('href', img.picasa);
+            } else {
+                $('<img/>').attr('src', url);
             }
-        };
+        }
+        function getImgMax(img, win) {
+            img = {w: img[0], h: img[1]};
+            win = {w: win[0], h: win[1]};
+
+            var ratio, result;
+            ratio = img.w / img.h;
+            ratio = ratio > 1 && ratio || 1;
+            result = Math.min(win.h * ratio, win.w);
+            result = Math.round(result);
+            return result;
+        }
 
         function showImg(items, trigger) {
             function update() {
@@ -360,7 +358,7 @@
             $w.scroll(update);
             $w.resize(update);
         }
-        return me;
+        return process();
     };
 
     // Public {{{
@@ -372,7 +370,7 @@
             picasa.fetch(opts, function(data) {
                 console.log(data);
                 container.html(tmpl(template, data));
-                main(opts, container).process();
+                main(opts, container);
             });
 
         });
