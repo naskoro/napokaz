@@ -155,7 +155,8 @@
         '</div>'
     );
     var main = function(opts, container) {
-        var $w = $(window);
+        var $window = $(window);
+
         function process() {
             var box = container.find('.napokaz-b');
             var perPage = opts.boxWidth * opts.boxHeight;
@@ -293,6 +294,8 @@
                 items = items.slice(current, current + perPage).addClass(currentCls);
                 items.each(function() {
                     var $this = $(this);
+                    if ($this.css('background-image') != 'none') return;
+
                     var url = $this.data('img');
                     if (url) {
                         $this.one('show', function() {
@@ -318,9 +321,8 @@
             );
             if (current) {
                 box.trigger('show');
-                front.find('.napokaz-f-title')
-                    .html(img.desc || img.title)
-                    .attr('href', img.picasa);
+                var title = front.find('.napokaz-f-title');
+                title.html(img.desc || img.title).attr('href', img.picasa);
             } else {
                 $('<img/>').attr('src', url);
             }
@@ -340,13 +342,13 @@
         function showImg(items, trigger) {
             function update() {
                 var toShow = items.filter(function() {
-                    var $e = $(this);
-                    if ($e.is(":hidden")) return;
+                    var $element = $(this);
+                    if ($element.is(":hidden")) return;
 
-                    var wt = $w.scrollTop(),
-                        wb = wt + $w.height(),
-                        et = $e.offset().top,
-                        eb = et + $e.height();
+                    var wt = $window.scrollTop(),
+                        wb = wt + $window.height(),
+                        et = $element.offset().top,
+                        eb = et + $element.height();
 
                     return eb >= wt && et <= wb;
                 });
@@ -355,8 +357,8 @@
             }
 
             update();
-            $w.scroll(update);
-            $w.resize(update);
+            $window.scroll(update);
+            $window.resize(update);
         }
         return process();
     };
