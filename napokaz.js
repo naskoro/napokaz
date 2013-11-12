@@ -1,4 +1,4 @@
-(function ($) {
+(function($) {
     'use strict';
     var defaults = {
         boxThumbsize: '72c',
@@ -155,6 +155,7 @@
         '</div>'
     );
     var main = function(opts, container) {
+        var $w = $(window);
         var me = {
             process: function() {
                 var box = container.find('.napokaz-b');
@@ -203,14 +204,14 @@
                         if (!thumb.hasClass('napokaz-f-show')) {
                             front.trigger('page:select', thumb);
                         }
-                        me.getImg(front, thumb);
+                        me.getImg(front, thumb, true);
                         var preloads = [
                             thumb.next('.napokaz-f-thumb'),
                             thumb.prev('.napokaz-f-thumb')
                         ];
                         $.each(preloads, function() {
                             if (this.length) {
-                                me.getImg(front, this, true);
+                                me.getImg(front, this);
                             }
                         });
                         if (opts.frontUseHash) {
@@ -237,10 +238,10 @@
                 });
 
                 swipe(front.find('.napokaz-f-next, .napokaz-f-prev'), function(delta) {
-                    front.trigger((delta && delta < 0) ? 'prev': 'next');
+                    front.trigger((delta && delta < 0) ? 'prev' : 'next');
                 });
                 swipe(front.find('.napokaz-f-thumb'), function(delta) {
-                    front.trigger((delta && delta < 0) ? 'page:prev': 'page:next');
+                    front.trigger((delta && delta < 0) ? 'page:prev' : 'page:next');
                 });
 
                 // Set navigation key bindings
@@ -295,33 +296,39 @@
                         var $this = $(this);
                         var url = $this.data('img');
                         if (url) {
-                            $this.css({'background-image': 'url(' + url  + ')'});
+                            $this.one('show', function() {
+                                $this.css({'background-image': 'url(' + url  + ')'});
+                            });
+                            showImg($this, 'show');
                         }
                     });
                 });
             },
-            getImg: function(front, thumb, preloadOnly) {
+            getImg: function(front, thumb, current) {
                 var box = front.find('.napokaz-f-orig');
                 box.css({
                     'bottom': front.find('.napokaz-f-thumbs').outerHeight(true)
+                });
+                box.one('show', function() {
+                    box.css({'background-image': 'url(' + url  + ')'});
                 });
                 var img = thumb.data();
                 var url = (
                     img.href + '?imgmax=' +
                     me.getImgMax(img.size, [box.width(), box.height()])
                 );
-                if (preloadOnly) {
+                if (current) {
+                    box.trigger('show');
+                    front.find('.napokaz-f-title')
+                        .html(img.desc || img.title)
+                        .attr('href', img.picasa);
+                } else {
                     $('<img/>').attr('src', url);
-                    return;
                 }
-                box.css({'background-image': 'url(' + url  + ')'});
-                front.find('.napokaz-f-title')
-                    .html(img.desc || img.title)
-                    .attr('href', img.picasa);
             },
             getImgMax: function(img, win) {
-                img = {w:img[0], h:img[1]};
-                win = {w:win[0], h:win[1]};
+                img = {w: img[0], h: img[1]};
+                win = {w: win[0], h: win[1]};
 
                 var ratio, result;
                 ratio = img.w / img.h;
@@ -331,6 +338,28 @@
                 return result;
             }
         };
+
+        function showImg(items, trigger) {
+            function update() {
+                var toShow = items.filter(function() {
+                    var $e = $(this);
+                    if ($e.is(":hidden")) return;
+
+                    var wt = $w.scrollTop(),
+                        wb = wt + $w.height(),
+                        et = $e.offset().top,
+                        eb = et + $e.height();
+
+                    return eb >= wt && et <= wb;
+                });
+
+                items = items.not(toShow.trigger(trigger));
+            }
+
+            update();
+            $w.scroll(update);
+            $w.resize(update);
+        }
         return me;
     };
 
